@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soumil Garg</title>
+<meta name="description" content="Soumil Garg runs Meta ads for D2C brands in food, skincare and home decor. Reply yes to his email and get three specific changes for your live ads.">
+<link rel="canonical" href="https://soumilgarg.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column; a short hero, the "reply yes" card as the centrepiece, then three plain sections and a contact strip. */
+:root {
+  --paper: #f6f6f1;
+  --card: #ffffff;
+  --ink: #16201c;
+  --muted: #56615b;
+  --line: #dcdfd6;
+  --accent: #1d5a46;
+  --accent-ink: #ffffff;
+  --mark: #f3e27a;
+  --mark-ink: #2b2508;
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #111613; --card: #182019; --ink: #e8ece6; --muted: #a2ada6; --line: #2a342e;
+    --accent: #7cc7a6; --accent-ink: #0d1411; --mark: #5c5418; --mark-ink: #f6eebc; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 17px/1.65 var(--font-body);
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 760px; margin: 0 auto; padding-block: 28px 64px; display: flex; flex-direction: column; gap: 64px; }
+header { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.name { font: 700 20px/1 var(--font-display); letter-spacing: -0.01em; }
+.tag { font: 500 13px var(--font-mono); color: var(--muted); }
+h1 { font: 700 clamp(36px, 7vw, 58px)/1.04 var(--font-display); letter-spacing: -0.025em; margin: 0 0 20px; text-wrap: balance; }
+h2 { font: 700 clamp(24px, 4vw, 30px)/1.15 var(--font-display); letter-spacing: -0.015em; margin: 0 0 16px; text-wrap: balance; }
+p { margin: 0 0 14px; max-width: 62ch; }
+.lede { font-size: 19px; color: var(--muted); }
+.yes { background: var(--mark); color: var(--mark-ink); padding: 0 6px; border-radius: 3px; font-weight: 600; }
+.reply {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+}
+.reply-head { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; padding: 18px 22px; border-bottom: 1px solid var(--line); font: 400 14px/1.5 var(--font-mono); color: var(--muted); }
+.reply-head b { color: var(--ink); font-weight: 500; }
+.reply-body { padding: 22px; display: flex; flex-direction: column; gap: 18px; }
+.change { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; }
+.num { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font: 700 15px var(--font-display); }
+.change h3 { font: 600 17px/1.35 var(--font-body); margin: 4px 0 4px; }
+.change p { margin: 0; color: var(--muted); font-size: 16px; }
+.note { font: 400 13px/1.5 var(--font-mono); color: var(--muted); padding: 14px 22px; border-top: 1px dashed var(--line); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.chip { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; background: var(--card); }
+.chip b { display: block; font: 600 16px var(--font-body); margin-bottom: 2px; }
+.chip span { color: var(--muted); font-size: 15px; }
+ol.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; counter-reset: s; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 14px; }
+ol.steps li::before { content: counter(s); font: 500 14px/34px var(--font-mono); color: var(--accent); text-align: center; border: 1px solid var(--line); border-radius: 50%; width: 34px; height: 34px; }
+ol.steps li div { padding-top: 4px; }
+.contact { border-top: 1px solid var(--line); padding-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font: 600 16px var(--font-body); padding: 12px 18px; border-radius: 10px; border: 1px solid var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn:focus-visible { outline: 3px solid var(--mark); outline-offset: 2px; }
+footer { color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="name">Soumil Garg</div>
+    <div class="tag">Meta ads for D2C brands</div>
+  </header>
+
+  <section>
+    <h1>I find what your Meta ads are missing, and tell you for free.</h1>
+    <p class="lede">I'm Soumil. I run Meta ads for D2C brands in the US and India, mostly in food, skincare and home decor.</p>
+    <p>If you got an email from me, reply <span class="yes">yes</span> and I'll send you three specific changes for the ads you're running right now. No call, no deck, no pitch.</p>
+  </section>
+
+  <section aria-labelledby="what">
+    <h2 id="what">What a "yes" gets you</h2>
+    <div class="reply">
+      <div class="reply-head">
+        <span>From</span><b>Soumil Garg</b>
+        <span>Subject</span><b>Re: your brand + Meta</b>
+        <span>Within</span><b>24 hours of your reply</b>
+      </div>
+      <div class="reply-body">
+        <div class="change">
+          <div class="num">1</div>
+          <div><h3>Creative age</h3><p>Which of your live ads are tired, and what to replace them with first.</p></div>
+        </div>
+        <div class="change">
+          <div class="num">2</div>
+          <div><h3>Hooks</h3><p>Whether your ads open with different reasons to buy, or keep repeating one.</p></div>
+        </div>
+        <div class="change">
+          <div class="num">3</div>
+          <div><h3>Missing formats and products</h3><p>A format, offer or product your account isn't testing that brands like yours win with.</p></div>
+        </div>
+      </div>
+      <div class="note">The format of the reply. Your three changes come from your own live ads in Meta's Ad Library.</div>
+    </div>
+  </section>
+
+  <section aria-labelledby="who">
+    <h2 id="who">Brands I work with</h2>
+    <p>Founder-led brands that sell their own products online and already run Meta ads.</p>
+    <div class="grid">
+      <div class="chip"><b>Food &amp; snacks</b><span>Snacks, pantry, sweets</span></div>
+      <div class="chip"><b>Skincare &amp; personal care</b><span>Skin, hair, oils</span></div>
+      <div class="chip"><b>Home &amp; decor</b><span>Decor, art, home goods</span></div>
+      <div class="chip"><b>Drinks</b><span>Beverages and spirits</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="how">
+    <h2 id="how">How it works after that</h2>
+    <ol class="steps">
+      <li><div>You read the three changes. Use them yourself if you like; they're yours either way.</div></li>
+      <li><div>If you want me to run them, we take a short call to look at your account together.</div></li>
+      <li><div>You keep full ownership of your ad account, pages and data at every step.</div></li>
+    </ol>
+  </section>
+
+  <section class="contact" aria-labelledby="talk">
+    <h2 id="talk">Talk to me</h2>
+    <p>The fastest way is to reply to my email. You can also reach me here:</p>
+    <div class="buttons">
+      <a class="btn primary" href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="mailto:soumil@soumilgarg.com">soumil@soumilgarg.com</a>
+    </div>
+  </section>
+
+  <footer>© 2026 Soumil Garg</footer>
+</div>
+</body>
+</html>
