@@ -3,148 +3,191 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Soumil Garg</title>
-<meta name="description" content="Soumil Garg runs Meta ads for D2C brands in food, skincare and home decor. Reply yes to his email and get three specific changes for your live ads.">
+<title>Soumil Garg | Meta ads for D2C brands</title>
+<meta name="description" content="Soumil Garg runs Meta ads for D2C brands in food, skincare and home decor. Reply yes to his email and get three specific changes for the ads you are running now, free.">
 <link rel="canonical" href="https://soumilgarg.com/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
-<style>
-/* Layout: one narrow column; a short hero, the "reply yes" card as the centrepiece, then three plain sections and a contact strip. */
-:root {
-  --paper: #f6f6f1;
-  --card: #ffffff;
-  --ink: #16201c;
-  --muted: #56615b;
-  --line: #dcdfd6;
-  --accent: #1d5a46;
-  --accent-ink: #ffffff;
-  --mark: #f3e27a;
-  --mark-ink: #2b2508;
-  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Public Sans", "Segoe UI", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #111613; --card: #182019; --ink: #e8ece6; --muted: #a2ada6; --line: #2a342e;
-    --accent: #7cc7a6; --accent-ink: #0d1411; --mark: #5c5418; --mark-ink: #f6eebc; color-scheme: dark;
-  }
-}
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0; background: var(--paper); color: var(--ink);
-  font: 400 17px/1.65 var(--font-body);
-  padding-left: max(20px, env(safe-area-inset-left, 0px));
-  padding-right: max(20px, env(safe-area-inset-right, 0px));
-}
-.wrap { max-width: 760px; margin: 0 auto; padding-block: 28px 64px; display: flex; flex-direction: column; gap: 64px; }
-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
-.name { font: 700 20px/1 var(--font-display); letter-spacing: -0.01em; }
-.tag { font: 500 13px var(--font-mono); color: var(--muted); }
-h1 { font: 700 clamp(36px, 7vw, 58px)/1.04 var(--font-display); letter-spacing: -0.025em; margin: 0 0 20px; text-wrap: balance; }
-h2 { font: 700 clamp(24px, 4vw, 30px)/1.15 var(--font-display); letter-spacing: -0.015em; margin: 0 0 16px; text-wrap: balance; }
-p { margin: 0 0 14px; max-width: 62ch; }
-.lede { font-size: 19px; color: var(--muted); }
-.yes { background: var(--mark); color: var(--mark-ink); padding: 0 6px; border-radius: 3px; font-weight: 600; }
-.reply {
-  background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
-}
-.reply-head { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; padding: 18px 22px; border-bottom: 1px solid var(--line); font: 400 14px/1.5 var(--font-mono); color: var(--muted); }
-.reply-head b { color: var(--ink); font-weight: 500; }
-.reply-body { padding: 22px; display: flex; flex-direction: column; gap: 18px; }
-.change { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; }
-.num { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font: 700 15px var(--font-display); }
-.change h3 { font: 600 17px/1.35 var(--font-body); margin: 4px 0 4px; }
-.change p { margin: 0; color: var(--muted); font-size: 16px; }
-.note { font: 400 13px/1.5 var(--font-mono); color: var(--muted); padding: 14px 22px; border-top: 1px dashed var(--line); }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
-.chip { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; background: var(--card); }
-.chip b { display: block; font: 600 16px var(--font-body); margin-bottom: 2px; }
-.chip span { color: var(--muted); font-size: 15px; }
-ol.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; counter-reset: s; }
-ol.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 14px; }
-ol.steps li::before { content: counter(s); font: 500 14px/34px var(--font-mono); color: var(--accent); text-align: center; border: 1px solid var(--line); border-radius: 50%; width: 34px; height: 34px; }
-ol.steps li div { padding-top: 4px; }
-.contact { border-top: 1px solid var(--line); padding-top: 32px; display: flex; flex-direction: column; gap: 16px; }
-.buttons { display: flex; flex-wrap: wrap; gap: 12px; }
-.btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font: 600 16px var(--font-body); padding: 12px 18px; border-radius: 10px; border: 1px solid var(--accent); color: var(--accent); }
-.btn.primary { background: var(--accent); color: var(--accent-ink); }
-.btn:focus-visible { outline: 3px solid var(--mark); outline-offset: 2px; }
-footer { color: var(--muted); font-size: 14px; }
-</style>
+<meta name="theme-color" content="#1d5a46">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://soumilgarg.com/">
+<meta property="og:title" content="Soumil Garg | Meta ads for D2C brands">
+<meta property="og:description" content="I find what your Meta ads are missing, and tell you for free.">
+<meta property="og:image" content="https://soumilgarg.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="name">Soumil Garg</div>
-    <div class="tag">Meta ads for D2C brands</div>
-  </header>
+<a class="skip" href="#main">Skip to content</a>
 
-  <section>
-    <h1>I find what your Meta ads are missing, and tell you for free.</h1>
-    <p class="lede">I'm Soumil. I run Meta ads for D2C brands in the US and India, mostly in food, skincare and home decor.</p>
-    <p>If you got an email from me, reply <span class="yes">yes</span> and I'll send you three specific changes for the ads you're running right now. No call, no deck, no pitch.</p>
+<nav class="nav" aria-label="Main">
+  <a class="nav-name" href="/" aria-current="page">Soumil Garg</a>
+  <a class="btn btn-sm" href="mailto:soumil@soumilgarg.com?subject=Yes%2C%20send%20me%20the%203%20changes&amp;body=My%20brand%20and%20website%3A%20">Email me</a>
+</nav>
+
+<main id="main">
+  <section class="hero wrap" aria-labelledby="headline">
+    <h1 id="headline"><span class="line">I find what your</span> <span class="line">Meta ads are missing,</span> <span class="line">and tell you for free.</span></h1>
+    <p class="lede">I'm Soumil. I run Meta ads for D2C brands in the US and India, mostly in food, skincare and home decor. <strong>If you got an email from me, just reply yes to it.</strong></p>
+    <div class="actions">
+      <a class="btn btn-lg" href="mailto:soumil@soumilgarg.com?subject=Yes%2C%20send%20me%20the%203%20changes&amp;body=My%20brand%20and%20website%3A%20">Email me for your 3 changes</a>
+      <a class="text-link" href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">See my LinkedIn</a>
+    </div>
+    <p class="reassure">Free. No call needed. No access to your ad account.</p>
   </section>
 
-  <section aria-labelledby="what">
-    <h2 id="what">What a "yes" gets you</h2>
-    <div class="reply">
-      <div class="reply-head">
-        <span>From</span><b>Soumil Garg</b>
-        <span>Subject</span><b>Re: your brand + Meta</b>
-        <span>Within</span><b>24 hours of your reply</b>
+  <section class="example wrap" aria-labelledby="example-title">
+    <div class="example-grid">
+      <div class="example-intro">
+        <h2 id="example-title">What a yes gets you</h2>
+        <p>A plain email, within 24 hours, with three changes taken from the ads you are running right now. This is what one looks like.</p>
       </div>
-      <div class="reply-body">
-        <div class="change">
-          <div class="num">1</div>
-          <div><h3>Creative age</h3><p>Which of your live ads are tired, and what to replace them with first.</p></div>
+
+      <article class="sheet" aria-label="Example reply">
+        <header class="sheet-head">
+          <span class="note">Example reply to a made up brand</span>
+          <dl class="meta">
+            <dt>From</dt><dd>Soumil Garg</dd>
+            <dt>To</dt><dd>Maya, Fernwick Granola</dd>
+            <dt>Subject</dt><dd>Re: Fernwick and your Meta ads</dd>
+          </dl>
+        </header>
+        <div class="sheet-body">
+          <p>Hi Maya,</p>
+          <p>Thanks for the yes. I went through the 11 ads Fernwick is running right now in Meta's Ad Library. Here are the three changes I'd make first.</p>
+          <ol class="changes">
+            <li class="change">
+              <span class="change-num" aria-hidden="true">1</span>
+              <div>
+                <h3>Your best ads are getting old</h3>
+                <p>Your three longest running ads <mark>started in June</mark>. When the same people see an ad for months, it usually gets more expensive to reach them. Make two fresh versions of your oldest ad: same offer, new opening shot.</p>
+              </div>
+            </li>
+            <li class="change">
+              <span class="change-num" aria-hidden="true">2</span>
+              <div>
+                <h3>Every ad opens the same way</h3>
+                <p><mark>9 of your 11 ads</mark> open on the bag sitting on a kitchen counter. Someone who scrolled past that once will scroll past it again. Try three new openings, each with a different reason to buy: the crunch up close, the 7 a.m. breakfast it saves, and the short ingredient list read out loud.</p>
+              </div>
+            </li>
+            <li class="change">
+              <span class="change-num" aria-hidden="true">3</span>
+              <div>
+                <h3>Nobody is eating it on camera</h3>
+                <p><mark>None of your ads show a real person</mark> tasting the granola. For snacks, a short phone video of a customer trying it often beats a polished product shot. Ask three happy customers to film one. I can send you a simple script.</p>
+              </div>
+            </li>
+          </ol>
+          <p>That's it. Use these yourself, they're yours either way. If you'd like me to run them, reply and we'll set up a short call.</p>
+          <div class="sign">
+            <p class="sign-name">Soumil</p>
+            <p class="sign-role">Soumil Garg, Meta ads for D2C brands</p>
+          </div>
         </div>
-        <div class="change">
-          <div class="num">2</div>
-          <div><h3>Hooks</h3><p>Whether your ads open with different reasons to buy, or keep repeating one.</p></div>
-        </div>
-        <div class="change">
-          <div class="num">3</div>
-          <div><h3>Missing formats and products</h3><p>A format, offer or product your account isn't testing that brands like yours win with.</p></div>
-        </div>
-      </div>
-      <div class="note">The format of the reply. Your three changes come from your own live ads in Meta's Ad Library.</div>
+      </article>
     </div>
   </section>
 
-  <section aria-labelledby="who">
-    <h2 id="who">Brands I work with</h2>
-    <p>Founder-led brands that sell their own products online and already run Meta ads.</p>
-    <div class="grid">
-      <div class="chip"><b>Food &amp; snacks</b><span>Snacks, pantry, sweets</span></div>
-      <div class="chip"><b>Skincare &amp; personal care</b><span>Skin, hair, oils</span></div>
-      <div class="chip"><b>Home &amp; decor</b><span>Decor, art, home goods</span></div>
-      <div class="chip"><b>Drinks</b><span>Beverages and spirits</span></div>
-    </div>
+  <section class="tagline wrap" aria-label="In short">
+    <p data-reveal>Three changes from your own live ads, in your inbox within 24 hours of your yes.</p>
   </section>
 
-  <section aria-labelledby="how">
-    <h2 id="how">How it works after that</h2>
+  <section class="section wrap" aria-labelledby="how-title">
+    <h2 id="how-title">How it works</h2>
     <ol class="steps">
-      <li><div>You read the three changes. Use them yourself if you like; they're yours either way.</div></li>
-      <li><div>If you want me to run them, we take a short call to look at your account together.</div></li>
-      <li><div>You keep full ownership of your ad account, pages and data at every step.</div></li>
+      <li>
+        <span class="n" aria-hidden="true">1</span>
+        <div>
+          <h3>Reply yes to my email</h3>
+          <p>No form and no call. If you didn't get one, email me with your brand's website.</p>
+        </div>
+      </li>
+      <li>
+        <span class="n" aria-hidden="true">2</span>
+        <div>
+          <h3>Get three changes within 24 hours</h3>
+          <p>I read the ads you are running in Meta's public Ad Library and write back with the three changes I'd make first.</p>
+        </div>
+      </li>
+      <li>
+        <span class="n" aria-hidden="true">3</span>
+        <div>
+          <h3>Use them, or have me run them</h3>
+          <p>The changes are yours either way. If you want me to run them, we take a short call and look at your account together.</p>
+        </div>
+      </li>
     </ol>
   </section>
 
-  <section class="contact" aria-labelledby="talk">
-    <h2 id="talk">Talk to me</h2>
-    <p>The fastest way is to reply to my email. You can also reach me here:</p>
-    <div class="buttons">
-      <a class="btn primary" href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="btn" href="mailto:soumil@soumilgarg.com">soumil@soumilgarg.com</a>
-    </div>
+  <section class="section wrap" aria-labelledby="faq-title">
+    <h2 id="faq-title">Questions you might have</h2>
+    <dl class="faq">
+      <div class="faq-row">
+        <dt>Why is it free?</dt>
+        <dd>It's the fastest way for you to judge my work. If the three changes are useful, you'll know whether you want more.</dd>
+      </div>
+      <div class="faq-row">
+        <dt>Do you need access to my ad account?</dt>
+        <dd>No. I read the ads you are running in Meta's public Ad Library. Nothing to share and no logins.</dd>
+      </div>
+      <div class="faq-row">
+        <dt>Who are you?</dt>
+        <dd>Soumil Garg. I run Meta ads for D2C brands in the US and India, mostly in food, skincare and home decor. You can find me on <a href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">LinkedIn</a>.</dd>
+      </div>
+      <div class="faq-row">
+        <dt>Which brands do you work with?</dt>
+        <dd>Founder led brands that sell their own products online and already run Meta ads: food and snacks, skincare and personal care, home and decor, and drinks.</dd>
+      </div>
+      <div class="faq-row">
+        <dt>What happens after I get the three changes?</dt>
+        <dd>Nothing, unless you want it to. Use them yourself. If you'd like me to run them, we take a short call and look at your account together.</dd>
+      </div>
+      <div class="faq-row">
+        <dt>Do I keep control of my ad account?</dt>
+        <dd>Always. Your ad account, pages and data stay yours at every step.</dd>
+      </div>
+    </dl>
   </section>
 
-  <footer>© 2026 Soumil Garg</footer>
-</div>
+  <section class="close wrap" aria-labelledby="close-title">
+    <h2 id="close-title">Want three changes for your ads?</h2>
+    <p>Reply yes to my email, or write to me here with your brand's website.</p>
+    <div class="actions">
+      <a class="btn btn-lg" href="mailto:soumil@soumilgarg.com?subject=Yes%2C%20send%20me%20the%203%20changes&amp;body=My%20brand%20and%20website%3A%20">Email me for your 3 changes</a>
+      <a class="text-link" href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">See my LinkedIn</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Soumil Garg</span>
+    <a href="mailto:soumil@soumilgarg.com">soumil@soumilgarg.com</a>
+    <a href="privacy.html">Privacy</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var el = document.querySelector('[data-reveal]');
+  if (!el || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var text = el.textContent.trim();
+  el.innerHTML = '<span class="sr">' + text + '</span>' + text.split(/\s+/).map(function (w) {
+    return '<span class="w" aria-hidden="true">' + w + '</span>';
+  }).join(' ');
+  // Words on one line cross the trigger line together; stagger them so they light up one at a time.
+  var io = new IntersectionObserver(function (entries) {
+    entries.filter(function (e) { return e.isIntersecting; }).forEach(function (e, i) {
+      io.unobserve(e.target);
+      setTimeout(function () { e.target.classList.add('on'); }, i * 60);
+    });
+  }, { rootMargin: '0px 0px -40% 0px' });
+  el.querySelectorAll('.w').forEach(function (w) { io.observe(w); });
+})();
+</script>
 </body>
 </html>
