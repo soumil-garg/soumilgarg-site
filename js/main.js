@@ -63,7 +63,7 @@
 
   /* ---------- the swarm ---------- */
   var cv = $('#swarm'), swarm = null, ready, stage = $('#stage');
-  var atlas = (innerWidth < 760 || (window.devicePixelRatio || 1) < 1.3) ? 'img/atlas-m.webp?v=5' : 'img/atlas.webp?v=5';
+  var atlas = (innerWidth < 760 || (window.devicePixelRatio || 1) < 1.3) ? 'img/atlas-m.webp?v=6' : 'img/atlas.webp?v=6';
   function fillPoster() {
     var p = $('.poster'); if (!p || p.childElementCount) return;
     ['p01_coldbrew', 'p06_dog', 'p12_soda', 'p02_hotsauce', 'p09_bar', 'p08_gin', 'p14_spf', 'p19_cat', 'p07_oliveoil', 'p17_face'].forEach(function (id) {
@@ -81,8 +81,8 @@
     swarm.rm = RM;
     swarm.setLayout(layout());
     swarm.onlost = function () { setTimeout(function () { if (swarm && !swarm.ready) swarmGone(); }, 1500); };
-    ready = swarm.load(atlas, { dog: 'img/posts/p06_dog@2.webp?v=5' }).catch(swarmGone);
-    swarm.loadMosaic('face', 'img/soumil.webp?v=5').then(faceCaption).catch(function () {});
+    ready = swarm.load(atlas, { dog: 'img/posts/p06_dog@2.webp?v=6' }).catch(swarmGone);
+    swarm.loadMosaic('face', 'img/soumil.webp?v=6').then(faceCaption).catch(function () {});
   } catch (err) {
     swarm = null; html.classList.add('no-gl'); fillPoster(); ready = Promise.resolve();
   }
@@ -156,7 +156,7 @@
     storyP = storyAt(scrollY);
     if (!document.hidden && H.phase !== 'off' && H.phase !== 'done') H.watch += Math.min(dt, 0.25);   // only seconds actually watched
     html.classList.toggle('st-face', storyP > 4.8 && storyP < 5.25);
-    if (H.phase !== 'off' && H.phase !== 'done' && H.phase !== 'burst' && H.phase !== 'stream' && (storyP > 0.002 || Math.abs(scrollV) > 90)) burst();
+    if (H.phase !== 'off' && H.phase !== 'done' && H.phase !== 'burst' && (storyP > 0.002 || Math.abs(scrollV) > 90)) burst();
     tickHook(t);
     html.classList.toggle('st-funnel', storyP > 2.6 && storyP < 3.45);
     if (swarm && !document.hidden) {
@@ -246,8 +246,9 @@
   /* the hook: the feed gathers into a ball of ads and counts down to a pop that never comes,
      then tells the visitor how long they just watched. It pops when they scroll (or click). */
   var vfT = $('.vf-t'), vfCount = $('.vf-count'), vfN = $('.vf-count b'), hl1 = $('.hl1'), hl2 = $('.hl2');
-  function showLine(el, text) { el.innerHTML = text; gsap.fromTo(el, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out' }); }
-  function hideLines() { gsap.to([hl1, hl2], { opacity: 0, y: -16, duration: 0.5, ease: 'power2.in' }); }
+  // overwrite: a slow frame can start a line's fade-in and fade-out together; the later call must win
+  function showLine(el, text) { el.innerHTML = text; gsap.fromTo(el, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', overwrite: true }); }
+  function hideLines() { gsap.to([hl1, hl2], { opacity: 0, y: -16, duration: 0.5, ease: 'power2.in', overwrite: true }); }
   function secs(v) { return v.toFixed(1) + ' seconds'; }
   function tickHook(t) {
     if (H.phase === 'off' || H.phase === 'done') return;
@@ -283,7 +284,7 @@
     if (H.phase === 'freeze') {
       u = t - H.at;
       if (u > 0.35 && !H.l1) { H.l1 = true; vfCount.classList.add('gone'); showLine(hl1, 'You just watched a ball of ads for <b>' + secs(H.waited) + '</b>.'); }
-      if (u > 2.1 && !H.l2) { H.l2 = true; showLine(hl2, 'It only pops when you scroll.'); }
+      if (u > 2.1 && u < 4.4 && !H.l2) { H.l2 = true; showLine(hl2, 'It only pops when you scroll.'); }
       if (u > 4.4) { H.phase = 'wait'; personalLede(); hideLines(); setTimeout(intro, 450); }   // the line clears before the headline rises
       return;
     }
