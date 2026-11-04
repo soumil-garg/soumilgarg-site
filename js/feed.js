@@ -128,7 +128,10 @@
     var w = this.c.clientWidth || innerWidth, h = this.c.clientHeight || innerHeight;
     var phone = w < 760;
     var dpr = Math.min(window.devicePixelRatio || 1, phone ? 1.5 : 1.6);
-    this.w = w; this.h = h;
+    // phone browsers fire resize when their toolbar slides on scroll; the stage is 100svh, so the size
+    // is unchanged and rebuilding would restart the landing mid-brake
+    if (w === this.w && h === this.h && dpr === this.dpr) return;
+    this.w = w; this.h = h; this.dpr = dpr;
     this.c.width = Math.round(w * dpr); this.c.height = Math.round(h * dpr);
     this.cols = phone ? 5 : 7;
     this.tw = phone ? Math.max(130, w * 0.42) : Math.min(300, Math.max(190, w * 0.168));
