@@ -18,9 +18,9 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/anybody-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/geist-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" fetchpriority="high" href="img/atlas-m.webp?v=7" media="(max-width: 759px), (max-resolution: 1.29dppx)">
-<link rel="preload" as="image" fetchpriority="high" href="img/atlas.webp?v=7" media="(min-width: 760px) and (min-resolution: 1.3dppx)">
-<link rel="stylesheet" href="css/site.css?v=7">
+<link rel="preload" as="image" fetchpriority="high" href="img/atlas-m.webp?v=8" media="(max-width: 759px), (max-resolution: 1.29dppx)">
+<link rel="preload" as="image" fetchpriority="high" href="img/atlas.webp?v=8" media="(min-width: 760px) and (min-resolution: 1.3dppx)">
+<link rel="stylesheet" href="css/site.css?v=8">
 <script>
   /* runs before paint: flags the page can read in CSS */
   (function (d) {
@@ -91,7 +91,9 @@
       <i class="floor-line" aria-hidden="true"></i>
       <svg class="chain" aria-hidden="true"><line x1="0" y1="0" x2="0" y2="0"/><circle cx="0" cy="0" r="7"/></svg>
       <div class="ball-handle" aria-hidden="true"><span class="bh-ring"></span></div>
-      <button class="drag-hint mono" type="button"><span class="dh-arrow" aria-hidden="true"></span><span class="dh-l">Drag the ball back, then let go</span></button>
+      <svg class="pull-guide" aria-hidden="true"><polyline points="" /><path d="" /></svg>
+      <i class="pull-dot" aria-hidden="true"></i>
+      <button class="drag-hint" type="button"><span class="dh-l hint-mouse"><svg class="dh-ar" viewBox="0 0 44 18" aria-hidden="true"><path d="M42 9H4M12 1.5L3 9l9 7.5" /></svg>Drag the ball back, then let go</span><span class="dh-l hint-touch"><svg class="dh-ar" viewBox="0 0 44 18" aria-hidden="true"><path d="M42 9H4M12 1.5L3 9l9 7.5" /></svg>Swipe left to pull it back, then let go</span><span class="dh-sub mono">or tap to swing it</span></button>
 
       <div class="vf" aria-hidden="true">
         <i class="vf-c tl"></i><i class="vf-c tr"></i><i class="vf-c bl"></i><i class="vf-c br"></i>
@@ -119,7 +121,7 @@
         </div>
       </div>
 
-      <figure class="stop-card" aria-hidden="true"><img src="img/posts/p06_dog@2.webp?v=7" alt="" width="600" height="884"></figure>
+      <figure class="stop-card" aria-hidden="true"><img src="img/posts/p06_dog@2.webp?v=8" alt="" width="600" height="884"></figure>
       <span class="stop-tag mono" aria-hidden="true">Thumb stopped</span>
       <span class="stop-made mono" aria-hidden="true">Made-up brand. I made this ad for this page.</span>
       <div class="stop-lines">
@@ -281,8 +283,8 @@
 <script src="vendor/gsap.min.js" defer></script>
 <script src="vendor/ScrollTrigger.min.js" defer></script>
 <script src="vendor/lenis.min.js" defer></script>
-<script src="js/swarm.js?v=7" defer></script>
-<script src="js/sound.js?v=7" defer></script>
-<script src="js/main.js?v=7" defer></script>
+<script src="js/swarm.js?v=8" defer></script>
+<script src="js/sound.js?v=8" defer></script>
+<script src="js/main.js?v=8" defer></script>
 </body>
 </html>

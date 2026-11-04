@@ -40,7 +40,7 @@
   /* ---------- scroll engine ---------- */
   var lenis = null, scrollV = 0, lastY = scrollY;
   if (!RM && !TOUCH && window.Lenis) {
-    lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 });
+    lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 1 });   // the Lenis default glide, a touch heavier; peers all keep the wheel at 1x
     lenis.on('scroll', function (e) { ScrollTrigger.update(); scrollV = e.velocity * 60; });
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
@@ -63,7 +63,7 @@
 
   /* ---------- the swarm ---------- */
   var cv = $('#swarm'), swarm = null, ready, stage = $('#stage');
-  var atlas = (innerWidth < 760 || (window.devicePixelRatio || 1) < 1.3) ? 'img/atlas-m.webp?v=7' : 'img/atlas.webp?v=7';
+  var atlas = (innerWidth < 760 || (window.devicePixelRatio || 1) < 1.3) ? 'img/atlas-m.webp?v=8' : 'img/atlas.webp?v=8';
   function fillPoster() {
     var p = $('.poster'); if (!p || p.childElementCount) return;
     ['p01_coldbrew', 'p06_dog', 'p12_soda', 'p02_hotsauce', 'p09_bar', 'p08_gin', 'p14_spf', 'p19_cat', 'p07_oliveoil', 'p17_face'].forEach(function (id) {
@@ -81,8 +81,8 @@
     swarm.rm = RM;
     swarm.setLayout(layout());
     swarm.onlost = function () { setTimeout(function () { if (swarm && !swarm.ready) swarmGone(); }, 1500); };
-    ready = swarm.load(atlas, { dog: 'img/posts/p06_dog@2.webp?v=7' }).catch(swarmGone);
-    swarm.loadMosaic('face', 'img/soumil.webp?v=7').then(faceCaption).catch(function () {});
+    ready = swarm.load(atlas, { dog: 'img/posts/p06_dog@2.webp?v=8' }).catch(swarmGone);
+    swarm.loadMosaic('face', 'img/soumil.webp?v=8').then(faceCaption).catch(function () {});
   } catch (err) {
     swarm = null; html.classList.add('no-gl'); fillPoster(); ready = Promise.resolve();
   }
@@ -107,14 +107,15 @@
     var tall = ph && vw < vh;
     var top = vh / 2 - navB, floor = tall ? -vh / 2 + vh * 0.3 : -vh / 2 + vh * 0.2;
     var band = Math.max(160, top - floor);
-    var R = tall ? Math.min(vw * 0.17, band * 0.13) : Math.max(Math.min(vw * 0.06, vh * 0.1), Math.min(vw, vh) * 0.07);
-    var wall = { x0: tall ? vw * 0.16 : vw * 0.12, y0: floor, w: tall ? vw * 0.26 : Math.min(vw * 0.12, 190), h: band * 0.6, brick: tall ? vw * 0.075 : Math.min(vw * 0.03, 46) };
-    var py = vh / 2 + (tall ? 20 : 40), restY = floor + wall.h * 0.5, len = Math.max(120, py - restY), thHit = tall ? 0.36 : 0.45;
-    if (tall) thHit = Math.min(thHit, Math.asin(clamp((wall.x0 - R * 1.05 - (-vw / 2 + R + 10)) / len, 0.12, 0.9)));   // at rest the ball hangs fully on screen
+    var R = tall ? Math.min(vw * 0.13, band * 0.11) : Math.max(Math.min(vw * 0.06, vh * 0.1), Math.min(vw, vh) * 0.07);
+    var wall = { x0: tall ? vw * 0.25 : vw * 0.12, y0: floor, w: tall ? vw * 0.2 : Math.min(vw * 0.12, 190), h: band * 0.6, brick: tall ? vw * 0.07 : Math.min(vw * 0.03, 46) };
+    var py = vh / 2 + (tall ? 20 : 40), restY = floor + wall.h * 0.5, len = Math.max(120, py - restY), thHit = 0.45;
+    // a phone hangs the ball left of centre, so pulling it back still happens on screen
+    if (tall) thHit = Math.asin(clamp((wall.x0 - R * 1.05 + vw * 0.06) / len, 0.08, 0.5));
     var px = (wall.x0 - R * 1.05) - len * Math.sin(thHit);
     // it stops with daylight between the ball's drawn edge (tiles reach about 1.25 R) and the first bricks
     var thStop = Math.asin(clamp((wall.x0 - R * 1.25 - (tall ? 10 : 14) - px) / len, -0.5, 0.9));
-    var thAuto = -Math.asin(clamp((px - (-vw / 2 + R * 0.3)) / len, 0.3, 0.92));   // the automatic pull keeps the ball on screen
+    var thAuto = -Math.asin(clamp((px - (-vw / 2 + R * (tall ? 0.9 : 0.3))) / len, tall ? 0.15 : 0.3, 0.92));   // the automatic pull keeps the ball on screen
     L.swing = { r: R, px: px, py: py, len: len, thHit: thHit, thStop: thStop, thMin: -1.15, thAuto: thAuto, floor: floor, wall: wall };
     var st = html.style;
     st.setProperty('--floor', (vh / 2 - floor) + 'px');
@@ -132,7 +133,7 @@
     var g = $('#game').offsetTop, w = $('#work'), pr = $('#proof'), of = $('#offer'), ft = $('.foot');
     var end = document.documentElement.scrollHeight - vh;
     var a = [
-      [top + len * 0.06, 0], [top + len * 0.46, 1], [top + len * 0.97, 1],
+      [top + len * 0.03, 0], [top + len * 0.3, 1], [top + len * 0.97, 1],
       [g + vh * 0.05, 2], [w.offsetTop - vh * 0.25, 2],
       [w.offsetTop + vh * 0.35, 3], [w.offsetTop + w.offsetHeight - vh * 0.9, 3],
       [pr.offsetTop + vh * 0.05, 4], [pr.offsetTop + pr.offsetHeight - vh * 0.7, 4],
@@ -271,6 +272,7 @@
      slows to a crawl and stops a visible hair short. The page says how long you've been here. Scroll, and it hits. */
   var vfT = $('.vf-t'), vfCount = $('.vf-count'), vfN = $('.vf-count b'), hl1 = $('.hl1'), hl2 = $('.hl2');
   var chainL = $('.chain line'), chainC = $('.chain circle'), handle = $('.ball-handle'), dragHint = $('.drag-hint');
+  var guideL = $('.pull-guide polyline'), guideA = $('.pull-guide path'), pullDot = $('.pull-dot'), guideKey = '';
   // overwrite: a slow frame can start a line's fade-in and fade-out together; the later call must win
   function showLine(el, text) { el.innerHTML = text; gsap.fromTo(el, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', overwrite: true }); }
   function hideLines() { gsap.to([hl1, hl2], { opacity: 0, y: -16, duration: 0.5, ease: 'power2.in', overwrite: true }); }
@@ -290,12 +292,29 @@
     chainC.setAttribute('cx', px.toFixed(1)); chainC.setAttribute('cy', py.toFixed(1));
     handle.style.transform = 'translate(' + bx.toFixed(1) + 'px,' + by.toFixed(1) + 'px)';
   }
-  function startAuto() { H.phase = 'auto'; H.at = now(); H.from = SW.th; SW.touched = true; html.classList.add('dragged'); }
+  function drawGuide(g) {
+    var key = [g.px, g.py, g.len, g.thAuto, stageW, stageH].join();
+    if (key === guideKey) return; guideKey = key;
+    var hw = stageW / 2, hh = stageH / 2, pts = [], i, th;
+    var th0 = -Math.min(Math.abs(g.thAuto) * 0.5, 1.4 * g.r / g.len);
+    for (i = 0; i <= 24; i++) { th = th0 + (g.thAuto - th0) * i / 24; var b = ballAt(g, th); pts.push((hw + b[0]).toFixed(1) + ',' + (hh - b[1]).toFixed(1)); }
+    guideL.setAttribute('points', pts.join(' '));
+    var e1 = ballAt(g, g.thAuto), e0 = ballAt(g, g.thAuto * 0.9), ex = hw + e1[0], ey = hh - e1[1];
+    var ang = Math.atan2((hh - e1[1]) - (hh - e0[1]), (hw + e1[0]) - (hw + e0[0])), a1 = ang + 2.5, a2 = ang - 2.5;
+    guideA.setAttribute('d', 'M' + (ex + 16 * Math.cos(a1)).toFixed(1) + ',' + (ey + 16 * Math.sin(a1)).toFixed(1) + ' L' + ex.toFixed(1) + ',' + ey.toFixed(1) + ' L' + (ex + 16 * Math.cos(a2)).toFixed(1) + ',' + (ey + 16 * Math.sin(a2)).toFixed(1));
+  }
+  function moveDot(g, on) {
+    var b = ballAt(g, SW.th);
+    pullDot.style.transform = 'translate(' + (stageW / 2 + b[0]).toFixed(1) + 'px,' + (stageH / 2 - b[1]).toFixed(1) + 'px)';
+    var o = on ? '1' : '0'; if (pullDot._o !== o) { pullDot._o = o; pullDot.style.opacity = o; }
+  }
+  function startAuto() { H.phase = 'auto'; H.at = now(); H.from = SW.th; SW.touched = true; }
   // only the drag and the automatic pull may let the ball go
   function releaseSwing() {
     var g = geom(); if (!g || (H.phase !== 'drag' && H.phase !== 'auto')) return;
-    if (H.phase === 'drag' && SW.th > -0.12) { startAuto(); return; }   // barely moved: a helping hand
+    if (H.phase === 'drag' && SW.th > geom().thAuto * 0.25) { startAuto(); return; }   // barely moved: a helping hand
     H.phase = 'swing'; SW.rel = SW.th; SW.w = 0; H.n = 162; H.appr = null;
+    html.classList.add('dragged'); moveDot(g, false);
     canDrag(false); buzz(10);
   }
   function tickHook(t, dt) {
@@ -303,28 +322,36 @@
     if (!swarm) { H.phase = 'done'; intro(); return; }
     var g = geom(); if (!g) return;
     var e = H.watch, u, n;
+    if (H.phase !== 'burst' && swarm.hook.k < 1) swarm.setHook({ k: Math.min(1, swarm.hook.k + dt * 3) });   // an early tap must not freeze the ball half-formed
     if (!H.stopped && !html.classList.contains('hook-done')) { var vt = e.toFixed(1) + 's'; if (vfT._t !== vt) { vfT._t = vt; vfT.textContent = vt; } }
     if (H.phase === 'ready') {
-      swarm.setHook({ k: Math.min(1, swarm.hook.k + dt * 3) });
-      SW.th = 0.035 * Math.sin(t * 1.4); SW.rot = 0;
+      // a fingertip shows the move: it pulls the ball halfway back along the arc and lets it settle, then pulls it all the way
+      var el = t - H.at, sm = function (x) { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+      var reach = el < 0.3 ? 0 : el < 1.1 ? sm((el - 0.3) / 0.8) : el < 1.4 ? 1 : 1 - sm((el - 1.4) / 0.6);
+      SW.th = g.thAuto * (g.wall.x0 < stageW * 0.2 ? 0.55 : 1) * reach; SW.rot = 0;   // a phone has less room: the demo goes all the way
+      moveDot(g, el > 0.12);
+      drawGuide(g);
       canDrag(true);
-      if (t - H.at > 3.6 && !SW.touched) startAuto();
+      if (el > 2.4 && !SW.touched) startAuto();
     } else if (H.phase === 'auto') {                                   // nobody dragged: an invisible hand pulls it back
-      u = clamp((t - H.at) / 1.3, 0, 1); u = u * u * (3 - 2 * u);
+      u = clamp((t - H.at) / 0.75, 0, 1); u = u * u * (3 - 2 * u);
       SW.th = H.from + (g.thAuto - H.from) * u;
+      moveDot(g, true);
       if (u >= 1) releaseSwing();
     } else if (H.phase === 'swing') {
       var stop = g.thStop, dist = stop - SW.th;
-      if (!H.appr && SW.th > 0 && dist < 0.34) H.appr = { t: t, from: SW.th, n: H.n };   // the last stretch runs on a clock
+      if (!H.appr && SW.th > 0 && (dist < 0.3 || SW.w < 0.5)) {        // the last stretch runs on a clock
+        var from = Math.min(SW.th, stop - 0.02), d = stop - from;
+        H.appr = { t: t, from: from, n: H.n, k: clamp(SW.w * 1.2 / d, 2, 40) };
+      }
       if (H.appr) {
-        u = clamp((t - H.appr.t) / 2.6, 0, 1);
-        var eu = 1 - Math.pow(1 - u, 3);
+        u = clamp((t - H.appr.t) / 1.2, 0, 1);
+        var eu = 1 - Math.pow(1 - u, H.appr.k);
         SW.th = H.appr.from + (stop - H.appr.from) * eu;
         SW.rot += 0.6 * (1 - eu) * dt;
         n = Math.max(9, Math.round(H.appr.n + (9 - H.appr.n) * eu));
       } else {
-        SW.w += -5 * Math.sin(SW.th) * dt;
-        if (SW.th > -0.05) SW.w = Math.max(SW.w, 1.15);
+        SW.w += -17 * Math.sin(SW.th) * dt;
         SW.th += SW.w * dt; SW.rot += SW.w * dt * 0.35;
         n = Math.max(10, Math.round(9 + 153 * clamp(dist / (stop - SW.rel), 0, 1)));
       }
@@ -347,19 +374,19 @@
       }
     } else if (H.phase === 'freeze' || H.phase === 'wait') {
       H.fz += Math.min(dt, 0.25);                                      // watched time, so a tab switch can't skip the lines
-      if (H.fz > 0.25 && !H.l1) { H.l1 = true; vfCount.classList.add('gone'); showLine(hl1, "You've been here for <b>" + secs(H.waited) + '</b>.'); }
-      if (H.fz > 1.1 && !H.l2) { H.l2 = true; showLine(hl2, 'It only hits when you scroll.'); }
-      if (H.phase === 'freeze' && H.fz > 8) {                          // nobody scrolled: show the offer anyway; the ball keeps waiting
+      if (H.fz > 0.1 && !H.l1) { H.l1 = true; vfCount.classList.add('gone'); showLine(hl1, "You've been here for <b>" + secs(H.waited) + '</b>.'); }
+      if (H.fz > 0.6 && !H.l2) { H.l2 = true; showLine(hl2, 'It only hits when you scroll.'); }
+      if (H.phase === 'freeze' && H.fz > 6) {                          // nobody scrolled: show the offer anyway; the ball keeps waiting
         H.phase = 'wait'; personalLede(); hideLines(); html.classList.add('hook-dim'); setTimeout(intro, 450);
       }
     } else if (H.phase === 'hit') {                                    // the last few pixels, at full speed
       SW.w = Math.max(SW.w + 40 * dt, 4); SW.th += SW.w * dt; SW.rot += SW.w * dt * 0.35;
       if (SW.th >= g.thHit) { SW.th = g.thHit; impact(g); }
     } else if (H.phase === 'burst') {
-      u = clamp((t - H.at) / 1.7, 0, 1);
+      u = clamp((t - H.at) / 1.25, 0, 1);
       H.b = 1 - Math.pow(1 - u, 3);
       swarm.setHook({ b: H.b, heat: (1 - u) * swarm.hook.heat });
-      if (u >= 1) { H.phase = 'done'; swarm.setHook({ k: 0, b: 0, heat: 0, trem: 0 }); html.classList.add('popped'); intro(); }
+      if (u >= 1) { H.phase = 'done'; swarm.setHook({ k: 0, b: 0, heat: 0, trem: 0 }); html.classList.add('popped'); if (!H.lines) intro(); }
       return;
     }
     drawSwing(g);
@@ -391,9 +418,10 @@
     SW.w = Math.max(SW.w, 4);
     H.phase = 'hit';
     if (early && SW.rel < 0 && e < 4.5) {
+      H.lines = true;                                                  // these lines own the intro: it waits until they go
       showLine(hl1, "You couldn't wait. <b>" + secs(e) + '</b>.');
-      setTimeout(function () { showLine(hl2, "Neither can your customers. That's why an ad's first frame matters."); }, 500);
-      setTimeout(function () { hideLines(); intro(); }, 2600);
+      setTimeout(function () { showLine(hl2, "Neither can your customers. That's why an ad's first frame matters."); }, 400);
+      setTimeout(function () { hideLines(); setTimeout(intro, 350); }, 2300);   // the lines leave before the headline arrives
     } else { hideLines(); setTimeout(intro, early ? 900 : 450); }
   }
   stage.addEventListener('click', function (e) { if (!e.target.closest('a,button,.ball-handle') && (H.phase === 'freeze' || H.phase === 'wait')) burst(); });
@@ -401,31 +429,34 @@
     if ((H.phase === 'freeze' || H.phase === 'wait') && [' ', 'Enter', 'ArrowDown', 'PageDown'].indexOf(e.key) >= 0 && !e.target.closest('a,button,input,textarea')) { e.preventDefault(); burst(); }
   });
 
-  // the drag: pull the ball back along its arc, let go to swing. One pointer at a time.
-  function angleAt(cx, cy) {
-    var g = geom(), r = stage.getBoundingClientRect();
-    var wx = cx - r.left - r.width / 2, wy = r.height / 2 - (cy - r.top);
-    if (TOUCH) {   // a finger maps sideways travel to the pull: the left edge of the screen is a full swing back
-      var edge = -r.width / 2 + 8;
-      return clamp(g.thMin * clamp((g.px - wx) / Math.max(40, g.px - edge), 0, 1.15), g.thMin, g.thStop - 0.12);
-    }
-    return clamp(Math.atan2(wx - g.px, g.py - wy), g.thMin, g.thStop - 0.12);
-  }
+  // the drag: anywhere on the screen, sideways travel pulls the ball back along its arc. One pointer at a time.
   function endDrag() { SW.dragging = false; SW.pid = null; html.classList.remove('dragging'); }
-  handle.addEventListener('pointerdown', function (e) {
-    if ((H.phase !== 'ready' && H.phase !== 'auto') || SW.dragging) return;
-    e.preventDefault();
-    try { handle.setPointerCapture(e.pointerId); } catch (x) {}
+  function pullAt(x) { var g = geom(); return clamp(SW.th0 - (SW.x0 - x) * (TOUCH ? 2 : 1.2) / g.len, g.thMin, g.thStop - 0.12); }
+  stage.addEventListener('pointerdown', function (e) {
+    if ((H.phase !== 'ready' && H.phase !== 'auto') || SW.dragging || e.button > 0 || e.target.closest('a,button:not(.drag-hint)') || !geom()) return;
+    if (e.pointerType === 'mouse') e.preventDefault();
+    try { stage.setPointerCapture(e.pointerId); } catch (x) {}
     SW.pid = e.pointerId; SW.touched = true; SW.dragging = true; H.phase = 'drag';
-    html.classList.add('dragging', 'dragged');
-    SW.th = angleAt(e.clientX, e.clientY);
+    SW.x0 = e.clientX; SW.th0 = Math.min(SW.th, 0); SW.t0 = now(); SW.moved = 0;
+    html.classList.add('dragging');
   });
-  handle.addEventListener('pointermove', function (e) { if (SW.dragging && e.pointerId === SW.pid && H.phase === 'drag') SW.th = angleAt(e.clientX, e.clientY); });
+  stage.addEventListener('pointermove', function (e) {
+    if (!SW.dragging || e.pointerId !== SW.pid || H.phase !== 'drag') return;
+    SW.moved = Math.max(SW.moved, Math.abs(e.clientX - SW.x0));
+    SW.th = pullAt(e.clientX);
+  });
   ['pointerup', 'pointercancel'].forEach(function (n) {
-    handle.addEventListener(n, function (e) { if (!SW.dragging || e.pointerId !== SW.pid) return; endDrag(); if (H.phase === 'drag') releaseSwing(); });
+    stage.addEventListener(n, function (e) {
+      if (!SW.dragging || e.pointerId !== SW.pid) return;
+      endDrag();
+      if (H.phase !== 'drag') return;
+      if (SW.moved < 10) { startAuto(); return; }                     // a tap: swing it for them
+      releaseSwing();
+    });
   });
   dragHint.addEventListener('click', function () {                     // keyboard and tap fallback: swing it for me
-    if (H.phase !== 'ready') return;
+    if (H.phase !== 'ready' && H.phase !== 'drag') return;
+    if (SW.dragging) endDrag();
     startAuto(); dragHint.blur();
   });
 
@@ -451,15 +482,17 @@
     if (S.tag < 0.2) renderScene.thudded = false;
   }
   var tl = gsap.timeline({ paused: true, defaults: { ease: 'none' }, onUpdate: renderScene });
-  tl.to(S, { copy: 1, duration: 12, ease: 'power2.in' }, 2)
-    .to(S, { card: 1, duration: 4 }, 47)
-    .to(S, { tag: 1, duration: 4, ease: 'back.out(2)' }, 50)
-    .to(S, { l1: 1, duration: 9, ease: 'power2.out' }, 55)
-    .to(S, { l1o: 1, duration: 6, ease: 'power2.in' }, 74)
-    .to(S, { l2: 1, duration: 8, ease: 'power2.out' }, 79)
-    .to(S, { out: 1, duration: 6 }, 94);
+  // one beat per idea, each line holding still for a while: about 1.1 to 1.3 screens of scroll per line
+  tl.to(S, { copy: 1, duration: 8, ease: 'power2.in' }, 1)
+    .to(S, { card: 1, duration: 5 }, 30)
+    .to(S, { tag: 1, duration: 5, ease: 'back.out(2)' }, 34)
+    .to(S, { l1: 1, duration: 7, ease: 'power2.out' }, 46)
+    .to(S, { l1o: 1, duration: 5, ease: 'power2.in' }, 66)
+    .to(S, { l2: 1, duration: 7, ease: 'power2.out' }, 70)
+    .to(S, { out: 1, duration: 7 }, 92)
+    .to({}, { duration: 1 }, 99);
   if (RM) ScrollTrigger.create({ trigger: '#scene', start: 'top top', end: 'bottom bottom', onUpdate: function (st) { tl.progress(st.progress < 0.35 ? 0 : 0.92); } });
-  else ScrollTrigger.create({ trigger: '#scene', start: 'top top', end: 'bottom bottom', animation: tl, scrub: 0.6 });
+  else ScrollTrigger.create({ trigger: '#scene', start: 'top top', end: 'bottom bottom', animation: tl, scrub: TOUCH ? 0.9 : 0.6 });   // phones scroll natively: a little more catch-up so a flick glides
   renderScene();
 
   /* ---------- game: stop on the one you'd buy ---------- */
@@ -642,7 +675,7 @@
       tx = e.clientX; ty = e.clientY;
       overStage = !!e.target.closest('#stage') && !e.target.closest('a,button');
       cursor.classList.toggle('on-link', !!e.target.closest('a,button'));
-      var onBall = !!e.target.closest('.ball-handle');
+      var onBall = !!e.target.closest('#stage') && !e.target.closest('a,button:not(.drag-hint)') && (H.phase === 'ready' || H.phase === 'auto' || H.phase === 'drag');
       cursor.classList.toggle('on-ball', onBall);
       cursor.classList.toggle('on-feed', (overStage && storyP < 0.05 && !!swarm && H.phase === 'done') || onBall);
       if (curLabel._t !== (onBall ? 'Drag' : 'Hold')) { curLabel._t = onBall ? 'Drag' : 'Hold'; curLabel.textContent = curLabel._t; }
