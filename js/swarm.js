@@ -9,7 +9,7 @@
      6 dust    the feed settles
    main.js owns layout and scroll: it calls story(p) with a float (3.4 = 40% of the way from funnel to globe). */
 (function () {
-  var N_DESK = 2600, N_PHONE = 1500;
+  var N_DESK = 2600, N_PHONE = 1200;
   var PROC = [1, 0, 1, 1, 0, 0, 1];            // states computed in the shader (time-driven)
   var CROP = [0, 1, 0, 0, 1, 1, 1];            // 1 = square photo crop, 0 = whole post with header and button
   var DIM = [1, 1, 0.2, 0.9, 0.8, 1.25, 0.42];
@@ -19,17 +19,18 @@
     'attribute vec4 aSeed;',                     // tile, r1, r2, r3
     'attribute vec4 aA; attribute vec4 aAT;',    // state A: pos.xyz + size, tint.rgb + weight
     'attribute vec4 aB; attribute vec4 aBT;',
+    'attribute vec4 aH;',                        // the hook: ball offset or brick position + size
     'uniform vec2 uRes; uniform float uFocal;',
     'uniform float uIdA, uIdB, uProcA, uProcB, uCropA, uCropB, uT, uArc;',
     'uniform float uStreamT, uTime, uBase, uDepth, uDim;',
     'uniform vec3 uFun; uniform float uFunY; uniform vec2 uBand; uniform vec3 uGlobe;',
     'uniform vec2 uCam; uniform vec3 uMouse; uniform float uRepelR;',
-    'uniform float uHook, uBurst, uHeat, uTrem, uBallR, uBallY;',
+    'uniform float uHook, uBurst, uHeat, uTrem, uBallRot; uniform vec2 uBallC, uImpact;',
     'varying vec2 vUv; varying vec2 vLocal; varying vec2 vHalf; varying vec4 vTint; varying float vShade;',
     'mat3 rotY(float a){ float c = cos(a), s = sin(a); return mat3(c, 0.0, -s, 0.0, 1.0, 0.0, s, 0.0, c); }',
     'mat3 rotX(float a){ float c = cos(a), s = sin(a); return mat3(1.0, 0.0, 0.0, 0.0, c, s, 0.0, -s, c); }',
-    'void proc(float id, vec4 s, out vec3 p, out float size, out vec4 tint, out float sh){',
-    '  tint = vec4(0.0); sh = 1.0;',
+    'void proc(float id, vec4 s, vec4 h, out vec3 p, out float size, out vec4 tint, out float sh, out float hw){',
+    '  tint = vec4(0.0); sh = 1.0; hw = 0.0;',
     '  if (id < 0.5 || (id > 1.5 && id < 2.5)) {',
     '    float slow = id > 1.5 ? 0.1 : 1.0;',
     '    float z = -pow(s.y, 0.55) * uDepth + 260.0;',                  // most of the feed sits deep, a few posts fly close
@@ -38,15 +39,21 @@
     '    p = vec3((s.z * 2.0 - 1.0) * hw, mod(s.w * 2.0 * hh + uStreamT * slow * (0.75 + s.y * 0.5), 2.0 * hh) - hh, z);',
     '    size = uBase * (0.7 + 0.6 * fract(s.z * 7.31)) * (id > 1.5 ? 0.5 : 1.0);',
     '    if (id < 0.5 && uHook > 0.0) {',
-    '      vec3 dir = normalize(vec3(s.z * 2.0 - 1.0, s.w * 2.0 - 1.0, s.y * 2.0 - 1.0) + 0.0001);',
-    '      float rr = uBallR * (0.2 + 0.8 * pow(fract(s.z * 13.13 + s.w * 7.7), 0.33));',
-    '      vec3 ball = dir * rr + vec3(0.0, uBallY, 0.0);',
-    '      ball.xy += vec2(sin(uTime * 53.0 + s.y * 91.0), cos(uTime * 47.0 + s.z * 83.0)) * uTrem * (0.4 + fract(s.w * 5.1));',
-    '      vec3 blast = ball + dir * uBurst * (900.0 + 1600.0 * fract(s.y * 17.3)) + vec3(0.0, 0.0, uBurst * 520.0);',
+    '      float role = floor(s.x / 20.0);',                           // 0 ball, 1 wall brick, 2 waiting in the wings
+    '      vec3 hp = h.xyz;',
+    '      if (role < 0.5) {',
+    '        float c = cos(uBallRot), sn = sin(uBallRot);',
+    '        hp.xy = vec2(c * h.x - sn * h.y, sn * h.x + c * h.y) + uBallC;',
+    '        hp.xy += vec2(sin(uTime * 53.0 + s.y * 91.0), cos(uTime * 47.0 + s.z * 83.0)) * uTrem * (0.4 + fract(s.w * 5.1));',
+    '      }',
+    '      float kick = role < 1.5 ? 1.0 : 0.0;',
+    '      vec3 dir = normalize(vec3(hp.xy - uImpact, (s.w - 0.3) * 220.0) + 0.0001);',
+    '      vec3 blast = hp + (dir * (520.0 + 1200.0 * fract(s.y * 17.3)) + vec3(0.0, -300.0 * uBurst, 420.0)) * uBurst * kick;',
     '      float w = uHook * (1.0 - smoothstep(0.35, 1.0, uBurst));',
-    '      p = mix(p, mix(ball, blast, min(uBurst * 1.6, 1.0)), w);',
-    '      size = mix(size, uBase * 0.3 * (1.0 + 2.4 * uBurst), w);',
-    '      tint = vec4(1.0, 0.23, 0.12, uHeat * 0.6 * w);',
+    '      p = mix(p, blast, w);',
+    '      size = mix(size, h.w * (1.0 + 1.8 * uBurst * kick), w);',
+    '      tint = vec4(1.0, 0.23, 0.12, uHeat * 0.6 * w * (role < 0.5 ? 1.0 : 0.0));',
+    '      hw = w * kick;',
     '    }',
     '  } else if (id < 3.5) {',
     '    float u = fract(s.y + uTime * 0.045);',
@@ -71,16 +78,16 @@
     '  if (abs(id - 4.0) < 0.5) p = rotY(uTime * 0.22) * rotX(0.32) * p + vec3(uGlobe.xy, 0.0);',
     '}',
     'void main(){',
-    '  vec3 pA; float sA; vec4 tA; float hA = 1.0;',
-    '  vec3 pB; float sB; vec4 tB; float hB = 1.0;',
-    '  if (uProcA > 0.5) proc(uIdA, aSeed, pA, sA, tA, hA); else target(uIdA, aA, aAT, pA, sA, tA);',
-    '  if (uProcB > 0.5) proc(uIdB, aSeed, pB, sB, tB, hB); else target(uIdB, aB, aBT, pB, sB, tB);',
+    '  vec3 pA; float sA; vec4 tA; float hA = 1.0; float wA = 0.0;',
+    '  vec3 pB; float sB; vec4 tB; float hB = 1.0; float wB = 0.0;',
+    '  if (uProcA > 0.5) proc(uIdA, aSeed, aH, pA, sA, tA, hA, wA); else target(uIdA, aA, aAT, pA, sA, tA);',
+    '  if (uProcB > 0.5) proc(uIdB, aSeed, aH, pB, sB, tB, hB, wB); else target(uIdB, aB, aBT, pB, sB, tB);',
     '  float e = clamp(uT * 1.7 - aSeed.y * 0.7, 0.0, 1.0); e = e * e * (3.0 - 2.0 * e);',
     '  vec3 c = mix(pA, pB, e);',
     '  c.z += sin(e * 3.14159) * (aSeed.w * 2.0 - 0.7) * 420.0 * uArc;',
     '  float size = mix(sA, sB, e);',
     '  vec4 tint = mix(tA, tB, e);',
-    '  float crop = mix(uCropA, uCropB, e);',
+    '  float crop = max(mix(uCropA, uCropB, e), mix(wA, wB, e));',      // ball and bricks show the square photo
     '  float asp = mix(884.0 / 600.0, 1.0, crop);',
     '  vec2 hv = vec2(size, size * asp) * 0.5;',
     '  vec3 o = vec3((aCorner - 0.5) * 2.0 * hv, 0.0);',
@@ -95,7 +102,7 @@
     '  P += shift; C += shift;',
     '  float w = (uFocal - P.z) / uFocal;',
     '  gl_Position = w < 0.05 ? vec4(0.0, 0.0, 2.0, 1.0) : vec4(P.x / (uRes.x * 0.5), P.y / (uRes.y * 0.5), clamp(-P.z / 6000.0, -0.99, 0.99) * w, w);',
-    '  vec2 cell = vec2(mod(aSeed.x, 5.0), floor(aSeed.x / 5.0));',
+    '  float tl = mod(aSeed.x, 20.0); vec2 cell = vec2(mod(tl, 5.0), floor(tl / 5.0));',
     '  vec2 full = vec2(aCorner.x, 1.0 - aCorner.y);',
     '  vec2 crp = vec2(aCorner.x, (76.0 + (1.0 - aCorner.y) * 600.0) / 884.0);',
     '  vUv = (cell + mix(full, crp, crop)) / vec2(5.0, 4.0);',
@@ -157,7 +164,7 @@
     this.mouse = [0, 0]; this.mT = [0, 0]; this.mIn = 0; this.mInOn = false;
     this.cam = [0, 0]; this.boost = 0; this.band = [0, 0]; this.bandT = [0, 0];
     this.rm = false;
-    this.hook = { k: 0, b: 0, heat: 0, trem: 0 };
+    this.hook = { k: 0, b: 0, heat: 0, trem: 0, x: 0, y: 0, rot: 0, ix: 0, iy: 0 };
     this.images = {};
     this.resize();
   }
@@ -167,10 +174,10 @@
     this.prog = this._program(VS, FS);
     this.u = {};
     ['uRes', 'uFocal', 'uIdA', 'uIdB', 'uProcA', 'uProcB', 'uCropA', 'uCropB', 'uT', 'uArc', 'uStreamT', 'uTime', 'uBase', 'uDepth', 'uDim',
-      'uFun', 'uFunY', 'uBand', 'uGlobe', 'uCam', 'uMouse', 'uRepelR', 'uTex', 'uHook', 'uBurst', 'uHeat', 'uTrem', 'uBallR', 'uBallY'].forEach(function (n) { self.u[n] = gl.getUniformLocation(self.prog, n); });
+      'uFun', 'uFunY', 'uBand', 'uGlobe', 'uCam', 'uMouse', 'uRepelR', 'uTex', 'uHook', 'uBurst', 'uHeat', 'uTrem', 'uBallRot', 'uBallC', 'uImpact'].forEach(function (n) { self.u[n] = gl.getUniformLocation(self.prog, n); });
     this.a = {};
-    ['aCorner', 'aSeed', 'aA', 'aAT', 'aB', 'aBT'].forEach(function (n) { self.a[n] = gl.getAttribLocation(self.prog, n); });
-    this.bQuad = gl.createBuffer(); this.bSeed = gl.createBuffer(); this.bA = gl.createBuffer(); this.bB = gl.createBuffer();
+    ['aCorner', 'aSeed', 'aA', 'aAT', 'aB', 'aBT', 'aH'].forEach(function (n) { self.a[n] = gl.getAttribLocation(self.prog, n); });
+    this.bQuad = gl.createBuffer(); this.bSeed = gl.createBuffer(); this.bA = gl.createBuffer(); this.bB = gl.createBuffer(); this.bH = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bQuad);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1]), gl.STATIC_DRAW);
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bSeed); gl.bufferData(gl.ARRAY_BUFFER, this.seed, gl.STATIC_DRAW);
@@ -221,7 +228,7 @@
 
   Swarm.prototype.resize = function () {
     var w = this.c.clientWidth || innerWidth, h = this.c.clientHeight || innerHeight;
-    var dpr = Math.min(window.devicePixelRatio || 1, this.phone ? 1.5 : 1.75);
+    var dpr = Math.min(window.devicePixelRatio || 1, this.phone ? 1.3 : 1.75);
     if (w === this.w && h === this.h && dpr === this.dpr) return false;
     this.w = w; this.h = h; this.dpr = dpr;
     this.c.width = Math.round(w * dpr); this.c.height = Math.round(h * dpr);
@@ -275,6 +282,7 @@
       var b = (l - 0.32) / 0.68; return [0.9 + 0.1 * b, 0.18 + 0.78 * b * b, 0.125 + 0.78 * b * b];
     });
     this.faceTiles = L.face.tiles || 0;
+    this._buildSwing();
     var g = this.data[4], R = L.globe.r, gold = Math.PI * (3 - Math.sqrt(5));
     for (var i = 0; i < N; i++) {     // fibonacci sphere, local coords (the shader turns it and moves it to its centre)
       var j = this.order[i] * 8, y = 1 - (i / (N - 1)) * 2, rad = Math.sqrt(1 - y * y), th = gold * i;
@@ -282,6 +290,31 @@
       g[j + 4] = 0; g[j + 5] = 0; g[j + 6] = 0; g[j + 7] = 0;
     }
     this.pair = [-1, -1];
+  };
+
+  // the wrecking ball and its wall: which particles play which part, and where each one sits
+  Swarm.prototype._buildSwing = function () {
+    var gl = this.gl, N = this.N, sw = this.L.swing, r = rnd(29), i, k = 0;
+    var H = this.hookData = this.hookData || new Float32Array(N * 4);
+    if (!sw) return;
+    var Nb = Math.min(this.phone ? 210 : 260, N), R = sw.r, gold = 2.399963;
+    for (i = 0; i < N; i++) this.seed[i * 4] = this.seed[i * 4] % 20;
+    for (i = 0; i < Nb; i++, k++) {                                  // ball: a sunflower disc bulged into a sphere
+      var j = this.order[k], rr = R * Math.sqrt((i + 0.5) / Nb), a = i * gold;
+      H[j * 4] = Math.cos(a) * rr; H[j * 4 + 1] = Math.sin(a) * rr;
+      H[j * 4 + 2] = Math.sqrt(Math.max(0, R * R - rr * rr)) * 0.8; H[j * 4 + 3] = R * 0.42 * (0.8 + 0.4 * r());
+    }
+    var W = sw.wall, cols = Math.max(2, Math.round(W.w / W.brick)), bw = W.w / cols, rows = Math.max(3, Math.floor(W.h / bw)), bh = W.h / rows;
+    for (var y = 0; y < rows; y++) for (var x = 0; x <= cols; x++) {   // bricks, every other row offset by half a brick
+      var bx = W.x0 + (y % 2 ? 0 : bw / 2) + x * bw;
+      if (bx < W.x0 + bw * 0.3 || bx > W.x0 + W.w - bw * 0.3 || k >= N) continue;
+      j = this.order[k++];
+      this.seed[j * 4] += 20;
+      H[j * 4] = bx; H[j * 4 + 1] = W.y0 + (y + 0.5) * bh; H[j * 4 + 2] = 0; H[j * 4 + 3] = Math.min(bw, bh) * 0.93;
+    }
+    for (; k < N; k++) { j = this.order[k]; this.seed[j * 4] += 40; H[j * 4] = 0; H[j * 4 + 1] = 0; H[j * 4 + 2] = -4000; H[j * 4 + 3] = 0; }
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.bSeed); gl.bufferData(gl.ARRAY_BUFFER, this.seed, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.bH); gl.bufferData(gl.ARRAY_BUFFER, H, gl.STATIC_DRAW);
   };
 
   Swarm.prototype._upload = function (A, B) {
@@ -318,8 +351,9 @@
     this.mIn += ((this.mInOn ? 1 : 0) * (1 - mosaic) - this.mIn) * e(5);
     this.mouse[0] += (this.mT[0] - this.mouse[0]) * e(9); this.mouse[1] += (this.mT[1] - this.mouse[1]) * e(9);
     var mx = this.mouse[0] / (this.w / 2), my = this.mouse[1] / (this.h / 2);
-    var yawT = (mx * 0.14 * this.mIn + Math.sin(this.holdTime * 0.7) * 0.42 * this.hold) * (1 - mosaic);
-    var pitchT = (my * 0.08 * this.mIn + 0.1 * this.hold) * (1 - mosaic);
+    var still = 1 - this.hook.k;
+    var yawT = (mx * 0.14 * this.mIn + Math.sin(this.holdTime * 0.7) * 0.42 * this.hold) * (1 - mosaic) * still;
+    var pitchT = (my * 0.08 * this.mIn + 0.1 * this.hold) * (1 - mosaic) * still;
     this.cam[0] += (yawT - this.cam[0]) * e(3.2); this.cam[1] += (pitchT - this.cam[1]) * e(3.2);
     this.band[0] += (this.bandT[0] - this.band[0]) * e(4); this.band[1] += (this.bandT[1] - this.band[1]) * e(4);
     this.draw(A, B, t, hero);
@@ -343,6 +377,7 @@
     attr(this.bSeed, a.aSeed, 4, 16, 0, 1);
     attr(this.bA, a.aA, 4, 32, 0, 1); attr(this.bA, a.aAT, 4, 32, 16, 1);
     attr(this.bB, a.aB, 4, 32, 0, 1); attr(this.bB, a.aBT, 4, 32, 16, 1);
+    attr(this.bH, a.aH, 4, 16, 0, 1);
     var et = t * t * (3 - 2 * t);
     gl.uniform2f(u.uRes, this.w, this.h);
     gl.uniform1f(u.uFocal, this.focal);
@@ -361,12 +396,11 @@
     gl.uniform2f(u.uBand, this.band[0], this.band[1]);
     gl.uniform3f(u.uGlobe, L.globe.cx, L.globe.cy, L.globe.r);
     gl.uniform2f(u.uCam, this.cam[0], this.cam[1]);
-    gl.uniform3f(u.uMouse, this.mouse[0], this.mouse[1], this.mIn * (1 - 0.6 * this.hold));
+    gl.uniform3f(u.uMouse, this.mouse[0], this.mouse[1], this.mIn * (1 - 0.6 * this.hold) * (1 - this.hook.k));
     gl.uniform1f(u.uRepelR, this.phone ? 110 : 170);
     var hk = this.hook;
     gl.uniform1f(u.uHook, hk.k); gl.uniform1f(u.uBurst, hk.b); gl.uniform1f(u.uHeat, hk.heat); gl.uniform1f(u.uTrem, hk.trem);
-    gl.uniform1f(u.uBallR, (L.ball ? L.ball.r : Math.min(this.w, this.h) * 0.2) * (1 - 0.28 * hk.heat));
-    gl.uniform1f(u.uBallY, L.ball ? L.ball.cy : this.h * 0.05);
+    gl.uniform2f(u.uBallC, hk.x, hk.y); gl.uniform1f(u.uBallRot, hk.rot); gl.uniform2f(u.uImpact, hk.ix, hk.iy);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, this.tex); gl.uniform1i(u.uTex, 0);
     if (this.gl2) gl.drawArraysInstanced(gl.TRIANGLES, 0, 6, this.N);
     else this.inst.drawArraysInstancedANGLE(gl.TRIANGLES, 0, 6, this.N);

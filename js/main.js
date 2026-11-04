@@ -63,7 +63,7 @@
 
   /* ---------- the swarm ---------- */
   var cv = $('#swarm'), swarm = null, ready, stage = $('#stage');
-  var atlas = (innerWidth < 760 || (window.devicePixelRatio || 1) < 1.3) ? 'img/atlas-m.webp?v=6' : 'img/atlas.webp?v=6';
+  var atlas = (innerWidth < 760 || (window.devicePixelRatio || 1) < 1.3) ? 'img/atlas-m.webp?v=7' : 'img/atlas.webp?v=7';
   function fillPoster() {
     var p = $('.poster'); if (!p || p.childElementCount) return;
     ['p01_coldbrew', 'p06_dog', 'p12_soda', 'p02_hotsauce', 'p09_bar', 'p08_gin', 'p14_spf', 'p19_cat', 'p07_oliveoil', 'p17_face'].forEach(function (id) {
@@ -73,7 +73,7 @@
   var H = { phase: 'off', k: 0, b: 0, n: 162, at: 0, watch: 0 };   // the hook's state; declared before anything can touch it
   function swarmGone() {   // WebGL lost or never loaded: show the poster and skip the hook so the hero still appears
     swarm = null; html.classList.add('no-gl'); fillPoster();
-    if (H.phase !== 'off' && H.phase !== 'done') { H.phase = 'done'; html.classList.add('hook-done', 'popped'); intro(); }
+    if (H.phase !== 'off' && H.phase !== 'done') { H.phase = 'done'; hideLines(); $('.cue-l').textContent = 'Scroll'; html.classList.add('hook-done', 'popped', 'hit'); intro(); }
   }
   function faceCaption() { if (swarm) $('.face-count').textContent = 'This face is ' + (swarm.faceTiles || 0).toLocaleString('en-US') + ' ads.'; }
   try {
@@ -81,15 +81,17 @@
     swarm.rm = RM;
     swarm.setLayout(layout());
     swarm.onlost = function () { setTimeout(function () { if (swarm && !swarm.ready) swarmGone(); }, 1500); };
-    ready = swarm.load(atlas, { dog: 'img/posts/p06_dog@2.webp?v=6' }).catch(swarmGone);
-    swarm.loadMosaic('face', 'img/soumil.webp?v=6').then(faceCaption).catch(function () {});
+    ready = swarm.load(atlas, { dog: 'img/posts/p06_dog@2.webp?v=7' }).catch(swarmGone);
+    swarm.loadMosaic('face', 'img/soumil.webp?v=7').then(faceCaption).catch(function () {});
   } catch (err) {
     swarm = null; html.classList.add('no-gl'); fillPoster(); ready = Promise.resolve();
   }
 
   // every shape the swarm makes, in CSS px from the screen centre with y up; the DOM uses the same numbers
+  var stageW = innerWidth, stageH = innerHeight;   // read once per layout, never inside a frame
   function layout() {
     var vw = innerWidth, vh = $('#stage').clientHeight || innerHeight, ph = phone();
+    stageW = $('#stage').clientWidth || vw; stageH = vh;
     var dogH = ph ? vh * 0.44 : vh * 0.62, dogW = dogH * 600 / 884;
     var faceS = ph ? Math.min(vw * 0.86, vh * 0.38) : Math.min(vh * 0.74, vw * 0.4);
     var L = {
@@ -100,8 +102,24 @@
     };
     var kick = $('.kicker'), kr = kick.getBoundingClientRect(), sr = $('#stage').getBoundingClientRect();
     var navB = ph ? 70 : 76, kTop = kr.height ? kr.top - sr.top : vh * 0.6, band = Math.max(140, kTop - navB - 12);
-    L.ball = { cy: vh / 2 - (navB + band / 2), r: Math.min(vw * (ph ? 0.3 : 0.22), band * 0.42, vh * 0.22) };
+    // the swing fills the screen: the chain hangs from above the top edge, the wall stands right of centre,
+    // and the ball can be pulled way back, off the left edge if you like. Landscape phones use the wide layout.
+    var tall = ph && vw < vh;
+    var top = vh / 2 - navB, floor = tall ? -vh / 2 + vh * 0.3 : -vh / 2 + vh * 0.2;
+    var band = Math.max(160, top - floor);
+    var R = tall ? Math.min(vw * 0.17, band * 0.13) : Math.max(Math.min(vw * 0.06, vh * 0.1), Math.min(vw, vh) * 0.07);
+    var wall = { x0: tall ? vw * 0.16 : vw * 0.12, y0: floor, w: tall ? vw * 0.26 : Math.min(vw * 0.12, 190), h: band * 0.6, brick: tall ? vw * 0.075 : Math.min(vw * 0.03, 46) };
+    var py = vh / 2 + (tall ? 20 : 40), restY = floor + wall.h * 0.5, len = Math.max(120, py - restY), thHit = tall ? 0.36 : 0.45;
+    if (tall) thHit = Math.min(thHit, Math.asin(clamp((wall.x0 - R * 1.05 - (-vw / 2 + R + 10)) / len, 0.12, 0.9)));   // at rest the ball hangs fully on screen
+    var px = (wall.x0 - R * 1.05) - len * Math.sin(thHit);
+    // it stops with daylight between the ball's drawn edge (tiles reach about 1.25 R) and the first bricks
+    var thStop = Math.asin(clamp((wall.x0 - R * 1.25 - (tall ? 10 : 14) - px) / len, -0.5, 0.9));
+    var thAuto = -Math.asin(clamp((px - (-vw / 2 + R * 0.3)) / len, 0.3, 0.92));   // the automatic pull keeps the ball on screen
+    L.swing = { r: R, px: px, py: py, len: len, thHit: thHit, thStop: thStop, thMin: -1.15, thAuto: thAuto, floor: floor, wall: wall };
     var st = html.style;
+    st.setProperty('--floor', (vh / 2 - floor) + 'px');
+    st.setProperty('--wcx', (vw / 2 + wall.x0 + wall.w / 2) + 'px'); st.setProperty('--wtop', (vh / 2 - floor - wall.h) + 'px');
+    st.setProperty('--hx', (vw / 2 + px) + 'px'); st.setProperty('--hy', (vh / 2 - restY + R + 26) + 'px');
     st.setProperty('--fcx', L.face.cx + 'px'); st.setProperty('--fcb', (vh / 2 - L.face.cy + L.face.h / 2 + 18) + 'px');
     st.setProperty('--fx', L.funnel.x + 'px'); st.setProperty('--fy', (-L.funnel.y) + 'px'); st.setProperty('--fh', L.funnel.h + 'px'); st.setProperty('--fr', L.funnel.r + 'px');
     return L;
@@ -144,7 +162,11 @@
   addEventListener('resize', function () {
     clearTimeout(rT);
     rT = setTimeout(function () {
-      if (swarm && swarm.resize()) swarm.setLayout(layout());
+      if (swarm && swarm.resize()) {
+        swarm.setLayout(layout());
+        var g = geom();
+        if (g) SW.th = (H.phase === 'freeze' || H.phase === 'wait') ? g.thStop : Math.min(SW.th, g.thStop);
+      }
       buildAnchors();
     }, 120);
   });
@@ -157,7 +179,7 @@
     if (!document.hidden && H.phase !== 'off' && H.phase !== 'done') H.watch += Math.min(dt, 0.25);   // only seconds actually watched
     html.classList.toggle('st-face', storyP > 4.8 && storyP < 5.25);
     if (H.phase !== 'off' && H.phase !== 'done' && H.phase !== 'burst' && (storyP > 0.002 || Math.abs(scrollV) > 90)) burst();
-    tickHook(t);
+    tickHook(t, dt);
     html.classList.toggle('st-funnel', storyP > 2.6 && storyP < 3.45);
     if (swarm && !document.hidden) {
       if (storyP < 0.12 && Math.abs(scrollV) > 30) swarm.addBoost(Math.min(Math.abs(scrollV), 3000) * dt * 2.2);
@@ -165,7 +187,7 @@
       swarm.tick(dt);
       if (window.Sound) Sound.feed(clamp(swarm.speed() / 1400, 0, 1) * Math.max(0, 1 - storyP * 2));
     }
-    tickHold(); tickCursor(); tickType(t); tickHud(t);
+    tickHold(); tickCursor(); tickType(); tickHud(t);
   });
 
   /* hold to stop: bullet time */
@@ -186,9 +208,9 @@
     stage.classList.add('holding'); cursor.classList.add('holding');
     buzz(12); if (window.Sound) Sound.thud(0.7);
   });
-  ['pointerup', 'pointercancel'].forEach(function (n) { addEventListener(n, release); });
+  ['pointerup', 'pointercancel'].forEach(function (n) { addEventListener(n, releaseHold); });
   stage.addEventListener('contextmenu', function (e) { if (holding) e.preventDefault(); });
-  function release() {
+  function releaseHold() {
     if (!holding) return;
     holding = false; if (swarm) swarm.setHold(false);
     stage.classList.remove('holding'); cursor.classList.remove('holding');
@@ -210,8 +232,10 @@
   var loader = $('.loader'), bar = $('.loader-bar i');
   var heroBits = $$('.kicker, .hero-lede, .hero-src, .hero-actions, .hero-side');
   var lede = $('.hero-lede'), hookStart = 0;
+  var heroActs = $('.hero-actions'); if (!RM) heroActs.inert = true;
   function intro() {
     if (intro.done) return; intro.done = true;
+    html.classList.add('intro-on'); heroActs.inert = false;
     navUpdate();
     if (RM) { gsap.set(heroChars.concat(heroBits), { clearProps: 'all' }); return; }
     gsap.fromTo(heroChars, { yPercent: 120, rotate: 8, opacity: 0 }, { yPercent: 0, rotate: 0, opacity: 1, duration: 1.2, ease: 'expo.out', stagger: 0.028 });
@@ -221,8 +245,8 @@
     html.classList.add('live');
     if (lenis) lenis.start();
     hookStart = now();
-    if (RM || !swarm || !swarm.ready) { H.phase = 'done'; html.classList.add('hook-done', 'popped'); $('.cue-l').textContent = 'Scroll'; intro(); }
-    else H.phase = 'stream';
+    if (RM || !swarm || !swarm.ready) { H.phase = 'done'; html.classList.add('hook-done', 'popped', 'hit'); $('.cue-l').textContent = 'Scroll'; intro(); }
+    else { H.phase = 'ready'; H.at = now(); }
   }
   if (RM) {
     gsap.to(loader, { opacity: 0, duration: 0.3, onComplete: function () { loader.remove(); } });
@@ -243,28 +267,67 @@
     });
   }
 
-  /* the hook: the feed gathers into a ball of ads and counts down to a pop that never comes,
-     then tells the visitor how long they just watched. It pops when they scroll (or click). */
+  /* the hook: a wrecking ball made of ads on a blank screen. Drag it back and let go: it swings at a wall of ads,
+     slows to a crawl and stops a visible hair short. The page says how long you've been here. Scroll, and it hits. */
   var vfT = $('.vf-t'), vfCount = $('.vf-count'), vfN = $('.vf-count b'), hl1 = $('.hl1'), hl2 = $('.hl2');
+  var chainL = $('.chain line'), chainC = $('.chain circle'), handle = $('.ball-handle'), dragHint = $('.drag-hint');
   // overwrite: a slow frame can start a line's fade-in and fade-out together; the later call must win
   function showLine(el, text) { el.innerHTML = text; gsap.fromTo(el, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', overwrite: true }); }
   function hideLines() { gsap.to([hl1, hl2], { opacity: 0, y: -16, duration: 0.5, ease: 'power2.in', overwrite: true }); }
   function secs(v) { return v.toFixed(1) + ' seconds'; }
-  function tickHook(t) {
+  var SW = { th: 0, w: 0, rot: 0, rel: 0, touched: false, pid: null, dragging: false };
+  function geom() { return swarm && swarm.L && swarm.L.swing; }
+  function ballAt(g, th) { return [g.px + Math.sin(th) * g.len, g.py - Math.cos(th) * g.len]; }
+  function canDrag(on) { if (html.classList.contains('can-drag') !== on) html.classList.toggle('can-drag', on); }
+  function drawSwing(g) {
+    var b = ballAt(g, SW.th);
+    swarm.setHook({ x: b[0], y: b[1], rot: SW.rot });
+    var hw = stageW / 2, hh = stageH / 2;
+    var px = hw + g.px, py = hh - g.py, bx = hw + b[0], by = hh - b[1];
+    var dx = bx - px, dy = by - py, L = Math.sqrt(dx * dx + dy * dy) || 1, f = (L - g.r * 0.92) / L;
+    chainL.setAttribute('x1', px.toFixed(1)); chainL.setAttribute('y1', py.toFixed(1));
+    chainL.setAttribute('x2', (px + dx * f).toFixed(1)); chainL.setAttribute('y2', (py + dy * f).toFixed(1));
+    chainC.setAttribute('cx', px.toFixed(1)); chainC.setAttribute('cy', py.toFixed(1));
+    handle.style.transform = 'translate(' + bx.toFixed(1) + 'px,' + by.toFixed(1) + 'px)';
+  }
+  function startAuto() { H.phase = 'auto'; H.at = now(); H.from = SW.th; SW.touched = true; html.classList.add('dragged'); }
+  // only the drag and the automatic pull may let the ball go
+  function releaseSwing() {
+    var g = geom(); if (!g || (H.phase !== 'drag' && H.phase !== 'auto')) return;
+    if (H.phase === 'drag' && SW.th > -0.12) { startAuto(); return; }   // barely moved: a helping hand
+    H.phase = 'swing'; SW.rel = SW.th; SW.w = 0; H.n = 162; H.appr = null;
+    canDrag(false); buzz(10);
+  }
+  function tickHook(t, dt) {
     if (H.phase === 'off' || H.phase === 'done') return;
     if (!swarm) { H.phase = 'done'; intro(); return; }
-    var e = H.watch, u;
-    if (!html.classList.contains('hook-done')) vfT.textContent = e.toFixed(1) + 's';
-    if (H.phase === 'stream' && e > 1.1) { H.phase = 'gather'; H.at = t; }
-    if (H.phase === 'gather') {
-      u = clamp((t - H.at) / 1.6, 0, 1); H.k = u * u * (3 - 2 * u);
-      swarm.setHook({ k: H.k, trem: 1.2 * H.k });
-      if (u >= 1) { H.phase = 'count'; H.at = t; }
-      return;
-    }
-    if (H.phase === 'count') {
-      u = t - H.at;
-      var n = Math.max(9, Math.round(162 * Math.pow(0.62, u)));
+    var g = geom(); if (!g) return;
+    var e = H.watch, u, n;
+    if (!H.stopped && !html.classList.contains('hook-done')) { var vt = e.toFixed(1) + 's'; if (vfT._t !== vt) { vfT._t = vt; vfT.textContent = vt; } }
+    if (H.phase === 'ready') {
+      swarm.setHook({ k: Math.min(1, swarm.hook.k + dt * 3) });
+      SW.th = 0.035 * Math.sin(t * 1.4); SW.rot = 0;
+      canDrag(true);
+      if (t - H.at > 3.6 && !SW.touched) startAuto();
+    } else if (H.phase === 'auto') {                                   // nobody dragged: an invisible hand pulls it back
+      u = clamp((t - H.at) / 1.3, 0, 1); u = u * u * (3 - 2 * u);
+      SW.th = H.from + (g.thAuto - H.from) * u;
+      if (u >= 1) releaseSwing();
+    } else if (H.phase === 'swing') {
+      var stop = g.thStop, dist = stop - SW.th;
+      if (!H.appr && SW.th > 0 && dist < 0.34) H.appr = { t: t, from: SW.th, n: H.n };   // the last stretch runs on a clock
+      if (H.appr) {
+        u = clamp((t - H.appr.t) / 2.6, 0, 1);
+        var eu = 1 - Math.pow(1 - u, 3);
+        SW.th = H.appr.from + (stop - H.appr.from) * eu;
+        SW.rot += 0.6 * (1 - eu) * dt;
+        n = Math.max(9, Math.round(H.appr.n + (9 - H.appr.n) * eu));
+      } else {
+        SW.w += -5 * Math.sin(SW.th) * dt;
+        if (SW.th > -0.05) SW.w = Math.max(SW.w, 1.15);
+        SW.th += SW.w * dt; SW.rot += SW.w * dt * 0.35;
+        n = Math.max(10, Math.round(9 + 153 * clamp(dist / (stop - SW.rel), 0, 1)));
+      }
       if (n !== H.n) {
         H.n = n; vfN.textContent = String(n).padStart(3, '0');
         if (window.Sound && n < 40) Sound.tick();
@@ -272,55 +335,99 @@
       }
       vfCount.classList.toggle('hot', n <= 22);
       var heat = clamp((40 - n) / 31, 0, 1);
-      swarm.setHook({ k: 1, heat: heat, trem: 1.2 + 9 * Math.pow(1 - n / 162, 2) });
-      if (window.Sound) Sound.feed(0.15 + 0.6 * heat);
-      if (n === 9 && u > 6.2) {
-        H.phase = 'freeze'; H.at = t; H.waited = e;
-        swarm.setHook({ trem: 0 });
+      swarm.setHook({ heat: heat, trem: 1.2 * heat * heat });
+      if (window.Sound) Sound.feed(0.1 + 0.5 * heat);
+      if (H.appr && u >= 1) {
+        SW.th = stop; SW.w = 0;
+        H.phase = 'freeze'; H.fz = 0; H.waited = e; H.stopped = true;
+        vfT.textContent = e.toFixed(1) + 's';                          // one clock: it stops where the line's number stops
+        swarm.setHook({ trem: 0.35 });
         if (window.Sound) Sound.feed(0);
+        buzz(30);
       }
-      return;
-    }
-    if (H.phase === 'freeze') {
-      u = t - H.at;
-      if (u > 0.35 && !H.l1) { H.l1 = true; vfCount.classList.add('gone'); showLine(hl1, 'You just watched a ball of ads for <b>' + secs(H.waited) + '</b>.'); }
-      if (u > 2.1 && u < 4.4 && !H.l2) { H.l2 = true; showLine(hl2, 'It only pops when you scroll.'); }
-      if (u > 4.4) { H.phase = 'wait'; personalLede(); hideLines(); setTimeout(intro, 450); }   // the line clears before the headline rises
-      return;
-    }
-    if (H.phase === 'burst') {
+    } else if (H.phase === 'freeze' || H.phase === 'wait') {
+      H.fz += Math.min(dt, 0.25);                                      // watched time, so a tab switch can't skip the lines
+      if (H.fz > 0.25 && !H.l1) { H.l1 = true; vfCount.classList.add('gone'); showLine(hl1, "You've been here for <b>" + secs(H.waited) + '</b>.'); }
+      if (H.fz > 1.1 && !H.l2) { H.l2 = true; showLine(hl2, 'It only hits when you scroll.'); }
+      if (H.phase === 'freeze' && H.fz > 8) {                          // nobody scrolled: show the offer anyway; the ball keeps waiting
+        H.phase = 'wait'; personalLede(); hideLines(); html.classList.add('hook-dim'); setTimeout(intro, 450);
+      }
+    } else if (H.phase === 'hit') {                                    // the last few pixels, at full speed
+      SW.w = Math.max(SW.w + 40 * dt, 4); SW.th += SW.w * dt; SW.rot += SW.w * dt * 0.35;
+      if (SW.th >= g.thHit) { SW.th = g.thHit; impact(g); }
+    } else if (H.phase === 'burst') {
       u = clamp((t - H.at) / 1.7, 0, 1);
       H.b = 1 - Math.pow(1 - u, 3);
       swarm.setHook({ b: H.b, heat: (1 - u) * swarm.hook.heat });
       if (u >= 1) { H.phase = 'done'; swarm.setHook({ k: 0, b: 0, heat: 0, trem: 0 }); html.classList.add('popped'); intro(); }
+      return;
     }
+    drawSwing(g);
+  }
+  function impact(g) {
+    if (html.classList.contains('popped')) return;
+    var b = ballAt(g, SW.th);
+    H.phase = 'burst'; H.at = now();
+    swarm.setHook({ ix: b[0] + g.r, iy: b[1], trem: 0 });
+    html.classList.add('hit');
+    buzz(60); if (window.Sound) Sound.thud(1.6);
+    if (!RM) gsap.fromTo(cv, { x: -9, y: 6 }, { x: 0, y: 0, duration: 0.45, ease: 'elastic.out(1.2, 0.3)', clearProps: 'transform' });
   }
   function personalLede() {
-    lede.textContent = 'People give a post about 1.7 seconds. You just gave this page ' + H.waited.toFixed(1) + '. I make ads people stop for, then run them on Meta until they sell.';
+    lede.textContent = "People give a post about 1.7 seconds. You've given this page " + H.waited.toFixed(1) + '. I make ads people stop for, then run them on Meta until they sell.';
   }
+  // scroll, a tap or a key makes it hit once it has stopped; scrolling earlier swings it straight through
   function burst() {
-    if (H.phase === 'off' || H.phase === 'burst' || H.phase === 'done') return;
-    if (!swarm) { H.phase = 'done'; html.classList.add('hook-done', 'popped'); intro(); return; }
+    if (H.phase === 'off' || H.phase === 'hit' || H.phase === 'burst' || H.phase === 'done') return;
+    if (!swarm || !geom()) { H.phase = 'done'; html.classList.add('hook-done', 'popped', 'hit'); intro(); return; }
     var early = H.phase !== 'freeze' && H.phase !== 'wait', e = H.watch;
-    if (H.phase === 'freeze') { personalLede(); intro(); }
-    html.classList.add('hook-done');
+    if (H.phase === 'freeze') personalLede();
+    html.classList.add('hook-done'); html.classList.remove('hook-dim');
     $('.cue-l').textContent = 'Scroll';
-    vfN.textContent = 'POP'; vfCount.classList.add('hot');
+    vfN.textContent = 'HIT'; vfCount.classList.add('hot');
     setTimeout(function () { vfCount.classList.add('gone'); }, 500);
-    if (H.phase === 'stream') { H.phase = 'done'; html.classList.add('popped'); intro(); return; }
-    H.phase = 'burst'; H.at = now();
-    swarm.setHook({ k: 1, trem: 0 });
-    buzz(45); if (window.Sound) Sound.thud(1.5);
-    if (early && e < 4.5) {
+    if (SW.dragging) endDrag();
+    canDrag(false);
+    SW.w = Math.max(SW.w, 4);
+    H.phase = 'hit';
+    if (early && SW.rel < 0 && e < 4.5) {
       showLine(hl1, "You couldn't wait. <b>" + secs(e) + '</b>.');
       setTimeout(function () { showLine(hl2, "Neither can your customers. That's why an ad's first frame matters."); }, 500);
       setTimeout(function () { hideLines(); intro(); }, 2600);
-    } else if (early) {
-      showLine(hl1, 'Pop. You gave it <b>' + secs(e) + '</b>.');
-      setTimeout(function () { hideLines(); intro(); }, 1600);
-    } else hideLines();
+    } else { hideLines(); setTimeout(intro, early ? 900 : 450); }
   }
-  stage.addEventListener('click', function (e) { if (!e.target.closest('a,button') && H.phase !== 'done') burst(); });
+  stage.addEventListener('click', function (e) { if (!e.target.closest('a,button,.ball-handle') && (H.phase === 'freeze' || H.phase === 'wait')) burst(); });
+  addEventListener('keydown', function (e) {
+    if ((H.phase === 'freeze' || H.phase === 'wait') && [' ', 'Enter', 'ArrowDown', 'PageDown'].indexOf(e.key) >= 0 && !e.target.closest('a,button,input,textarea')) { e.preventDefault(); burst(); }
+  });
+
+  // the drag: pull the ball back along its arc, let go to swing. One pointer at a time.
+  function angleAt(cx, cy) {
+    var g = geom(), r = stage.getBoundingClientRect();
+    var wx = cx - r.left - r.width / 2, wy = r.height / 2 - (cy - r.top);
+    if (TOUCH) {   // a finger maps sideways travel to the pull: the left edge of the screen is a full swing back
+      var edge = -r.width / 2 + 8;
+      return clamp(g.thMin * clamp((g.px - wx) / Math.max(40, g.px - edge), 0, 1.15), g.thMin, g.thStop - 0.12);
+    }
+    return clamp(Math.atan2(wx - g.px, g.py - wy), g.thMin, g.thStop - 0.12);
+  }
+  function endDrag() { SW.dragging = false; SW.pid = null; html.classList.remove('dragging'); }
+  handle.addEventListener('pointerdown', function (e) {
+    if ((H.phase !== 'ready' && H.phase !== 'auto') || SW.dragging) return;
+    e.preventDefault();
+    try { handle.setPointerCapture(e.pointerId); } catch (x) {}
+    SW.pid = e.pointerId; SW.touched = true; SW.dragging = true; H.phase = 'drag';
+    html.classList.add('dragging', 'dragged');
+    SW.th = angleAt(e.clientX, e.clientY);
+  });
+  handle.addEventListener('pointermove', function (e) { if (SW.dragging && e.pointerId === SW.pid && H.phase === 'drag') SW.th = angleAt(e.clientX, e.clientY); });
+  ['pointerup', 'pointercancel'].forEach(function (n) {
+    handle.addEventListener(n, function (e) { if (!SW.dragging || e.pointerId !== SW.pid) return; endDrag(); if (H.phase === 'drag') releaseSwing(); });
+  });
+  dragHint.addEventListener('click', function () {                     // keyboard and tap fallback: swing it for me
+    if (H.phase !== 'ready') return;
+    startAuto(); dragHint.blur();
+  });
 
   /* ---------- scene: words over the swarm's stream and mosaic ---------- */
   var S = { copy: 0, card: 0, tag: 0, l1: 0, l1o: 0, l2: 0, out: 0 };
@@ -518,34 +625,42 @@
     if (on >= 3) hud.v3done = true;
     var max = document.documentElement.scrollHeight - innerHeight;
     hud.depth = Math.max(hud.depth, max > 0 ? Math.round(scrollY / max * 100) : 0);
-    hd.v3.textContent = hud.v3done ? 'Yes' : on.toFixed(1) + 's'; hd.v3.classList.toggle('hit', hud.v3done);
-    hd.hook.textContent = hud.v3done ? '100%' : '0%'; hd.hook.classList.toggle('hit', hud.v3done);
-    hd.depth.textContent = hud.depth + '%';
-    hd.play.textContent = hud.played ? 'Yes' : 'No'; hd.play.classList.toggle('hit', hud.played);
-    hd.atc.textContent = String(hud.atc); hd.atc.classList.toggle('hit', hud.atc > 0);
-    hd.buy.textContent = String(hud.buy); hd.buy.classList.toggle('hit', hud.buy > 0);
+    function put(k, txt, hit) { var d = hd[k]; if (d._t !== txt) { d._t = txt; d.textContent = txt; } if (d._h !== hit) { d._h = hit; d.classList.toggle('hit', hit); } }
+    put('v3', hud.v3done ? 'Yes' : on.toFixed(1) + 's', hud.v3done);
+    put('hook', hud.v3done ? '100%' : '0%', hud.v3done);
+    put('depth', hud.depth + '%', false);
+    put('play', hud.played ? 'Yes' : 'No', hud.played);
+    put('atc', String(hud.atc), hud.atc > 0);
+    put('buy', String(hud.buy), hud.buy > 0);
   }
 
   /* ---------- cursor, magnetic buttons ---------- */
   var cx = innerWidth / 2, cy = innerHeight / 2, tx = cx, ty = cy, overStage = false;
-  var mags = TOUCH ? [] : $$('.mag');
+  var mags = TOUCH ? [] : $$('.mag'), curLabel = $('.cursor-label');
   if (!TOUCH) {
     addEventListener('pointermove', function (e) {
       tx = e.clientX; ty = e.clientY;
       overStage = !!e.target.closest('#stage') && !e.target.closest('a,button');
       cursor.classList.toggle('on-link', !!e.target.closest('a,button'));
-      cursor.classList.toggle('on-feed', overStage && storyP < 0.05 && !!swarm);
+      var onBall = !!e.target.closest('.ball-handle');
+      cursor.classList.toggle('on-ball', onBall);
+      cursor.classList.toggle('on-feed', (overStage && storyP < 0.05 && !!swarm && H.phase === 'done') || onBall);
+      if (curLabel._t !== (onBall ? 'Drag' : 'Hold')) { curLabel._t = onBall ? 'Drag' : 'Hold'; curLabel.textContent = curLabel._t; }
     }, { passive: true });
   }
   function tickCursor() {
     if (TOUCH) return;
     cx += (tx - cx) * 0.22; cy += (ty - cy) * 0.22;
     cursor.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0)';
-    mags.forEach(function (b) {
-      var r = b.getBoundingClientRect(), mx = r.left + r.width / 2, my = r.top + r.height / 2;
+    var rs = mags.map(function (b) { return b.getBoundingClientRect(); });   // all reads first...
+    mags.forEach(function (b, i) {                                         // ...then all writes
+      var r = rs[i], cur = b._m || [0, 0];
+      var mx = r.left + r.width / 2 - cur[0], my = r.top + r.height / 2 - cur[1];
       var dx = tx - mx, dy = ty - my, d = Math.sqrt(dx * dx + dy * dy), k = d < 120 ? (1 - d / 120) : 0;
-      var cur = b._m || [0, 0]; cur[0] += (dx * 0.28 * k - cur[0]) * 0.2; cur[1] += (dy * 0.32 * k - cur[1]) * 0.2; b._m = cur;
-      if (Math.abs(cur[0]) > 0.05 || Math.abs(cur[1]) > 0.05 || b.style.transform) b.style.transform = 'translate(' + cur[0].toFixed(2) + 'px,' + cur[1].toFixed(2) + 'px)';
+      var nx = cur[0] + (dx * 0.28 * k - cur[0]) * 0.2, ny = cur[1] + (dy * 0.32 * k - cur[1]) * 0.2;
+      if (Math.abs(nx - cur[0]) < 0.02 && Math.abs(ny - cur[1]) < 0.02) return;
+      b._m = [nx, ny];
+      b.style.transform = Math.abs(nx) < 0.05 && Math.abs(ny) < 0.05 ? '' : 'translate(' + nx.toFixed(2) + 'px,' + ny.toFixed(2) + 'px)';
     });
   }
 
@@ -553,32 +668,36 @@
   var footLetters = $$('.giant span:not(.gap)'), footVisible = false, heroVisible = true;
   new IntersectionObserver(function (es) { footVisible = es[0].isIntersecting; }).observe(giant);
   new IntersectionObserver(function (es) { heroVisible = es[0].isIntersecting; }).observe($('.hero-h'));
-  var squeeze = 0;
-  function tickType(t) {
-    if (RM) return;
+  var squeeze = 0, lastTX = -1, lastTY = -1, lastSq = -1;
+  function tickType() {
+    if (RM || TOUCH) return;                    // phones keep static type: per-frame font changes forced a re-layout every frame
     squeeze += (clamp(Math.abs(scrollV) / 2600, 0, 1) - squeeze) * 0.12;
-    if (heroVisible && heroChars.length) heroChars.forEach(function (s) {
-      var stopW = !!s.closest('.stop-w');
-      var base = stopW ? 56 : 112, wght = 900, near = 0;
-      if (!TOUCH) {
-        var r = s.getBoundingClientRect(), dx = r.left + r.width / 2 - tx, dy = r.top + r.height / 2 - ty;
-        near = Math.exp(-(dx * dx + dy * dy) / (2 * 140 * 140));
-      } else near = 0.5 + 0.5 * Math.sin(t * 1.6 + r0(s));
-      var w = base + (stopW ? 40 : 30) * near - 45 * squeeze;
-      s.style.fontVariationSettings = '"wdth" ' + clamp(w, 50, 150).toFixed(1) + ', "wght" ' + (wght - 250 * squeeze).toFixed(0);
-    });
-    if (footVisible) footLetters.forEach(function (s, i) {
-      var near;
-      if (!TOUCH) {
-        var r = s.getBoundingClientRect(), dx = r.left + r.width / 2 - tx, dy = r.top + r.height / 2 - ty;
-        near = Math.exp(-(dx * dx + dy * dy) / (2 * 180 * 180));
-      } else near = 0.5 + 0.5 * Math.sin(t * 2 - i * 0.6);
-      var cur = +(s._w || 0); cur += (near - cur) * 0.18; s._w = cur;
-      s.style.fontVariationSettings = '"wght" ' + (300 + 600 * cur).toFixed(0) + ', "wdth" ' + (100 + (TOUCH ? 8 : 50) * cur).toFixed(0);
-      s.style.color = cur > 0.72 ? 'var(--red)' : '';
-    });
+    var moved = tx !== lastTX || ty !== lastTY || Math.abs(squeeze - lastSq) > 0.004;
+    if (!moved) return;
+    lastTX = tx; lastTY = ty; lastSq = squeeze;
+    if (heroVisible && heroChars.length && intro.done) {
+      var hr = heroChars.map(function (c) { return c.getBoundingClientRect(); });
+      heroChars.forEach(function (c, i) {
+        var stopW = c._stop === undefined ? (c._stop = !!c.closest('.stop-w')) : c._stop;
+        var r = hr[i], dx = r.left + r.width / 2 - tx, dy = r.top + r.height / 2 - ty;
+        var near = Math.exp(-(dx * dx + dy * dy) / (2 * 140 * 140));
+        var w = clamp((stopW ? 56 : 112) + (stopW ? 40 : 30) * near - 45 * squeeze, 50, 150).toFixed(0), g = (900 - 250 * squeeze).toFixed(0);
+        var v = '"wdth" ' + w + ', "wght" ' + g;
+        if (c._v !== v) { c._v = v; c.style.fontVariationSettings = v; }
+      });
+    }
+    if (footVisible) {
+      var fr = footLetters.map(function (c) { return c.getBoundingClientRect(); });
+      footLetters.forEach(function (c, i) {
+        var r = fr[i], dx = r.left + r.width / 2 - tx, dy = r.top + r.height / 2 - ty;
+        var near = Math.exp(-(dx * dx + dy * dy) / (2 * 180 * 180));
+        var cur = +(c._w || 0); cur += (near - cur) * 0.18; c._w = cur;
+        var v = '"wght" ' + (300 + 600 * cur).toFixed(0) + ', "wdth" ' + (100 + 50 * cur).toFixed(0);
+        if (c._v !== v) { c._v = v; c.style.fontVariationSettings = v; c.style.color = cur > 0.72 ? 'var(--red)' : ''; }
+      });
+    }
   }
-  function r0(s) { return s._r || (s._r = Math.random() * 6.28); }
+  if (TOUCH || RM) footLetters.forEach(function (c, i) { c.style.fontVariationSettings = '"wght" ' + (i % 3 === 1 ? 800 : 400); });
 
   /* ---------- kickers decode once, like a feed loading ---------- */
   var GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/#%';
