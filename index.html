@@ -10,15 +10,17 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://soumilgarg.com/">
 <meta property="og:title" content="Soumil Garg | I make thumbs stop">
-<meta property="og:description" content="Your ad gets 1.7 seconds in the feed. This page shows what I do with them.">
+<meta property="og:description" content="People give a post about 1.7 seconds. I make the ads they stop for.">
 <meta property="og:image" content="https://soumilgarg.com/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/anybody-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/geist-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/instrumentserif-italic-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.css">
+<link rel="preload" as="image" fetchpriority="high" href="img/atlas-m.webp?v=5" media="(max-width: 759px), (max-resolution: 1.29dppx)">
+<link rel="preload" as="image" fetchpriority="high" href="img/atlas.webp?v=5" media="(min-width: 760px) and (min-resolution: 1.3dppx)">
+<link rel="stylesheet" href="css/site.css?v=5">
 <script>
   /* runs before paint: flags the page can read in CSS */
   (function (d) {
@@ -37,14 +39,16 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<!-- 0 loader: the whole 1.7 seconds, counted in real time -->
+<!-- the swarm: one canvas behind the whole page, every particle is an ad -->
+<canvas id="swarm" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 0 loader: only while the feed loads; the hook below does the counting -->
 <div class="loader" aria-hidden="true">
   <div class="loader-half top"></div>
   <div class="loader-half bot"></div>
   <div class="loader-in">
-    <div class="loader-count"><span class="n">0.00</span><span class="s">s</span></div>
-    <p class="loader-line">On a phone, people give a post about 1.7 seconds.</p>
-    <p class="loader-src mono">Facebook and Twitter research, 2016</p>
+    <p class="loader-rec mono"><b aria-hidden="true"></b>Loading the feed</p>
     <div class="loader-bar"><i></i></div>
   </div>
 </div>
@@ -70,7 +74,10 @@
 
 <nav class="nav" aria-label="Main">
   <a class="nav-name" href="#main"><span class="dot" aria-hidden="true"></span>Soumil Garg</a>
-  <a class="btn red nav-cta" href="#offer" tabindex="-1" aria-hidden="true"><span><span class="lbl-long">Get 3 free changes</span><span class="lbl-short sr">Free changes</span></span><span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
+  <div class="nav-r">
+    <button class="snd mono" type="button" aria-pressed="false"><span class="snd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="snd-l">Sound off</span></button>
+    <a class="btn red nav-cta" href="#offer" tabindex="-1" aria-hidden="true"><span><span class="lbl-long">Get 3 free changes</span><span class="lbl-short sr">Free changes</span></span><span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
+  </div>
 </nav>
 
 <main id="main">
@@ -78,35 +85,42 @@
   <!-- 1 + 2: hero and the stop share one pinned stage -->
   <section class="scene" id="scene" aria-labelledby="hero-h">
     <div class="stage" id="stage">
-      <canvas id="feed-gl" aria-hidden="true"></canvas>
       <div class="poster" aria-hidden="true"></div>
       <div class="scrim" aria-hidden="true"></div>
+
+      <div class="vf" aria-hidden="true">
+        <i class="vf-c tl"></i><i class="vf-c tr"></i><i class="vf-c bl"></i><i class="vf-c br"></i>
+        <span class="vf-rec mono"><b></b>Watching <span class="vf-t">0.0s</span></span>
+        <div class="vf-count"><span class="mono">Frames to pop</span><b>162</b></div>
+      </div>
+      <div class="hook-lines" aria-live="polite"><p class="hl hl1"></p><p class="hl hl2"></p></div>
 
       <div class="hold-read" aria-hidden="true"><b>0.00s</b><span class="mono">holding</span></div>
 
       <div class="hero-copy">
         <div class="hero-main">
           <p class="kicker mono">Soumil Garg / Meta ads for D2C brands</p>
-          <h1 class="hero-h" id="hero-h"><span class="ln"><span class="w">I</span> <span class="w">make</span> <span class="w">thumbs</span></span><span class="ln"><span class="w serif">stop.</span></span></h1>
-          <p class="hero-lede">Your ad gets 1.7 seconds in the feed. I make the ones people stop for, then run them on Meta until they sell.</p>
+          <h1 class="hero-h" id="hero-h" aria-label="I make thumbs stop."><span class="ln" aria-hidden="true" data-k>I make thumbs</span><span class="ln stop-w" aria-hidden="true" data-k>stop.</span></h1>
+          <p class="hero-lede">People give a post about 1.7 seconds on a phone. I make the ads they stop for, then run them on Meta until they sell.</p>
+          <p class="hero-src mono">1.7 s: Facebook and Twitter research, 2016</p>
           <div class="hero-actions">
-            <a class="btn red hx-cta" href="#offer">Get 3 free changes<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
-            <a class="btn ghost" href="#game">Play the feed</a>
+            <a class="btn red hx-cta mag" href="#offer">Get 3 free changes<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
+            <a class="btn ghost mag" href="#game">Play the feed</a>
           </div>
         </div>
         <div class="hero-side">
-          <p class="hint mono" style="margin:0"><span class="ring" aria-hidden="true"></span><span class="hint-mouse">Hold anywhere to stop the feed</span><span class="hint-touch">Press and hold to stop the feed</span></p>
-          <p class="cue mono" style="margin:0"><i aria-hidden="true"></i>Scroll</p>
+          <p class="hint mono"><span class="ring" aria-hidden="true"></span><span class="hint-mouse">Hold anywhere to stop the feed</span><span class="hint-touch">Press and hold to stop the feed</span></p>
+          <p class="cue mono"><i aria-hidden="true"></i><span class="cue-l">Scroll to pop it</span></p>
         </div>
       </div>
 
-      <figure class="stop-card" aria-hidden="true"><img src="img/posts/p06_dog@2.webp" alt="" width="600" height="884"></figure>
+      <figure class="stop-card" aria-hidden="true"><img src="img/posts/p06_dog@2.webp?v=5" alt="" width="600" height="884"></figure>
       <span class="stop-tag mono" aria-hidden="true">Thumb stopped</span>
+      <span class="stop-made mono" aria-hidden="true">Made-up brand. I made this ad for this page.</span>
       <div class="stop-lines">
-        <h2 class="stop-line l1">You just <span class="serif">stopped</span> scrolling.</h2>
-        <p class="stop-line l2">That's the whole <span class="serif">job.</span></p>
+        <h2 class="stop-line l1">You just <em>stopped</em> scrolling.</h2>
+        <p class="stop-line l2">That's the whole <em>job.</em></p>
       </div>
-      <p class="stop-note mono">Every brand in this feed is made up. I made the 20 ads for this page.</p>
     </div>
   </section>
 
@@ -114,9 +128,9 @@
   <section class="sec game" id="game" aria-labelledby="game-h">
     <div class="game-grid">
       <div class="game-txt">
-        <p class="sec-k mono">Play</p>
-        <h2 class="sec-h" id="game-h">Your turn. Stop on the one <span class="serif">you'd buy.</span></h2>
-        <p class="sec-sub">The feed runs at phone speed. Tap STOP the moment an ad grabs you.</p>
+        <p class="sec-k mono" data-decode>Play</p>
+        <h2 class="sec-h" id="game-h">Your turn. Stop on the one <em>you'd buy.</em></h2>
+        <p class="sec-sub">The feed runs fast, like a real one. Tap STOP the moment an ad grabs you.</p>
         <div class="game-meter" aria-hidden="true">
           <div class="meter"><i></i><span class="mark"></span></div>
           <div class="meter-l mono"><span>0s</span><span class="red">1.7s</span><span>3.4s</span></div>
@@ -128,8 +142,8 @@
           <p class="result-v"></p>
           <p class="result-close">Your ads play this game thousands of times a day. My job is to make them win it.</p>
           <div class="result-actions">
-            <button class="btn ghost again" type="button">Play again</button>
-            <a class="btn red" href="#offer">Get 3 free changes<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
+            <button class="btn ghost again mag" type="button">Play again</button>
+            <a class="btn red mag" href="#offer">Get 3 free changes<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
           </div>
         </div>
       </div>
@@ -140,8 +154,8 @@
           <div class="strip" aria-hidden="true"></div>
           <span class="game-clock" aria-hidden="true">0.00s</span>
           <div class="phone-cover">
-            <p>20 ads. Real phone speed. Stop on the one you'd buy.</p>
-            <button class="btn red start" type="button">Start the feed<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></button>
+            <p>20 ads I made for made-up brands. Fast, like a real feed. Stop on the one you'd buy.</p>
+            <button class="btn red start mag" type="button">Start the feed<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></button>
           </div>
           <button class="stop-btn" type="button" aria-label="Stop the feed">STOP</button>
         </div>
@@ -149,120 +163,96 @@
     </div>
   </section>
 
-  <!-- 4: what I do -->
+  <!-- 4: what I do, told down the funnel the swarm pours through -->
   <section class="work" id="work" aria-labelledby="work-h">
-    <div class="work-pin">
+    <div class="funnel-tags" aria-hidden="true">
+      <span class="ft ft-top mono">Every ad you run</span>
+      <span class="ft ft-mid mono">Losers drop out</span>
+      <span class="ft ft-bot mono">Sales</span>
+    </div>
+    <div class="work-in">
       <div class="work-head">
-        <p class="sec-k mono">What I do</p>
-        <h2 class="sec-h" id="work-h">From the thumb-stop to <span class="serif">the sale.</span></h2>
+        <p class="sec-k mono" data-decode>What I do</p>
+        <h2 class="sec-h" id="work-h">From the thumb-stop to <em>the sale.</em></h2>
       </div>
-      <div class="track">
-        <article class="panel" data-p="1">
-          <div class="panel-txt">
-            <span class="panel-n" aria-hidden="true">01</span>
-            <div><h3>The <span class="serif">hook</span></h3>
-            <p>Ads people stop for: statics, short videos and explainer reels. Written in your customers' own words, taken from reviews, Reddit threads and your past ads.</p></div>
+      <ol class="steps">
+        <li class="step" data-band="0,0.34">
+          <span class="step-n" aria-hidden="true">01</span>
+          <h3>The <em>hook</em></h3>
+          <p>Ads people stop for: statics, short videos and explainer reels. Written in your customers' own words, taken from reviews, Reddit threads and your past ads.</p>
+          <div class="step-vis fan" aria-hidden="true">
+            <img src="img/posts/p09_bar.webp" alt="" width="360" height="530" loading="lazy">
+            <img src="img/posts/p14_spf.webp" alt="" width="360" height="530" loading="lazy">
+            <img src="img/posts/p19_cat.webp" alt="" width="360" height="530" loading="lazy">
           </div>
-          <div class="panel-vis" aria-hidden="true">
-            <div class="fan">
-              <img src="img/posts/p09_bar.webp" alt="" width="360" height="530" loading="lazy">
-              <img src="img/posts/p12_soda.webp" alt="" width="360" height="530" loading="lazy">
-              <img src="img/posts/p14_spf.webp" alt="" width="360" height="530" loading="lazy">
-              <img src="img/posts/p19_cat.webp" alt="" width="360" height="530" loading="lazy">
-              <img src="img/posts/p01_coldbrew.webp" alt="" width="360" height="530" loading="lazy">
-            </div>
+          <p class="fan-note mono">Ads I made for made-up brands</p>
+        </li>
+        <li class="step" data-band="0.3,0.62">
+          <span class="step-n" aria-hidden="true">02</span>
+          <h3>The <em>engine</em></h3>
+          <p>Meta campaigns built to learn fast. A clean structure, steady testing, and budgets moved on data, never on mood.</p>
+          <div class="step-vis chips" aria-hidden="true">
+            <span class="chip">Test a mix of hooks</span>
+            <span class="chip">Turn off the clear losers</span>
+            <span class="chip on">Make more like the winners</span>
           </div>
-        </article>
-        <article class="panel" data-p="2">
-          <div class="panel-txt">
-            <span class="panel-n" aria-hidden="true">02</span>
-            <div><h3>The <span class="serif">engine</span></h3>
-            <p>Meta campaigns built to learn fast. A clean structure, steady testing, and budgets moved on data, never on mood.</p></div>
+        </li>
+        <li class="step" data-band="0.58,0.84">
+          <span class="step-n" aria-hidden="true">03</span>
+          <h3>The <em>landing</em></h3>
+          <p>The page your ad sends people to. A great ad that lands on a slow, confusing page is money set on fire, so I fix the page too.</p>
+          <div class="step-vis audit" aria-hidden="true">
+            <span class="row"><b>01</b>Hero says nothing</span>
+            <span class="row"><b>02</b>Button too low</span>
+            <span class="row"><b>03</b>No reviews</span>
           </div>
-          <div class="panel-vis" aria-hidden="true">
-            <span class="chart-l mono" style="left:10%;top:6%">Cost per order</span><span class="chart-l mono" style="right:9%;top:24%">Spend</span>
-            <div class="chart">
-              <svg viewBox="0 0 400 260" preserveAspectRatio="none">
-                <g class="grid"><line x1="0" y1="0" x2="400" y2="0"/><line x1="0" y1="65" x2="400" y2="65"/><line x1="0" y1="130" x2="400" y2="130"/><line x1="0" y1="195" x2="400" y2="195"/><line x1="0" y1="260" x2="400" y2="260"/></g>
-                <path class="spend" d="M0 230 C 60 225, 90 210, 140 196 S 240 150, 290 120 S 360 70, 400 52"/>
-                <path class="cpa" d="M0 40 C 40 60, 60 30, 100 70 S 160 120, 200 150 S 260 170, 300 196 S 370 212, 400 218"/>
-              </svg>
-            </div>
-            <span class="chip c1" style="left:8%;top:72%">Test a mix of hooks</span>
-            <span class="chip c2" style="left:34%;top:16%">Turn off the clear losers</span>
-            <span class="chip c3" style="left:52%;top:56%">Make more like the winners</span>
-            <span class="vis-note mono">Illustration, not client data</span>
+        </li>
+        <li class="step" data-band="0.8,1">
+          <span class="step-n" aria-hidden="true">04</span>
+          <h3>The morning <em>check</em></h3>
+          <p>I open your account every morning and send you a short report on WhatsApp. You always know what you spent and what it brought back.</p>
+          <div class="step-vis chat" aria-hidden="true">
+            <div class="bub theirs">Morning! How did yesterday go?<small>8:31</small></div>
+            <div class="bub mine">Morning! Yesterday's numbers are below, plus the one thing I'm changing today.<small>8:38</small></div>
           </div>
-        </article>
-        <article class="panel" data-p="3">
-          <div class="panel-txt">
-            <span class="panel-n" aria-hidden="true">03</span>
-            <div><h3>The <span class="serif">landing</span></h3>
-            <p>The page your ad sends people to. A great ad that lands on a slow, confusing page is money set on fire, so I fix the page too.</p></div>
-          </div>
-          <div class="panel-vis" aria-hidden="true">
-            <div class="page">
-              <span class="pb" style="top:7%;height:5%;right:56%"></span>
-              <span class="pb" style="top:17%;height:30%"></span>
-              <span class="pb" style="top:52%;height:6%;right:30%"></span>
-              <span class="pb" style="top:61%;height:4%;right:44%"></span>
-              <span class="pb" style="top:72%;height:9%;right:50%;background:#1b1b1e"></span>
-              <span class="pb" style="top:86%;height:9%"></span>
-              <span class="box b1" style="left:5%;right:5%;top:14%;height:36%"></span><span class="tag t1" style="left:6%;top:9%">Hero says nothing</span>
-              <span class="box b2" style="left:5%;right:46%;top:69%;height:15%"></span><span class="tag t2" style="left:56%;top:74%">Button too low</span>
-              <span class="box b3" style="left:5%;right:5%;top:83%;height:15%"></span><span class="tag t3" style="left:6%;top:78%">No reviews</span>
-            </div>
-          </div>
-        </article>
-        <article class="panel" data-p="4">
-          <div class="panel-txt">
-            <span class="panel-n" aria-hidden="true">04</span>
-            <div><h3>The morning <span class="serif">check</span></h3>
-            <p>I open your account every morning and send you a short report on WhatsApp. You always know what you spent and what it brought back.</p></div>
-          </div>
-          <div class="panel-vis" aria-hidden="true">
-            <div class="chat">
-              <div class="bub you">Morning! How did yesterday go?<small>8:31</small></div>
-              <div class="bub me">Morning! Yesterday's numbers are below, plus the one thing I'm changing today.<small>8:38</small></div>
-              <div class="typing"><i></i><i></i><i></i></div>
-            </div>
-          </div>
-        </article>
-      </div>
+        </li>
+      </ol>
     </div>
   </section>
 
-  <!-- 5: proof (draft numbers, need Soumil's OK) -->
+  <!-- 5: proof, beside a globe of ads -->
   <section class="sec proof" id="proof" aria-labelledby="proof-h">
-    <p class="sec-k mono">Proof</p>
-    <h2 class="sec-h" id="proof-h">Not my first <span class="serif">feed.</span></h2>
-    <div class="stats">
-      <div class="stat"><b><span class="count" data-to="3.2" data-dec="1">3.2</span><span class="u"> Cr+</span></b><span>rupees in Meta ad spend managed</span></div>
-      <div class="stat"><b><span class="count" data-to="100000" data-fmt="in">1,00,000</span><span class="u">+</span></b><span>purchases from ads I've run</span></div>
-      <div class="stat"><b><span class="count" data-to="367">367</span><span class="u">M</span></b><span>impressions served</span></div>
+    <div class="proof-in">
+      <p class="sec-k mono" data-decode>Proof</p>
+      <h2 class="sec-h" id="proof-h">Not my first <em>feed.</em></h2>
+      <div class="stats">
+        <div class="stat"><b><span class="count" data-to="0">0</span><span class="u"> to </span><span class="count" data-to="334">334</span></b><span>orders a month for one D2C brand. Three months of ads before me sold nothing; my first month sold 334.</span></div>
+        <div class="stat"><b><span class="count" data-to="1471" data-fmt="us">1,471</span></b><span>orders for that brand in my first four months</span></div>
+        <div class="stat"><b><span class="count" data-to="9">9</span></b><span>ad accounts I open every morning</span></div>
+      </div>
+      <p class="proof-src mono">Brand kept private. Before: Feb, Oct and Nov 2025. Me: May to Aug 2026. Source: Meta Ads Manager.</p>
     </div>
-    <p class="proof-src mono">Across 9 ad accounts, to Sep 2026. Source: Meta Ads Manager.</p>
   </section>
 
-  <!-- 6: offer, revealed by a red circle -->
+  <!-- 6: offer, beside a face made of ads -->
   <section class="offer" id="offer" aria-labelledby="offer-h">
-    <div class="offer-mask">
-      <div class="offer-fill">
-        <div class="offer-in">
-          <div>
-            <p class="sec-k mono">The offer</p>
-            <h2 class="sec-h" id="offer-h">Three changes for your ads. <span class="serif">Free.</span></h2>
+    <div class="offer-pin">
+      <div class="offer-in">
+        <article class="offer-post">
+          <header class="op-head"><span class="op-av" aria-hidden="true">S</span><span><b>soumilgarg</b><small>Sponsored</small></span><span class="op-dots" aria-hidden="true">&middot;&middot;&middot;</span></header>
+          <div class="op-body">
+            <p class="sec-k mono" data-decode>The offer</p>
+            <h2 class="sec-h" id="offer-h">Three changes for your ads. <em>Free.</em></h2>
             <p class="offer-body">Got my email? Just reply yes. Didn't get one? Send me your website. Within 24 hours you get the three changes I'd make first, taken from the ads you're running right now.</p>
             <p class="offer-re">No call. No access to your ad account. Yours to keep either way.</p>
-            <div class="offer-actions">
-              <a class="btn dark close-cta" href="mailto:soumil@soumilgarg.com?subject=Three%20changes%20for%20my%20ads&amp;body=My%20brand%27s%20website%3A%20">Email me<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
-              <a class="btn ghost" href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">Message me on LinkedIn</a>
-            </div>
           </div>
-          <div class="me">
-            <img src="img/soumil.webp" alt="Soumil Garg" width="720" height="720" loading="lazy">
-            <p>I'm Soumil. I run Meta ads for D2C brands in the US and India, and I make most of the ads myself.</p>
-          </div>
+          <a class="op-cta close-cta" href="mailto:soumil@soumilgarg.com?subject=Three%20changes%20for%20my%20ads&amp;body=My%20brand%27s%20website%3A%20"><span>Email me</span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M5 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+          <div class="op-act"><span class="op-email mono">soumil@soumilgarg.com</span><a class="op-li" href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">Message me on LinkedIn</a></div>
+        </article>
+        <div class="me">
+          <img src="img/soumil.webp" alt="Soumil Garg" width="720" height="720" loading="lazy">
+          <p class="face-count mono" aria-hidden="true"></p>
+          <p class="me-line">I'm Soumil. I run Meta ads for D2C brands in the US and India, and I make most of the ads myself.</p>
         </div>
       </div>
     </div>
@@ -273,20 +263,21 @@
 <footer class="foot">
   <p class="giant" aria-label="Soumil Garg"></p>
   <div class="foot-row">
-    <p class="foot-made mono" style="margin:0">Made by hand, one frame at a time. The brands in the feed are made up.</p>
+    <p class="foot-made mono">Designed and coded by me. Every brand in the feed is made up; the ads were made for this page.</p>
     <nav aria-label="Footer">
       <a href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:soumil@soumilgarg.com">Email</a>
       <a href="privacy.html">Privacy</a>
     </nav>
   </div>
-  <p class="mono" style="color:var(--mute);margin:18px 0 0">&copy; 2026 Soumil Garg</p>
+  <p class="mono foot-c">&copy; 2026 Soumil Garg</p>
 </footer>
 
 <script src="vendor/gsap.min.js" defer></script>
 <script src="vendor/ScrollTrigger.min.js" defer></script>
 <script src="vendor/lenis.min.js" defer></script>
-<script src="js/feed.js" defer></script>
-<script src="js/main.js" defer></script>
+<script src="js/swarm.js?v=5" defer></script>
+<script src="js/sound.js?v=5" defer></script>
+<script src="js/main.js?v=5" defer></script>
 </body>
 </html>
