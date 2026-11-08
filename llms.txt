@@ -1,13 +1,16 @@
 # Soumil Garg
 
-> Soumil Garg makes Meta (Facebook and Instagram) ads for D2C brands that people stop scrolling for, then runs them until they sell. He works with founders in the US and India.
+> Soumil Garg runs Meta (Facebook and Instagram) ads for D2C brands in the US and India. He makes the ads, shows you what to fix on the website they land on, and runs the ad account himself.
 
-## Offer
-- Three free changes for the ads a brand is running now, sent within 24 hours. No call, no ad account access. Reply to his email or send your website.
+## What he offers
+- Ad creatives: 60 new ads a month (statics, explainer reels, UGC-style videos, motion graphics, founder videos, in English and Hinglish), tested in batches so the winners show up fast.
+- Website fixes (CRO): a phone-first review of a store, with a before and after picture and a one-line reason for every change. Top 3 fixes free within 24 hours; the full report is $100.
+- Ad account management: he checks every account every morning, sends a WhatsApp note, reports from real store orders, month to month.
 
 ## Pages
-- [Home](https://soumilgarg.com/): the offer, how he works, and an interactive feed demo
+- [Home](https://soumilgarg.com/): the offer, three public teardowns (OLIPOP, Bummer, Sarkar), how a month runs, FAQ, and the free top 3 fixes form
 - [Privacy](https://soumilgarg.com/privacy.html)
 
 ## Contact
 - LinkedIn: https://www.linkedin.com/in/soumil-garg/
+- Free top 3 fixes: https://soumilgarg.com/#check

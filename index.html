@@ -3,288 +3,539 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Soumil Garg | Ads people stop scrolling for</title>
-<meta name="description" content="Soumil Garg makes Meta ads for D2C brands that people stop scrolling for, then runs them until they sell. Reply to his email or send your website for three free changes.">
+<title>Soumil Garg | Meta ads, website fixes and ad accounts for D2C brands</title>
+<meta name="description" content="I make 60 new Meta ads a month for D2C brands in the US and India, show you what to fix on the page they land on, and run the ad account myself. Send your website and get your free top 3 fixes by email within 24 hours.">
 <link rel="canonical" href="https://soumilgarg.com/">
-<meta name="theme-color" content="#0b0b0c">
+<meta name="theme-color" content="#f3f1ec">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://soumilgarg.com/">
-<meta property="og:title" content="Soumil Garg | I make thumbs stop">
-<meta property="og:description" content="People give a post about 1.7 seconds. I make the ads they stop for.">
+<meta property="og:title" content="Soumil Garg | Ads people stop for. Then I find why they don't buy.">
+<meta property="og:description" content="60 new ads a month, website fixes as before and after pictures, and your Meta account checked every morning. Send your website, get your free top 3 fixes within 24 hours.">
 <meta property="og:image" content="https://soumilgarg.com/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="fonts/anybody-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/geist-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" fetchpriority="high" href="img/atlas-m.webp?v=8" media="(max-width: 759px), (max-resolution: 1.29dppx)">
-<link rel="preload" as="image" fetchpriority="high" href="img/atlas.webp?v=8" media="(min-width: 760px) and (min-resolution: 1.3dppx)">
-<link rel="stylesheet" href="css/site.css?v=8">
+<link rel="stylesheet" href="css/v7.css?v=9">
 <script>
   /* runs before paint: flags the page can read in CSS */
   (function (d) {
     var h = d.documentElement, q = location.search;
     h.classList.add('js');
-    var rm = matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]rm=1/.test(q);
-    if (rm) h.classList.add('rm');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]rm=1/.test(q)) h.classList.add('rm');
     if (matchMedia('(hover: none), (pointer: coarse)').matches) h.classList.add('touch');
-    else h.classList.add('has-cursor');
   })(document);
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","name":"Soumil Garg","url":"https://soumilgarg.com/","jobTitle":"Meta ads and marketing for D2C brands","sameAs":["https://www.linkedin.com/in/soumil-garg/"]}
+{"@context":"https://schema.org","@type":"Person","name":"Soumil Garg","url":"https://soumilgarg.com/","image":"https://soumilgarg.com/img/soumil-900.webp","jobTitle":"Meta ads, ad creatives and website fixes for D2C brands","sameAs":["https://www.linkedin.com/in/soumil-garg/"]}
 </script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<!-- the swarm: one canvas behind the whole page, every particle is an ad -->
-<canvas id="swarm" aria-hidden="true"></canvas>
-<div class="grain" aria-hidden="true"></div>
-
-<!-- 0 loader: only while the feed loads; the hook below does the counting -->
-<div class="loader" aria-hidden="true">
-  <div class="loader-half top"></div>
-  <div class="loader-half bot"></div>
-  <div class="loader-in">
-    <p class="loader-rec mono"><b aria-hidden="true"></b>Loading the feed</p>
-    <div class="loader-bar"><i></i></div>
-  </div>
-</div>
-
-<aside class="hud mono" aria-label="Your visit, scored like an ad">
-  <p class="hud-h">Your visit, as an ad</p>
-  <dl>
-    <div><dt>Impression</dt><dd data-k="imp">1</dd></div>
-    <div><dt>3-second view</dt><dd data-k="v3">0.0s</dd></div>
-    <div><dt>Hook rate</dt><dd data-k="hook">0%</dd></div>
-    <div><dt>Scroll depth</dt><dd data-k="depth">0%</dd></div>
-    <div><dt>Played the feed</dt><dd data-k="play">No</dd></div>
-    <div><dt>Add to cart</dt><dd data-k="atc">0</dd></div>
-    <div><dt>Purchase</dt><dd data-k="buy">0</dd></div>
-  </dl>
-</aside>
-
-<div class="cursor" aria-hidden="true">
-  <span class="cursor-dot"></span>
-  <span class="cursor-ring"><span class="cursor-label">Hold</span></span>
-  <span class="cursor-read"><b>0.00s</b><em>holding</em></span>
-</div>
-
-<nav class="nav" aria-label="Main">
-  <a class="nav-name" href="#main"><span class="dot" aria-hidden="true"></span>Soumil Garg</a>
+<header class="nav">
+  <a class="nav-name" href="#top"><span class="nav-dot" aria-hidden="true"></span>Soumil Garg</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="#creatives">Ads</a>
+    <a href="#cro">Website fixes</a>
+    <a href="#accounts">Ad accounts</a>
+    <a href="#about">About</a>
+  </nav>
   <div class="nav-r">
-    <button class="snd mono" type="button" aria-pressed="false"><span class="snd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="snd-l">Sound off</span></button>
-    <a class="btn red nav-cta" href="#offer" tabindex="-1" aria-hidden="true"><span><span class="lbl-long">Get 3 free changes</span><span class="lbl-short sr">Free changes</span></span><span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
+    <a class="btn red sm" href="#check"><span class="lbl-l">Get my free top 3 fixes</span><span class="lbl-s">Free top 3 fixes</span></a>
   </div>
-</nav>
+</header>
 
 <main id="main">
 
-  <!-- 1 + 2: hero and the stop share one pinned stage -->
-  <section class="scene" id="scene" aria-labelledby="hero-h">
-    <div class="stage" id="stage">
-      <div class="poster" aria-hidden="true"></div>
-      <div class="scrim" aria-hidden="true"></div>
+  <!-- the hook: a ball, a wall, and a hit that never comes. The only thing on the page that moves by itself. -->
+  <section class="hero" id="top" aria-labelledby="hero-h">
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <i class="pull-dot" aria-hidden="true"></i>
 
-      <i class="floor-line" aria-hidden="true"></i>
-      <svg class="chain" aria-hidden="true"><line x1="0" y1="0" x2="0" y2="0"/><circle cx="0" cy="0" r="7"/></svg>
-      <div class="ball-handle" aria-hidden="true"><span class="bh-ring"></span></div>
-      <svg class="pull-guide" aria-hidden="true"><polyline points="" /><path d="" /></svg>
-      <i class="pull-dot" aria-hidden="true"></i>
-      <button class="drag-hint" type="button"><span class="dh-l hint-mouse"><svg class="dh-ar" viewBox="0 0 44 18" aria-hidden="true"><path d="M42 9H4M12 1.5L3 9l9 7.5" /></svg>Drag the ball back, then let go</span><span class="dh-l hint-touch"><svg class="dh-ar" viewBox="0 0 44 18" aria-hidden="true"><path d="M42 9H4M12 1.5L3 9l9 7.5" /></svg>Swipe left to pull it back, then let go</span><span class="dh-sub mono">or tap to swing it</span></button>
-
-      <div class="vf" aria-hidden="true">
-        <i class="vf-c tl"></i><i class="vf-c tr"></i><i class="vf-c bl"></i><i class="vf-c br"></i>
-        <span class="vf-rec mono"><b></b>Watching <span class="vf-t">0.0s</span></span>
-        <div class="vf-count"><span class="mono">Frames to impact</span><b>162</b></div>
+    <div class="hero-post">
+      <p class="kicker" data-s="0">Soumil Garg. Meta ads for D2C brands in the US and India.</p>
+      <h1 class="hero-h" id="hero-h" data-s="1"><span class="h-game" aria-hidden="true">You’ve waited <b class="secs">a few</b> seconds for a ball to hit a wall.</span><span class="h-plain">Ads people stop for. Then I find why they don't buy.</span></h1>
+      <p class="hero-lede" data-s="2"><span class="h-game h-long" aria-hidden="true"><b>It never will.</b> <span class="h-more">But you stopped and waited to see if it would. Do your ads make people stop and wait? That is an ad's first job. Most ads never manage it. I make the Meta ads that do, send you the free top 3 fixes for your website, and run the ad account myself.</span></span><span class="h-game h-short" aria-hidden="true"><b>It never will.</b> <span class="h-more">But you stopped and waited to see if it would. Do your ads make people stop and wait? That is an ad's first job. Most ads never manage it.</span></span><span class="h-plain">I make the Meta ads that bring shoppers to your site, find out why they do not buy there, and run the ad account myself.</span></p>
+      <ul class="hero-chips" data-s="3">
+        <li><a href="#creatives"><b>60</b> new ads a month</a></li>
+        <li><a href="#check">Free top 3 fixes, in 24 hours</a></li>
+        <li><a href="#accounts">Your account checked every morning</a></li>
+      </ul>
+      <div class="hero-actions" data-s="4">
+        <a class="btn red" href="#check">Get my free top 3 fixes<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        <a class="btn ghost" href="#what">See what I do</a>
       </div>
-      <div class="hook-lines" aria-live="polite"><p class="hl hl1"></p><p class="hl hl2"></p></div>
+    </div>
 
-      <div class="hold-read" aria-hidden="true"><b>0.00s</b><span class="mono">holding</span></div>
+    <button class="drag-hint" type="button">
+      <span class="dh-l hint-mouse"><svg class="dh-ar" viewBox="0 0 44 18" aria-hidden="true"><path d="M42 9H4M12 1.5L3 9l9 7.5" /></svg><span class="dh-t">Drag the ball back, then let go</span></span>
+      <span class="dh-l hint-touch"><svg class="dh-ar" viewBox="0 0 44 18" aria-hidden="true"><path d="M42 9H4M12 1.5L3 9l9 7.5" /></svg><span class="dh-t">Swipe left to pull it back, then let go</span></span>
+      <span class="dh-sub">or tap to let it swing</span>
+    </button>
 
-      <div class="hero-copy">
-        <div class="hero-main">
-          <p class="kicker mono">Soumil Garg / Meta ads for D2C brands</p>
-          <h1 class="hero-h" id="hero-h" aria-label="I make thumbs stop."><span class="ln" aria-hidden="true" data-k>I make thumbs</span><span class="ln stop-w" aria-hidden="true" data-k>stop.</span></h1>
-          <p class="hero-lede">People give a post about 1.7 seconds on a phone. I make the ads they stop for, then run them on Meta until they sell.</p>
-          <p class="hero-src mono">1.7 s: Facebook and Twitter research, 2016</p>
-          <div class="hero-actions">
-            <a class="btn red hx-cta mag" href="#offer">Get 3 free changes<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
-            <a class="btn ghost mag" href="#game">Play the feed</a>
-          </div>
-        </div>
-        <div class="hero-side">
-          <p class="hint mono"><span class="ring" aria-hidden="true"></span><span class="hint-mouse">Hold anywhere to stop the feed</span><span class="hint-touch">Press and hold to stop the feed</span></p>
-          <p class="cue mono"><i aria-hidden="true"></i><span class="cue-l">Scroll to make it hit</span></p>
-        </div>
-      </div>
+  </section>
 
-      <figure class="stop-card" aria-hidden="true"><img src="img/posts/p06_dog@2.webp?v=8" alt="" width="600" height="884"></figure>
-      <span class="stop-tag mono" aria-hidden="true">Thumb stopped</span>
-      <span class="stop-made mono" aria-hidden="true">Made-up brand. I made this ad for this page.</span>
-      <div class="stop-lines">
-        <h2 class="stop-line l1">You just <em>stopped</em> scrolling.</h2>
-        <p class="stop-line l2">That's the whole <em>job.</em></p>
+  <!-- what I do -->
+  <section class="sec what" id="what" aria-labelledby="what-h">
+    <div class="in">
+      <p class="strip"><b>Three earlier months of ads: 0 orders. My first month: 334.</b><span>One D2C brand, kept private. Orders tracked in Meta Ads Manager.</span></p>
+      <p class="sec-k" data-r>What I do</p>
+      <h2 class="sec-h" id="what-h" data-r>Three jobs, one person. <em>Hire me for one, or all three.</em></h2>
+      <div class="cards">
+        <a class="card" href="#creatives">
+          <span class="card-n">01</span>
+          <span class="card-k">Ad creatives</span>
+          <span class="card-h">60 new ads a month.</span>
+          <span class="card-p">Image ads, explainer reels, UGC-style videos, motion graphics and founder videos, in English and Hinglish. Written from your customers' own words. Tested 15 a week beside your best ads.</span>
+          <span class="card-go">How the 60 work<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>
+        </a>
+        <a class="card" href="#cro">
+          <span class="card-n">02</span>
+          <span class="card-k">Website fixes</span>
+          <span class="card-h">Find what stops the sale.</span>
+          <span class="card-p">I shop your site on a phone like someone fresh off an ad, then show you, picture by picture, what to change so more of them buy. Start with the free top 3 fixes.</span>
+          <span class="card-go">See three real stores<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>
+        </a>
+        <a class="card" href="#accounts">
+          <span class="card-n">03</span>
+          <span class="card-k">Ad account management</span>
+          <span class="card-h">Your Meta account, run by me.</span>
+          <span class="card-p">I open your account every morning and send a short WhatsApp note. The big calls happen once a week, on a full week of numbers. The account stays in your name.</span>
+          <span class="card-go">How I run accounts<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- 3: the game -->
-  <section class="sec game" id="game" aria-labelledby="game-h">
-    <div class="game-grid">
-      <div class="game-txt">
-        <p class="sec-k mono" data-decode>Play</p>
-        <h2 class="sec-h" id="game-h">Your turn. Stop on the one <em>you'd buy.</em></h2>
-        <p class="sec-sub">The feed runs fast, like a real one. Tap STOP the moment an ad grabs you.</p>
-        <div class="game-meter" aria-hidden="true">
-          <div class="meter"><i></i><span class="mark"></span></div>
-          <div class="meter-l mono"><span>0s</span><span class="red">1.7s</span><span>3.4s</span></div>
+  <!-- 01 creatives -->
+  <section class="sec dark creatives" id="creatives" aria-labelledby="cr-h">
+    <div class="in">
+      <div class="split">
+        <div>
+          <p class="sec-k" data-r><span class="num">01</span>Ad creatives</p>
+          <h2 class="sec-h" id="cr-h" data-r>60 new ads a month. Most will lose. <em>That's the plan.</em></h2>
         </div>
-        <div class="result" hidden aria-live="polite">
-          <h3 class="result-h">You stopped on <span class="r-brand"></span>.</h3>
-          <p class="result-t">It took that ad <b class="r-time"></b> to stop you. <span class="r-past"></span></p>
-          <p class="result-why mono"><span>What did it:</span> <strong class="r-hook"></strong></p>
-          <p class="result-v"></p>
-          <p class="result-close">Your ads play this game thousands of times a day. My job is to make them win it.</p>
-          <div class="result-actions">
-            <button class="btn ghost again mag" type="button">Play again</button>
-            <a class="btn red mag" href="#offer">Get 3 free changes<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></a>
-          </div>
+        <div class="sec-body">
+          <p>Nobody can tell which ad will win before it runs. Not you, not me, not Meta. So I don't guess. Every month I make 60 new ads, put 15 a week beside the ads already selling for you, and let real spend pick the winners.</p>
+          <p>Nothing is judged on a bad day. A batch gets a full week of numbers before anything comes off. The winners get more budget and new versions of their own.</p>
         </div>
       </div>
-      <div class="phone" id="phone">
-        <div class="phone-screen">
-          <div class="phone-notch" aria-hidden="true"></div>
-          <div class="phone-bar" aria-hidden="true">Feed</div>
-          <div class="strip" aria-hidden="true"></div>
-          <span class="game-clock" aria-hidden="true">0.00s</span>
-          <div class="phone-cover">
-            <p>20 ads I made for made-up brands. Fast, like a real feed. Stop on the one you'd buy.</p>
-            <button class="btn red start mag" type="button">Start the feed<span class="arr" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span></button>
+
+      <figure class="month" aria-label="An illustration of one month of ad testing. I make 60 ads in four weekly batches of 15, test them beside your current best ads, switch most off and keep 5. Tap a week to see where the month stands.">
+        <div class="month-top">
+          <p class="month-t">One month, 60 ads</p>
+          <div class="stops" role="group" aria-label="Step through the month">
+            <button type="button" data-stop="1" aria-pressed="false">Week 1</button>
+            <button type="button" data-stop="2" aria-pressed="false">Week 2</button>
+            <button type="button" data-stop="3" aria-pressed="false">Week 3</button>
+            <button type="button" data-stop="4" aria-pressed="false">Week 4</button>
+            <button type="button" data-stop="5" aria-pressed="true">Month end</button>
           </div>
-          <button class="stop-btn" type="button" aria-label="Stop the feed">STOP</button>
         </div>
+        <div class="month-body">
+          <div class="month-grid" aria-hidden="true"><i class="cell made off" data-i="0" data-f="IMG"></i><i class="cell made off" data-i="1" data-f="VID"></i><i class="cell made off" data-i="2" data-f="UGC"></i><i class="cell made win v2" data-i="3" data-f="IMG"></i><i class="cell made off" data-i="4" data-f="IMG"></i><i class="cell made off" data-i="5" data-f="UGC"></i><i class="cell made off" data-i="6" data-f="MOT"></i><i class="cell made off" data-i="7" data-f="MOT"></i><i class="cell made off" data-i="8" data-f="IMG"></i><i class="cell made off" data-i="9" data-f="IMG"></i><i class="cell made off" data-i="10" data-f="VID"></i><i class="cell made off" data-i="11" data-f="UGC"></i><i class="cell made off" data-i="12" data-f="UGC"></i><i class="cell made off" data-i="13" data-f="VID"></i><i class="cell made off" data-i="14" data-f="IMG"></i><i class="cell made off" data-i="15" data-f="IMG"></i><i class="cell made off" data-i="16" data-f="VID"></i><i class="cell made off" data-i="17" data-f="UGC"></i><i class="cell made off" data-i="18" data-f="IMG"></i><i class="cell made win v2" data-i="19" data-f="IMG"></i><i class="cell made off" data-i="20" data-f="UGC"></i><i class="cell made off" data-i="21" data-f="MOT"></i><i class="cell made off" data-i="22" data-f="MOT"></i><i class="cell made off" data-i="23" data-f="IMG"></i><i class="cell made off" data-i="24" data-f="IMG"></i><i class="cell made off" data-i="25" data-f="VID"></i><i class="cell made off" data-i="26" data-f="UGC"></i><i class="cell made win v2" data-i="27" data-f="UGC"></i><i class="cell made off" data-i="28" data-f="VID"></i><i class="cell made off" data-i="29" data-f="IMG"></i><i class="cell made off" data-i="30" data-f="IMG"></i><i class="cell made off" data-i="31" data-f="VID"></i><i class="cell made off" data-i="32" data-f="UGC"></i><i class="cell made off" data-i="33" data-f="IMG"></i><i class="cell made off" data-i="34" data-f="IMG"></i><i class="cell made off" data-i="35" data-f="UGC"></i><i class="cell made off" data-i="36" data-f="MOT"></i><i class="cell made off" data-i="37" data-f="MOT"></i><i class="cell made off" data-i="38" data-f="IMG"></i><i class="cell made off" data-i="39" data-f="IMG"></i><i class="cell made off" data-i="40" data-f="VID"></i><i class="cell made win v2" data-i="41" data-f="UGC"></i><i class="cell made off" data-i="42" data-f="UGC"></i><i class="cell made off" data-i="43" data-f="VID"></i><i class="cell made off" data-i="44" data-f="IMG"></i><i class="cell made off" data-i="45" data-f="IMG"></i><i class="cell made off" data-i="46" data-f="VID"></i><i class="cell made off" data-i="47" data-f="UGC"></i><i class="cell made off" data-i="48" data-f="IMG"></i><i class="cell made off" data-i="49" data-f="IMG"></i><i class="cell made off" data-i="50" data-f="UGC"></i><i class="cell made off" data-i="51" data-f="MOT"></i><i class="cell made win v2" data-i="52" data-f="MOT"></i><i class="cell made off" data-i="53" data-f="IMG"></i><i class="cell made off" data-i="54" data-f="IMG"></i><i class="cell made off" data-i="55" data-f="VID"></i><i class="cell made off" data-i="56" data-f="UGC"></i><i class="cell made off" data-i="57" data-f="UGC"></i><i class="cell made off" data-i="58" data-f="VID"></i><i class="cell made off" data-i="59" data-f="IMG"></i></div>
+          <div class="month-best" aria-hidden="true">
+            <p class="best-l">Your current best ads</p>
+            <div class="best-grid"><i class="cell best" data-f="IMG"></i><i class="cell best" data-f="VID"></i><i class="cell best" data-f="UGC"></i></div>
+          </div>
+        </div>
+        <p class="month-line" aria-live="polite" data-l1="15 new ads go live next to your best ads. I touch nothing for a week." data-l2="Week 1 is decided on a full week of numbers. Most come off. The winners get more budget. 15 more go live." data-l3="Week 2 is decided the same way. 15 more go live." data-l4="Week 3 is decided. The last 15 go live." data-l5="60 made. 5 kept. Each winner gets new versions next month.">60 made. 5 kept. Each winner gets new versions next month.</p>
+        <p class="month-legend" aria-hidden="true"><span><i class="lg live"></i>Live, not decided yet</span><span><i class="lg made"></i>Made and tested</span><span><i class="lg off"></i>Switched off</span><span><i class="lg win"></i>Winner, more budget</span></p>
+        <figcaption>An illustration of how a month runs, not one client's real split. The share of winners changes every month.</figcaption>
+      </figure>
+
+      <div class="src">
+        <h3 class="src-h">Where the words come from</h3>
+        <ol class="src-list">
+          <li><b>Your reviews</b><span>I read at least 1,500 reviews, yours and your competitors', before I write one line.</span></li>
+          <li><b>Reddit and forums</b><span>How people describe the problem when no brand is listening.</span></li>
+          <li><b>Your past ads</b><span>What already sold for you, and why it worked.</span></li>
+          <li><b>Competitor ads that ran for months</b><span>An ad that has run for months is usually an ad that makes money. I work out why, then make something new. I never copy.</span></li>
+        </ol>
       </div>
+
+      <div class="formats">
+        <p class="formats-k">Formats</p>
+        <ul><li>Image ads</li><li>Explainer reels</li><li>UGC-style videos</li><li>Motion graphics</li><li>Founder videos</li><li>English and Hinglish</li></ul>
+      </div>
+    </div>
+
+    <div class="reel">
+      <div class="reel-head in">
+        <p class="reel-k">19 image ads I made for this page</p>
+        <p class="reel-note">Made-up brands, real formats. Client work stays private. Swipe sideways.</p>
+      </div>
+      <div class="reel-track" role="region" tabindex="0" aria-label="Sample ads, scroll sideways">
+        <img src="img/posts/p01_coldbrew.webp" srcset="img/posts/p01_coldbrew.webp 1x, img/posts/p01_coldbrew@2.webp 2x" alt="Sample ad: cold brew coffee" width="360" height="530" loading="lazy">
+        <img src="img/posts/p04_serum.webp" srcset="img/posts/p04_serum.webp 1x, img/posts/p04_serum@2.webp 2x" alt="Sample ad: face serum" width="360" height="530" loading="lazy">
+        <img src="img/posts/p03_brass.webp" srcset="img/posts/p03_brass.webp 1x, img/posts/p03_brass@2.webp 2x" alt="Sample ad: brass home decor" width="360" height="530" loading="lazy">
+        <img src="img/posts/p15_ugc_granola.webp" srcset="img/posts/p15_ugc_granola.webp 1x, img/posts/p15_ugc_granola@2.webp 2x" alt="Sample ad: UGC-style granola post" width="360" height="530" loading="lazy">
+        <img src="img/posts/p02_hotsauce.webp" srcset="img/posts/p02_hotsauce.webp 1x, img/posts/p02_hotsauce@2.webp 2x" alt="Sample ad: hot sauce" width="360" height="530" loading="lazy">
+        <img src="img/posts/p11_hairoil.webp" srcset="img/posts/p11_hairoil.webp 1x, img/posts/p11_hairoil@2.webp 2x" alt="Sample ad: hair oil" width="360" height="530" loading="lazy">
+        <img src="img/posts/p06_dog.webp" srcset="img/posts/p06_dog.webp 1x, img/posts/p06_dog@2.webp 2x" alt="Sample ad: dog food" width="360" height="530" loading="lazy">
+        <img src="img/posts/p08_gin.webp" srcset="img/posts/p08_gin.webp 1x, img/posts/p08_gin@2.webp 2x" alt="Sample ad: gin" width="360" height="530" loading="lazy">
+        <img src="img/posts/p14_spf.webp" srcset="img/posts/p14_spf.webp 1x, img/posts/p14_spf@2.webp 2x" alt="Sample ad: sunscreen" width="360" height="530" loading="lazy">
+        <img src="img/posts/p10_vase.webp" srcset="img/posts/p10_vase.webp 1x, img/posts/p10_vase@2.webp 2x" alt="Sample ad: ceramic vase" width="360" height="530" loading="lazy">
+        <img src="img/posts/p13_honey.webp" srcset="img/posts/p13_honey.webp 1x, img/posts/p13_honey@2.webp 2x" alt="Sample ad: honey" width="360" height="530" loading="lazy">
+        <img src="img/posts/p09_bar.webp" srcset="img/posts/p09_bar.webp 1x, img/posts/p09_bar@2.webp 2x" alt="Sample ad: protein bar" width="360" height="530" loading="lazy">
+        <img src="img/posts/p05_candle.webp" srcset="img/posts/p05_candle.webp 1x, img/posts/p05_candle@2.webp 2x" alt="Sample ad: candle" width="360" height="530" loading="lazy">
+        <img src="img/posts/p12_soda.webp" srcset="img/posts/p12_soda.webp 1x, img/posts/p12_soda@2.webp 2x" alt="Sample ad: soda" width="360" height="530" loading="lazy">
+        <img src="img/posts/p18_wok.webp" srcset="img/posts/p18_wok.webp 1x, img/posts/p18_wok@2.webp 2x" alt="Sample ad: wok" width="360" height="530" loading="lazy">
+        <img src="img/posts/p07_oliveoil.webp" srcset="img/posts/p07_oliveoil.webp 1x, img/posts/p07_oliveoil@2.webp 2x" alt="Sample ad: olive oil" width="360" height="530" loading="lazy">
+        <img src="img/posts/p19_cat.webp" srcset="img/posts/p19_cat.webp 1x, img/posts/p19_cat@2.webp 2x" alt="Sample ad: cat product" width="360" height="530" loading="lazy">
+        <img src="img/posts/p20_bowls.webp" srcset="img/posts/p20_bowls.webp 1x, img/posts/p20_bowls@2.webp 2x" alt="Sample ad: ceramic bowls" width="360" height="530" loading="lazy">
+        <img src="img/posts/p17_face.webp" srcset="img/posts/p17_face.webp 1x, img/posts/p17_face@2.webp 2x" alt="Sample ad: skincare" width="360" height="530" loading="lazy">
+      </div>
+      <div class="in sec-cta"><p>Want 60 new ads a month beside your best ones?</p><a class="btn sticker" href="#check" data-want="ads">Talk to me about ads<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></div>
     </div>
   </section>
 
-  <!-- 4: what I do, told down the funnel the swarm pours through -->
-  <section class="work" id="work" aria-labelledby="work-h">
-    <div class="funnel-tags" aria-hidden="true">
-      <span class="ft ft-top mono">Every ad you run</span>
-      <span class="ft ft-mid mono">Losers drop out</span>
-      <span class="ft ft-bot mono">Sales</span>
-    </div>
-    <div class="work-in">
-      <div class="work-head">
-        <p class="sec-k mono" data-decode>What I do</p>
-        <h2 class="sec-h" id="work-h">From the thumb-stop to <em>the sale.</em></h2>
+  <!-- 02 website fixes -->
+  <section class="sec cro" id="cro" aria-labelledby="cro-h">
+    <div class="in">
+      <div class="split">
+        <div>
+          <p class="sec-k" data-r><span class="num">02</span>Website fixes</p>
+          <h2 class="sec-h" id="cro-h" data-r>Your ad gets the click. <em>Your page decides the sale.</em></h2>
+        </div>
+        <div class="sec-body">
+          <p>When sales slow, the ads get the blame. Often the page is the leak. I shop your site on a phone, the way someone fresh off an Instagram ad does, and write down everything that made me hesitate.</p>
+          <p>Agencies call this CRO, conversion rate optimisation. I call it finding what stops the sale. Every change comes as a before and after picture with one plain line on why it sells more. No jargon. No 40-page deck.</p>
+        </div>
       </div>
+
+      <div class="tears">
+        <div class="tears-top">
+          <h3 class="tears-h">Three real stores, three fixes each. <span>Drag the line to compare before and after.</span></h3>
+          <div class="tabs" role="tablist" aria-label="Store checks">
+            <button role="tab" type="button" aria-selected="true" aria-controls="t-olipop" id="tab-olipop">OLIPOP</button>
+            <button role="tab" type="button" aria-selected="false" aria-controls="t-bummer" id="tab-bummer">Bummer</button>
+            <button role="tab" type="button" aria-selected="false" aria-controls="t-sarkar" id="tab-sarkar">Sarkar</button>
+          </div>
+        </div>
+
+        <div class="tear" id="t-olipop" role="tabpanel" aria-labelledby="tab-olipop">
+          <p class="tear-meta">OLIPOP, prebiotic soda, US. Checked on their live site, 7 Nov 2026.</p>
+          <div class="chg-row">
+            <article class="chg">
+              <figure class="cmp" style="aspect-ratio: 780 / 741"><img class="cmp-a" src="img/cro/olipop-1-after.webp" alt="After: a box above Add to Cart says one 12 pack ships for $3.99 and two ship free, with an Add 2 button" width="780" height="741" loading="lazy"><div class="cmp-b"><img src="img/cro/olipop-1-before.webp" alt="Before: One Time $35.99 and Add to Cart, with nothing about shipping" width="780" height="741" loading="lazy"></div><i class="cmp-h" aria-hidden="true"><b>Drag</b></i><span class="cmp-l l-b">Before, live</span><span class="cmp-l l-a">After, my fix</span><input class="cmp-r" type="range" min="0" max="100" value="50" aria-label="Before and after: tell one-pack buyers that 2 packs ship free"></figure>
+              <h4><span>1</span>Tell one-pack buyers that 2 packs ship free</h4>
+              <p>One 12 pack is $35.99 (about Rs 3,000). It sits under the $50 free-shipping line, so it pays $3.99 shipping (about Rs 330). Say so on the product page and offer the second pack right there. More people take two.</p>
+            </article>
+            <article class="chg">
+              <figure class="cmp" style="aspect-ratio: 780 / 1016"><img class="cmp-a" src="img/cro/olipop-2-after.webp" alt="After: 50 calories, 5g sugar and 9g prebiotic fiber shown right under the name" width="780" height="1016" loading="lazy"><div class="cmp-b"><img src="img/cro/olipop-2-before.webp" alt="Before: the first screen shows the name and a holiday line, no calories or sugar" width="780" height="1016" loading="lazy"></div><i class="cmp-h" aria-hidden="true"><b>Drag</b></i><span class="cmp-l l-b">Before, live</span><span class="cmp-l l-a">After, my fix</span><input class="cmp-r" type="range" min="0" max="100" value="50" aria-label="Before and after: calories and sugar on the first screen"></figure>
+              <h4><span>2</span>Put calories and sugar on the first screen</h4>
+              <p>A shopper from an ad came for one answer: why this beats regular soda. The answer, 50 calories and 5g sugar, sits three screens down. Put it under the price.</p>
+            </article>
+            <article class="chg">
+              <figure class="cmp" style="aspect-ratio: 780 / 741"><img class="cmp-a" src="img/cro/olipop-3-after.webp" alt="After: a 45-day money-back guarantee box right under Add to Cart" width="780" height="741" loading="lazy"><div class="cmp-b"><img src="img/cro/olipop-3-before.webp" alt="Before: no guarantee anywhere near the Add to Cart button" width="780" height="741" loading="lazy"></div><i class="cmp-h" aria-hidden="true"><b>Drag</b></i><span class="cmp-l l-b">Before, live</span><span class="cmp-l l-a">After, my fix</span><input class="cmp-r" type="range" min="0" max="100" value="50" aria-label="Before and after: the 45-day guarantee next to Add to Cart"></figure>
+              <h4><span>3</span>Put the 45-day guarantee next to Add to Cart</h4>
+              <p>Twelve cans of a flavour you have never tried feels like a gamble. OLIPOP already promises a 45-day guarantee, but only in the cart and the footer. Say it where the doubt is.</p>
+            </article>
+          </div>
+          <p class="tear-close">3 changes from a 7 Nov 2026 check.</p>
+        </div>
+
+        <div class="tear" id="t-bummer" role="tabpanel" aria-labelledby="tab-bummer" hidden>
+          <p class="tear-meta">Bummer, underwear and socks, India. Checked on their live site, 2 Nov 2026.</p>
+          <div class="chg-row">
+            <article class="chg">
+              <figure class="cmp" style="aspect-ratio: 780 / 728"><img class="cmp-a" src="img/cro/bummer-1-after.webp" alt="After: under the price, a box offering 2 pairs for 1,078 rupees and 10% off a second pair" width="780" height="728" loading="lazy"><div class="cmp-b"><img src="img/cro/bummer-1-before.webp" alt="Before: under the 599 rupee price, a pay-later EMI box" width="780" height="728" loading="lazy"></div><i class="cmp-h" aria-hidden="true"><b>Drag</b></i><span class="cmp-l l-b">Before, live</span><span class="cmp-l l-a">After, my fix</span><input class="cmp-r" type="range" min="0" max="100" value="50" aria-label="Before and after: sell the second pair under the price"></figure>
+              <h4><span>1</span>Under the price, sell the second pair, not EMI</h4>
+              <p>Nobody needs EMI (paying in monthly instalments) on a Rs 599 pair (about $7). The spot under the price is the first thing people read after the price. Use it for the offer that makes the order bigger.</p>
+            </article>
+            <article class="chg">
+              <figure class="cmp" style="aspect-ratio: 780 / 741"><img class="cmp-a" src="img/cro/bummer-2-after.webp" alt="After: a fit note from 1,296 reviews sits right above the size buttons" width="780" height="741" loading="lazy"><div class="cmp-b"><img src="img/cro/bummer-2-before.webp" alt="Before: size buttons with no fit help" width="780" height="741" loading="lazy"></div><i class="cmp-h" aria-hidden="true"><b>Drag</b></i><span class="cmp-l l-b">Before, live</span><span class="cmp-l l-a">After, my fix</span><input class="cmp-r" type="range" min="0" max="100" value="50" aria-label="Before and after: fit help at the size buttons"></figure>
+              <h4><span>2</span>Say how it fits, right at the size buttons</h4>
+              <p>"Will it fit?" is the big worry with underwear online. Their 1,296 reviews already answer it, four screens down. Say it at the size buttons, where people pick.</p>
+            </article>
+            <article class="chg">
+              <figure class="cmp" style="aspect-ratio: 780 / 988"><img class="cmp-a" src="img/cro/bummer-3-after.webp" alt="After: a sold out label and a WhatsApp restock alert on the boxers page" width="780" height="988" loading="lazy"><div class="cmp-b"><img src="img/cro/bummer-3-before.webp" alt="Before: sold out boxers shown with no label" width="780" height="988" loading="lazy"></div><i class="cmp-h" aria-hidden="true"><b>Drag</b></i><span class="cmp-l l-b">Before, live</span><span class="cmp-l l-a">After, my fix</span><input class="cmp-r" type="range" min="0" max="100" value="50" aria-label="Before and after: sold out label and restock alert"></figure>
+              <h4><span>3</span>Say "sold out" on the card, and collect a restock alert</h4>
+              <p>Every boxer was sold out, yet the page looked open for business. Say so, and offer a WhatsApp ping when sizes return. A dead end becomes a lead.</p>
+            </article>
+          </div>
+          <p class="tear-close">3 of the 9 changes in the full report.</p>
+        </div>
+
+        <div class="tear" id="t-sarkar" role="tabpanel" aria-labelledby="tab-sarkar" hidden>
+          <p class="tear-meta">Sarkar, perfume, India. Checked on their live site, 2 Nov 2026.</p>
+          <div class="chg-row">
+            <article class="chg">
+              <figure class="cmp" style="aspect-ratio: 780 / 1092"><img class="cmp-a" src="img/cro/sarkar-1-after.webp" alt="After: the 1,999 rupee checkout price shown big under the product name" width="780" height="1092" loading="lazy"><div class="cmp-b"><img src="img/cro/sarkar-1-before.webp" alt="Before: 2,199 rupees shown big, the lower checkout price in tiny text at the bottom" width="780" height="1092" loading="lazy"></div><i class="cmp-h" aria-hidden="true"><b>Drag</b></i><span class="cmp-l l-b">Before, live</span><span class="cmp-l l-a">After, my fix</span><input class="cmp-r" type="range" min="0" max="100" value="50" aria-label="Before and after: make the checkout price the big price"></figure>
+              <h4><span>1</span>Make the checkout price the big price</h4>
+              <p>People decide on the biggest number they see. Rs 2,199 (about $26) was big. The real checkout price, Rs 1,999 (about $24), sat in tiny text at the bottom. Swap them.</p>
+            </article>
+            <article class="chg">
+              <figure class="cmp" style="aspect-ratio: 780 / 862"><img class="cmp-a" src="img/cro/sarkar-2-after.webp" alt="After: the home banner says what it is, the Buy 2 deal and a shop button" width="780" height="862" loading="lazy"><div class="cmp-b"><img src="img/cro/sarkar-2-before.webp" alt="Before: a Payday Party banner with no product, deal or button" width="780" height="862" loading="lazy"></div><i class="cmp-h" aria-hidden="true"><b>Drag</b></i><span class="cmp-l l-b">Before, live</span><span class="cmp-l l-a">After, my fix</span><input class="cmp-r" type="range" min="0" max="100" value="50" aria-label="Before and after: product, deal and button on the first screen"></figure>
+              <h4><span>2</span>Say what it is and what the deal is, on the first screen</h4>
+              <p>The home banner had no product, no deal and no button. Someone arriving from an ad needs all three at once. One line and a button turn the banner into a shop window.</p>
+            </article>
+            <article class="chg">
+              <figure class="cmp" style="aspect-ratio: 780 / 741"><img class="cmp-a" src="img/cro/sarkar-3-after.webp" alt="After: 4.0 stars from 998 reviews under the product name" width="780" height="741" loading="lazy"><div class="cmp-b"><img src="img/cro/sarkar-3-before.webp" alt="Before: no star rating near the product name" width="780" height="741" loading="lazy"></div><i class="cmp-h" aria-hidden="true"><b>Drag</b></i><span class="cmp-l l-b">Before, live</span><span class="cmp-l l-a">After, my fix</span><input class="cmp-r" type="range" min="0" max="100" value="50" aria-label="Before and after: show the star rating under the name"></figure>
+              <h4><span>3</span>Show the star rating under the name</h4>
+              <p>998 people had rated this perfume, but the stars sat six screens down. Beside the name, they build trust before the shopper even reaches the price.</p>
+            </article>
+          </div>
+          <p class="tear-close">3 of the 9 changes in the full report.</p>
+        </div>
+        <p class="tears-note">Not my clients. Public pages, checked on the dates shown. The after pictures are my mockups, built only from facts already on each site.</p>
+      </div>
+
+      <!-- the offer -->
+      <div class="offer" id="check">
+        <div class="offer-free">
+          <p class="offer-k">Free</p>
+          <h3 class="offer-h">Your free top 3 fixes, in your inbox within 24 hours.</h3>
+          <p class="offer-p">Send your website. I shop it on a phone like a stranger off an ad and email you the 3 changes I'd make first, each with a picture and the reason it sells more.</p>
+          <form class="check-form" method="post" action="https://formsubmit.co/soumilgarg1111@gmail.com">
+            <input type="hidden" name="_subject" value="Free top 3 fixes (sent without JavaScript)"><input type="hidden" name="_template" value="table"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_next" value="https://soumilgarg.com/sent.html">
+            <label class="fld"><span>Your website</span><input name="website" type="text" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="yourbrand.com" required></label>
+            <label class="fld"><span>Your email</span><input name="email" type="email" autocomplete="email" placeholder="you@yourbrand.com" required></label>
+            <fieldset class="want"><legend>I also want to talk about</legend>
+              <label><input type="checkbox" name="want_ads" value="yes"><span>60 new ads a month</span></label>
+              <label><input type="checkbox" name="want_account" value="yes"><span>Running my ad account</span></label>
+              <label><input type="checkbox" name="full_report" value="yes"><span>The full report, $100</span></label>
+            </fieldset>
+            <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button class="btn red" type="submit"><span class="sb-t">Get my free top 3 fixes</span><svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></button>
+            <p class="form-time" hidden></p>
+            <p class="form-err" role="alert" hidden></p>
+            <p class="form-note">No call. No access to your accounts. Yours to keep.</p>
+          </form>
+          <div class="form-ok" role="status" hidden>
+            <p class="ok-h">Got it.</p>
+            <p class="ok-p">Your free top 3 fixes for <b class="ok-site"></b> reach <b class="ok-mail"></b> <span class="ok-when">within 24 hours</span>.</p>
+          </div>
+
+          <details class="mail">
+            <summary>See the email you'll get<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 5l4 4 4-4"/></svg></summary>
+            <div class="mail-in">
+              <p class="mail-k">What the email looks like. This one uses the OLIPOP check from 7 Nov 2026. OLIPOP did not ask for it.</p>
+              <p class="mail-subj"><span>Subject</span>Your top 3 fixes for drinkolipop.com</p>
+              <p>Hi, I shopped your site on my phone like someone fresh off an Instagram ad. These are the three changes I'd make first.</p>
+              <h4>1. Tell one-pack buyers that 2 packs ship free</h4>
+              <p>One 12 pack is $35.99 and pays $3.99 shipping under your $50 free-shipping line. Say so on the product page and offer the second pack right there. More people take two.</p>
+              <figure><img src="img/cro/olipop-1-after.webp" alt="After picture for fix 1: a box above Add to Cart says one 12 pack ships for $3.99 and two ship free, with an Add 2 button" width="780" height="741" loading="lazy"><figcaption>After, my mockup</figcaption></figure>
+              <h4>2. Put calories and sugar on the first screen</h4>
+              <p>50 calories and 5g sugar sit three screens down. Those are the two numbers a new shopper came for. Put them under the price.</p>
+              <figure><img src="img/cro/olipop-2-after.webp" alt="After picture for fix 2: 50 calories, 5g sugar and 9g prebiotic fiber shown right under the name" width="780" height="1016" loading="lazy"><figcaption>After, my mockup</figcaption></figure>
+              <h4>3. Put the 45-day guarantee next to Add to Cart</h4>
+              <p>Your 45-day guarantee shows only in the cart and footer. Put it next to Add to Cart, where the doubt is.</p>
+              <figure><img src="img/cro/olipop-3-after.webp" alt="After picture for fix 3: a 45-day money-back guarantee box right under Add to Cart" width="780" height="741" loading="lazy"><figcaption>After, my mockup</figcaption></figure>
+              <p>If you want every change worth making, page by page, the full report is $100. No pressure. These three are yours either way.</p>
+              <p class="mail-sig">Soumil<br><span>linkedin.com/in/soumil-garg</span></p>
+            </div>
+          </details>
+        </div>
+
+        <div class="offer-full">
+          <p class="offer-k">Full report</p>
+          <p class="price"><b>$100</b><span>one time</span></p>
+          <h3 class="offer-h">Every change worth making, page by page.</h3>
+          <ul class="ticks">
+            <li>Home page, product lists, product pages, cart and checkout, all on a phone</li>
+            <li>A before and after picture for every change</li>
+            <li>One plain line on why each change sells more</li>
+            <li>Built on a 265-point checklist</li>
+            <li>The Bummer and Sarkar reports had 9 changes each</li>
+          </ul>
+
+          <div class="report">
+            <p class="report-k">This is the whole Bummer report. Nine changes, nine pages.</p>
+            <div class="rp-wrap">
+              <button class="rp-nav prev" type="button" aria-label="Previous page"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2L4 7l5 5"/></svg></button>
+              <div class="rp-track" role="region" tabindex="0" aria-label="Report pages, swipe sideways">
+                <a class="rp" href="img/report/bummer-01@2.webp" data-n="1" data-tall="img/report/bummer-01-tall.webp"><img src="img/report/bummer-01.webp" alt="Bummer report, change 1 of 9: before and after picture with one line on why it sells more" width="780" height="839"></a>
+                <a class="rp" href="img/report/bummer-02@2.webp" data-n="2" data-tall="img/report/bummer-02-tall.webp"><img src="img/report/bummer-02.webp" alt="Bummer report, change 2 of 9: before and after picture with one line on why it sells more" width="780" height="839"></a>
+                <a class="rp" href="img/report/bummer-03@2.webp" data-n="3" data-tall="img/report/bummer-03-tall.webp"><img src="img/report/bummer-03.webp" alt="Bummer report, change 3 of 9: before and after picture with one line on why it sells more" width="780" height="839" loading="lazy"></a>
+                <a class="rp" href="img/report/bummer-04@2.webp" data-n="4" data-tall="img/report/bummer-04-tall.webp"><img src="img/report/bummer-04.webp" alt="Bummer report, change 4 of 9: before and after picture with one line on why it sells more" width="780" height="839" loading="lazy"></a>
+                <a class="rp" href="img/report/bummer-05@2.webp" data-n="5" data-tall="img/report/bummer-05-tall.webp"><img src="img/report/bummer-05.webp" alt="Bummer report, change 5 of 9: before and after picture with one line on why it sells more" width="780" height="839" loading="lazy"></a>
+                <a class="rp" href="img/report/bummer-06@2.webp" data-n="6" data-tall="img/report/bummer-06-tall.webp"><img src="img/report/bummer-06.webp" alt="Bummer report, change 6 of 9: before and after picture with one line on why it sells more" width="780" height="839" loading="lazy"></a>
+                <a class="rp" href="img/report/bummer-07@2.webp" data-n="7" data-tall="img/report/bummer-07-tall.webp"><img src="img/report/bummer-07.webp" alt="Bummer report, change 7 of 9: before and after picture with one line on why it sells more" width="780" height="839" loading="lazy"></a>
+                <a class="rp" href="img/report/bummer-08@2.webp" data-n="8" data-tall="img/report/bummer-08-tall.webp"><img src="img/report/bummer-08.webp" alt="Bummer report, change 8 of 9: before and after picture with one line on why it sells more" width="780" height="839" loading="lazy"></a>
+                <a class="rp" href="img/report/bummer-09@2.webp" data-n="9" data-tall="img/report/bummer-09-tall.webp"><img src="img/report/bummer-09.webp" alt="Bummer report, change 9 of 9: before and after picture with one line on why it sells more" width="780" height="839" loading="lazy"></a>
+                <div class="rp rp-end"><p>Built on a public store, not a client. Bummer did not order this. Yours covers your own store the same way: every change as a before and after picture, one plain line on why it sells more.</p></div>
+              </div>
+              <button class="rp-nav next" type="button" aria-label="Next page"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M5 2l5 5-5 5"/></svg></button>
+            </div>
+            <p class="rp-foot"><span class="rp-count" aria-live="polite">Change 1 of 9</span><span class="rp-dots" aria-hidden="true"></span></p>
+            <p class="rp-hint">Tap a page to read it full size.</p>
+          </div>
+          <p class="offer-p small">Tick "The full report" in the form. Your free top 3 fixes come first. If you want the rest, I send a payment link and a delivery date.</p>
+        </div>
+      </div>
+      <dialog class="rpd" aria-label="Bummer report page, full size">
+        <button class="rpd-close" type="button">Close</button>
+        <div class="rpd-scroll" tabindex="-1"><img alt="" width="1560" height="1678"></div>
+      </dialog>
+    </div>
+  </section>
+
+  <!-- 03 ad accounts -->
+  <section class="sec dark accounts" id="accounts" aria-labelledby="acc-h">
+    <div class="in">
+      <div class="split">
+        <div>
+          <p class="sec-k" data-r><span class="num">03</span>Ad account management</p>
+          <h2 class="sec-h" id="acc-h" data-r>I run your ad account myself. <em>Every morning.</em></h2>
+        </div>
+        <div class="sec-body">
+          <p>No account manager passing notes. I open your account every morning myself so nothing breaks unseen, and you get a short note on WhatsApp. The big calls, what comes off, what gets more budget, what to test next, I make once a week on a full week of numbers. Never on one bad day.</p>
+        </div>
+      </div>
+
+      <div class="acc-grid">
+        <ul class="facts">
+          <li><b>Every morning</b><span>I open every account I run, every day. Right now that is 9 accounts.</span></li>
+          <li><b>WhatsApp with me</b><span>A group with me in it, not a ticket queue. Replies within 12 hours.</span></li>
+          <li><b>Real orders</b><span>Weekly reports from your store's own orders, with Meta's count beside them.</span></li>
+          <li><b>Your account stays yours</b><span>It stays in your Business Manager. I work in it as a partner. Leave, and nothing leaves with me.</span></li>
+          <li><b>Month to month</b><span>No lock-in. Stop whenever you want.</span></li>
+          <li><b>Numbers, not mood</b><span>Budgets move on a full week of numbers, never on a hunch or one bad day. The week of notes beside this is how that looks.</span></li>
+        </ul>
+
+        <div class="week" aria-label="An example week of morning WhatsApp notes. Tap a day to read that morning's note.">
+          <p class="pm-k">A week of morning notes</p>
+          <div class="days" role="group" aria-label="Pick a day">
+            <button type="button" data-day="mon" aria-pressed="true">Mon</button><button type="button" data-day="tue" aria-pressed="false">Tue</button><button type="button" data-day="wed" aria-pressed="false">Wed</button><button type="button" data-day="thu" aria-pressed="false">Thu</button><button type="button" data-day="fri" aria-pressed="false">Fri</button><button type="button" data-day="sat" aria-pressed="false">Sat</button><button type="button" data-day="sun" aria-pressed="false">Sun</button>
+          </div>
+          <div class="notes">
+            <div class="note" data-day="mon"><p class="note-d">Monday</p>
+              <div class="pm-b out-b"><span data-inr="Morning. Yesterday: 22 orders, Rs 33,000 revenue, Rs 8,600 spent, 3.8 return on ad spend.">Morning. Yesterday: 22 orders, $1,540 revenue, $402 spent, 3.8 return on ad spend.</span><br><br>Week done, here is the call. The new kitchen video that looked dead on Tuesday finished the week as the best ad. More budget from today. Two older image ads come off. The next 15 go live this morning, next to your best three. Store report attached: 141 orders in your store this week, Meta counted 137.<small>8:38</small></div>
+            </div>
+            <div class="note" data-day="tue" hidden><p class="note-d">Tuesday</p>
+              <div class="pm-b out-b"><span data-inr="Morning. Yesterday: 17 orders, Rs 25,500 revenue, Rs 8,500 spent, 3.0 return on ad spend.">Morning. Yesterday: 17 orders, $1,190 revenue, $398 spent, 3.0 return on ad spend.</span><br><br><span data-inr="The new kitchen video is at 1 sale on Rs 1,200 after its first day. Looks bad. I am not touching it. One day is not a week.">The new kitchen video is at 1 sale on $58 after its first day. Looks bad. I am not touching it. One day is not a week.</span><small>8:38</small></div>
+            </div>
+            <div class="note" data-day="wed" hidden><p class="note-d">Wednesday</p>
+              <div class="pm-b out-b"><span data-inr="Morning. Yesterday: 20 orders, Rs 30,000 revenue, Rs 8,600 spent, 3.5 return on ad spend.">Morning. Yesterday: 20 orders, $1,400 revenue, $405 spent, 3.5 return on ad spend.</span><br><br>No changes today.<small>8:38</small></div>
+            </div>
+            <div class="note" data-day="thu" hidden><p class="note-d">Thursday</p>
+              <div class="pm-b out-b"><span data-inr="Morning. Yesterday: 19 orders, Rs 28,500 revenue, Rs 8,600 spent, 3.3 return on ad spend.">Morning. Yesterday: 19 orders, $1,330 revenue, $401 spent, 3.3 return on ad spend.</span><br><br>Nothing to change. The kitchen video is still last, still running.<small>8:38</small></div>
+            </div>
+            <div class="note" data-day="fri" hidden><p class="note-d">Friday</p>
+              <div class="pm-b out-b"><span data-inr="Morning. Yesterday: 23 orders, Rs 34,500 revenue, Rs 8,600 spent, 4.0 return on ad spend.">Morning. Yesterday: 23 orders, $1,610 revenue, $399 spent, 4.0 return on ad spend.</span><br><br>No changes today.<small>8:38</small></div>
+            </div>
+            <div class="note" data-day="sat" hidden><p class="note-d">Saturday</p>
+              <div class="pm-b out-b"><span data-inr="Morning. Yesterday: 19 orders, Rs 28,500 revenue, Rs 8,600 spent, 3.3 return on ad spend.">Morning. Yesterday: 19 orders, $1,330 revenue, $403 spent, 3.3 return on ad spend.</span><br><br>Nothing to act on. I decide on Monday with the full week.<small>8:38</small></div>
+            </div>
+            <div class="note" data-day="sun" hidden><p class="note-d">Sunday</p>
+              <div class="pm-b out-b"><span data-inr="Morning. Yesterday: 17 orders, Rs 25,500 revenue, Rs 8,500 spent, 3.0 return on ad spend.">Morning. Yesterday: 17 orders, $1,190 revenue, $397 spent, 3.0 return on ad spend.</span><small>8:38</small></div>
+              <div class="pm-b in-b">Should we pause the kitchen video? It looks weak.<small>11:20</small></div>
+              <div class="pm-b out-b">Not yet. Six days in. If it is still last tomorrow it comes off. If I kill it now, nobody finds out.<small>12:00</small></div>
+            </div>
+          </div>
+          <p class="pm-note">Example week. Numbers changed. The format is the real one.</p>
+          <p class="pm-note" data-inr="Return on ad spend is revenue divided by what the ads cost. 3.0 means Rs 3 back for every Rs 1 spent.">Return on ad spend is revenue divided by what the ads cost. 3.0 means $3 back for every $1 spent.</p>
+        </div>
+      </div>
+
+      <div class="proof">
+        <p class="proof-k">Proof</p>
+        <h3 class="proof-h">Three months of ads before me: 0 orders. <em>My first month: 334.</em></h3>
+        <div class="bars" role="group" aria-label="Orders by month. Tap a month.">
+          <button type="button" class="bar" aria-pressed="false" data-line="February 2025. Before me. 0 orders tracked." aria-label="February 2025, 0 orders, before me"><i style="--h:0"></i><b>0</b><span>Feb 25</span></button>
+          <button type="button" class="bar" aria-pressed="false" data-line="October 2025. Before me. 0 orders tracked." aria-label="October 2025, 0 orders, before me"><i style="--h:0"></i><b>0</b><span>Oct 25</span></button>
+          <button type="button" class="bar" aria-pressed="false" data-line="November 2025. Before me. 0 orders tracked." aria-label="November 2025, 0 orders, before me"><i style="--h:0"></i><b>0</b><span>Nov 25</span></button>
+          <button type="button" class="bar me" aria-pressed="false" data-line="May 2026. My first month. 334 orders." aria-label="May 2026, 334 orders, my first month"><i style="--h:1"></i><b>334</b><span>May 26</span></button>
+          <div class="bar-span" aria-hidden="true"><p class="span-l">May to Aug 2026: 1,471 orders</p><div class="span-months"><span>Jun 26</span><span>Jul 26</span><span>Aug 26</span></div></div>
+        </div>
+        <p class="bar-line" aria-live="polite">Tap a month.</p>
+        <p class="proof-src">Brand kept private. Before: Feb, Oct and Nov 2025. Me: May to Aug 2026. Orders tracked in Meta Ads Manager.</p>
+        <div class="sr"><table>
+          <caption>Orders by month, one D2C brand, from Meta Ads Manager</caption>
+          <tbody><tr><th>Feb 2025</th><td>0</td><td>before me</td></tr><tr><th>Oct 2025</th><td>0</td><td>before me</td></tr><tr><th>Nov 2025</th><td>0</td><td>before me</td></tr><tr><th>May 2026</th><td>334</td><td>my first month</td></tr><tr><th>May to Aug 2026</th><td>1,471</td><td>my first four months</td></tr></tbody>
+        </table></div>
+      </div>
+      <div class="sec-cta"><p>Want me in your ad account every morning?</p><a class="btn sticker" href="#check" data-want="account">Talk to me about your account<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></div>
+    </div>
+  </section>
+
+  <!-- how a month runs -->
+  <section class="sec how" id="how" aria-labelledby="how-h">
+    <div class="in">
+      <p class="sec-k" data-r>How a month runs</p>
+      <h2 class="sec-h" id="how-h" data-r>A month with me, <em>week by week.</em></h2>
       <ol class="steps">
-        <li class="step" data-band="0,0.34">
-          <span class="step-n" aria-hidden="true">01</span>
-          <h3>The <em>hook</em></h3>
-          <p>Ads people stop for: statics, short videos and explainer reels. Written in your customers' own words, taken from reviews, Reddit threads and your past ads.</p>
-          <div class="step-vis fan" aria-hidden="true">
-            <img src="img/posts/p09_bar.webp" alt="" width="360" height="530" loading="lazy">
-            <img src="img/posts/p14_spf.webp" alt="" width="360" height="530" loading="lazy">
-            <img src="img/posts/p19_cat.webp" alt="" width="360" height="530" loading="lazy">
-          </div>
-          <p class="fan-note mono">Ads I made for made-up brands</p>
-        </li>
-        <li class="step" data-band="0.3,0.62">
-          <span class="step-n" aria-hidden="true">02</span>
-          <h3>The <em>engine</em></h3>
-          <p>Meta campaigns built to learn fast. A clean structure, steady testing, and budgets moved on data, never on mood.</p>
-          <div class="step-vis chips" aria-hidden="true">
-            <span class="chip">Test a mix of hooks</span>
-            <span class="chip">Turn off the clear losers</span>
-            <span class="chip on">Make more like the winners</span>
-          </div>
-        </li>
-        <li class="step" data-band="0.58,0.84">
-          <span class="step-n" aria-hidden="true">03</span>
-          <h3>The <em>landing</em></h3>
-          <p>The page your ad sends people to. A great ad that lands on a slow, confusing page is money set on fire, so I fix the page too.</p>
-          <div class="step-vis audit" aria-hidden="true">
-            <span class="row"><b>01</b>Hero says nothing</span>
-            <span class="row"><b>02</b>Button too low</span>
-            <span class="row"><b>03</b>No reviews</span>
-          </div>
-        </li>
-        <li class="step" data-band="0.8,1">
-          <span class="step-n" aria-hidden="true">04</span>
-          <h3>The morning <em>check</em></h3>
-          <p>I open your account every morning and send you a short report on WhatsApp. You always know what you spent and what it brought back.</p>
-          <div class="step-vis chat" aria-hidden="true">
-            <div class="bub theirs">Morning! How did yesterday go?<small>8:31</small></div>
-            <div class="bub mine">Morning! Yesterday's numbers are below, plus the one thing I'm changing today.<small>8:38</small></div>
-          </div>
-        </li>
+        <li><span class="st-w">Week 1</span><b>Research, then the first 15 ads</b><span>At least 1,500 reviews, Reddit, your past ads and the competitor ads that have run for months. Out come the ideas worth testing, and the first 15 go live beside your best ads.</span></li>
+        <li><span class="st-w">Weeks 2 to 4</span><b>15 new ads every week</b><span>Each batch gets a full week of numbers before anything comes off. Losers come off, winners get more budget, and the next 15 go in.</span></li>
+        <li><span class="st-w">Every morning</span><b>The check</b><span>I open the account and send you a short WhatsApp note. Some mornings it is one line: no changes.</span></li>
+        <li><span class="st-w">Once a week</span><b>The big calls</b><span>What comes off, what gets more budget, what to test next. Made on a full week of numbers, with a report from your store's real orders.</span></li>
+        <li><span class="st-w">Month end</span><b>Next month's plan</b><span>The winners get new versions. The next 60 build on what sold.</span></li>
       </ol>
     </div>
   </section>
 
-  <!-- 5: proof, beside a globe of ads -->
-  <section class="sec proof" id="proof" aria-labelledby="proof-h">
-    <div class="proof-in">
-      <p class="sec-k mono" data-decode>Proof</p>
-      <h2 class="sec-h" id="proof-h">Not my first <em>feed.</em></h2>
-      <div class="stats">
-        <div class="stat"><b><span class="count" data-to="0">0</span><span class="u"> to </span><span class="count" data-to="334">334</span></b><span>orders a month for one D2C brand. Three months of ads before me sold nothing; my first month sold 334.</span></div>
-        <div class="stat"><b><span class="count" data-to="1471" data-fmt="us">1,471</span></b><span>orders for that brand in my first four months</span></div>
-        <div class="stat"><b><span class="count" data-to="9">9</span></b><span>ad accounts I open every morning</span></div>
+  <!-- about -->
+  <section class="sec dark about" id="about" aria-labelledby="about-h">
+    <div class="in about-in">
+      <figure class="me">
+        <img src="img/soumil-900.webp" srcset="img/soumil-520.webp 520w, img/soumil-900.webp 900w" sizes="(max-width: 860px) 92vw, 44vw" alt="Soumil Garg" width="900" height="900" loading="lazy">
+      </figure>
+      <div class="me-txt">
+        <p class="sec-k" data-r>About</p>
+        <h2 class="sec-h" id="about-h" data-r>Hi, I'm <em>Soumil.</em></h2>
+        <p>I run Meta ads for D2C brands in the US and India, mostly in food, home decor, personal care and supplements.</p>
+        <p>I write the ads, find the page fixes and run the accounts myself. The person who made your ad is the person reading its numbers the next morning. Nothing gets lost between three people.</p>
+        <p>I also built this site, ball, wall and all.</p>
+        <p class="me-links"><a href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">LinkedIn<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 10l6-6M5 4h5v5"/></svg></a></p>
       </div>
-      <p class="proof-src mono">Brand kept private. Before: Feb, Oct and Nov 2025. Me: May to Aug 2026. Source: Meta Ads Manager.</p>
     </div>
   </section>
 
-  <!-- 6: offer, beside a face made of ads -->
-  <section class="offer" id="offer" aria-labelledby="offer-h">
-    <div class="offer-pin">
-      <div class="offer-in">
-        <article class="offer-post">
-          <header class="op-head"><span class="op-av" aria-hidden="true">S</span><span><b>soumilgarg</b><small>Sponsored</small></span><span class="op-dots" aria-hidden="true">&middot;&middot;&middot;</span></header>
-          <div class="op-body">
-            <p class="sec-k mono" data-decode>The offer</p>
-            <h2 class="sec-h" id="offer-h">Three changes for your ads. <em>Free.</em></h2>
-            <p class="offer-body">Got my email? Just reply yes. Didn't get one? Send me your website. Within 24 hours you get the three changes I'd make first, taken from the ads you're running right now.</p>
-            <p class="offer-re">No call. No access to your ad account. Yours to keep either way.</p>
-          </div>
-          <a class="op-cta close-cta" href="mailto:soumil@soumilgarg.com?subject=Three%20changes%20for%20my%20ads&amp;body=My%20brand%27s%20website%3A%20"><span>Email me</span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M5 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
-          <div class="op-act"><span class="op-email mono">soumil@soumilgarg.com</span><a class="op-li" href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">Message me on LinkedIn</a></div>
-        </article>
-        <div class="me">
-          <img src="img/soumil.webp" alt="Soumil Garg" width="720" height="720" loading="lazy">
-          <p class="face-count mono" aria-hidden="true"></p>
-          <p class="me-line">I'm Soumil. I run Meta ads for D2C brands in the US and India, and I make most of the ads myself.</p>
-        </div>
+  <!-- faq -->
+  <section class="sec faq" id="faq" aria-labelledby="faq-h">
+    <div class="in faq-in">
+      <div>
+        <p class="sec-k" data-r>Questions</p>
+        <h2 class="sec-h" id="faq-h" data-r>Questions founders <em>ask me.</em></h2>
+      </div>
+      <div class="qs">
+        <details><summary>Why does the ball never hit the wall?</summary><p>Because the moment it hit, you would stop watching. While it still might, you wait. That is the first job of any ad: make a stranger stop and wait for what comes next. Most ads never manage it. Stopping is not buying, though. The rest of this page is what I do after that: 60 new ads a month, your free top 3 fixes, and running your ad account.</p></details>
+        <details><summary>Do I have to take all three?</summary><p>No. Each one works on its own. The free top 3 fixes are the easiest place to start.</p></details>
+        <details><summary>What does it cost?</summary><p>The free top 3 fixes cost nothing. The full website report is $100. Ads and account management are priced on a short call.</p></details>
+        <details><summary>Do you need access to my accounts for the free top 3 fixes?</summary><p>No. I only look at what a shopper sees on your site. No login, no call. You send the website, I send the email.</p></details>
+        <details><summary>How fast is it?</summary><p>Your free top 3 fixes reach your inbox within 24 hours. Type your website into the form and it shows you the exact hour, on your clock, before you send. For the full report, the delivery date comes with the payment link.</p></details>
+        <details><summary>Is the Bummer report on this page a real one?</summary><p>Yes. Real pages, checked on 2 Nov 2026, nine real changes. Bummer is not a client and did not order it. Your report covers your own store the same way: home page, product lists, product pages, cart and checkout, on a phone, one page per change.</p></details>
+        <details><summary>Why wait a full week before switching an ad off?</summary><p>Two days of numbers lie. An ad that looks dead on Tuesday can finish the week as the best one, and if I kill it early I never find out. So nothing comes off and no budget moves until a batch has a full week behind it. The month board and the week of notes above show the rule in action.</p></details>
+        <details><summary>Do you use the ads I already have?</summary><p>Yes. Your current best ads keep running. Every new batch of 15 goes live beside them, so the new ads have to beat what already sells for you.</p></details>
+        <details><summary>Why are the three stores on this page not your clients?</summary><p>Client work stays private. OLIPOP, Bummer and Sarkar are public stores I checked on the dates shown, so you can open each site and see the before for yourself.</p></details>
+        <details><summary>Who makes the changes in the report?</summary><p>You or your developer. Every change is a before and after picture with one plain line on why, so there is nothing to interpret.</p></details>
+        <details><summary>What do you need from me to run my account?</summary><p>Partner access to your Business Manager and a WhatsApp group. The account and everything in it stay yours.</p></details>
+        <details><summary>Who is this for?</summary><p>Brands that sell online and run Meta ads, or want to. Food, home decor, personal care and supplements are where I have done the most work, in the US and India.</p></details>
+        <details><summary>You're in India. Does that work for a US brand?</summary><p>Yes. I run accounts for brands in the US and India. Everything happens over WhatsApp or email, and I check your account every morning, whatever your time zone.</p></details>
+        <details><summary>Is there a contract?</summary><p>Ads and account management run month to month. Stop whenever you want. Your ad account stays in your Business Manager the whole time.</p></details>
       </div>
     </div>
-    <div class="offer-space" aria-hidden="true"></div>
+  </section>
+
+  <!-- last call -->
+  <section class="sec last" aria-labelledby="last-h">
+    <div class="in last-in">
+      <h2 class="last-h" id="last-h" data-r>Send your website. <em>Get your free top 3 fixes.</em></h2>
+      <p>In your inbox within 24 hours. No call, no login, no catch.</p>
+      <div class="last-actions">
+        <a class="btn red big" href="#check">Get my free top 3 fixes<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        <a class="btn ghost big" href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">Message me on LinkedIn</a>
+      </div>
+    </div>
   </section>
 </main>
 
 <footer class="foot">
-  <p class="giant" aria-label="Soumil Garg"></p>
+  <p class="giant" aria-hidden="true">Soumil Garg</p>
   <div class="foot-row">
-    <p class="foot-made mono">Designed and coded by me. Every brand in the feed is made up; the ads were made for this page.</p>
-    <nav aria-label="Footer">
-      <a href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:soumil@soumilgarg.com">Email</a>
-      <a href="privacy.html">Privacy</a>
-    </nav>
+    <p>Designed and coded by me. Every brand in the sample ads is made up. OLIPOP, Bummer and Sarkar are not my clients.</p>
+    <nav aria-label="Footer"><a href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">LinkedIn</a><a href="privacy.html">Privacy</a></nav>
   </div>
-  <p class="mono foot-c">&copy; 2026 Soumil Garg</p>
+  <p class="foot-c">© 2026 Soumil Garg</p>
 </footer>
 
-<script src="vendor/gsap.min.js" defer></script>
-<script src="vendor/ScrollTrigger.min.js" defer></script>
-<script src="vendor/lenis.min.js" defer></script>
-<script src="js/swarm.js?v=8" defer></script>
-<script src="js/sound.js?v=8" defer></script>
-<script src="js/main.js?v=8" defer></script>
+<script src="js/hero.js?v=9" defer onerror="document.documentElement.classList.add('rm','nohero')"></script>
+<script src="js/page.js?v=9" defer></script>
 </body>
 </html>
