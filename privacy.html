@@ -3,22 +3,210 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Privacy | Soumil Garg</title>
-<meta name="description" content="Privacy on soumilgarg.com: no cookies, no tracking, and what happens to the free top 3 fixes form.">
-<meta name="theme-color" content="#f3f1ec">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/v7.css?v=9">
+<title>Privacy · Soumil Garg</title>
+<meta name="description" content="What soumilgarg.com collects when you visit, why, and what you can do about it.">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://soumilgarg.com/privacy.html">
+<link rel="preload" href="assets/fonts/Geist-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css?v=23c53fa45e" data-screens-css>
+<script>document.documentElement.classList.add("js");try{var t=+sessionStorage.getItem("sg-tx");t&&Date.now()-t<8e3&&document.documentElement.classList.add("tx-enter")}catch{}</script>
+<style>
+  /* legal page: dark header band, one light reading column, the site footer */
+  html{scrollbar-width:none;-ms-overflow-style:none}
+  html::-webkit-scrollbar{width:0;height:0;display:none}
+  ::selection{background:#dfe5f7;color:#0d0d0d}
+  :focus-visible:not(input):not(textarea):not(select){outline:auto 10px #dfe5f7;outline-offset:5px;border-radius:5em}
+  .skip{position:fixed;left:50%;top:8px;z-index:50;transform:translate(-50%,-140%);opacity:0;padding:8px 14px;border-radius:15px;background:#f1f2f3;color:#0d0d0d;font-size:14px;text-decoration:none;transition:opacity .15s cubic-bezier(.25,.46,.45,.94),transform .15s cubic-bezier(.25,.46,.45,.94)}
+  .skip:focus{opacity:1;transform:translate(-50%,0)}
+  .pv-hero{position:relative;background:var(--dark);color:#f1f2f3;padding:calc(10vh + 96px) var(--m) clamp(56px,8vh,96px);overflow:hidden}
+  .pv-hero::after{content:"";position:absolute;left:-20%;top:-60%;width:90%;height:160%;border-radius:50%;border:2.6vw solid rgba(255,255,255,.05);
+    transform:rotate(31deg);filter:blur(49px);pointer-events:none}
+  .pv-updated{display:inline-flex;align-items:center;height:2.5rem;padding:0 .75rem;border-radius:1.1875rem;background:rgba(241,242,243,.06);
+    font-size:14px;color:var(--mute);position:relative;z-index:1}
+  .pv-title{position:relative;z-index:1;margin-top:24px;font-weight:400;font-size:clamp(64px,calc(3rem + 6vw),160px);line-height:.95;letter-spacing:-.06em}
+  .pv-body{background:var(--page);color:var(--dark);padding:clamp(64px,10vh,120px) var(--m) clamp(80px,12vh,140px)}
+  .pv-grid{display:grid;grid-template-columns:minmax(0,1fr) min(680px,100%);gap:var(--m);align-items:start}
+  .pv-toc{position:sticky;top:calc(10vh + 24px);display:flex;flex-direction:column;gap:2px;font-size:14px}
+  .pv-toc a{width:max-content;padding:6px 10px;margin-left:-10px;border-radius:12px;color:rgba(13,13,13,.5);text-decoration:none;
+    transition:color .3s cubic-bezier(.215,.61,.355,1),background-color .3s cubic-bezier(.215,.61,.355,1)}
+  .pv-toc a:hover{color:var(--dark);background:#10101008}
+  .pv-toc a.is-current{color:var(--dark)}
+  .pv-col{font-size:17px;line-height:1.55;color:rgba(13,13,13,.72)}
+  .pv-col .lead{font-size:clamp(20px,1.1rem + .5vw,26px);line-height:1.35;letter-spacing:-.02em;color:var(--dark)}
+  .pv-col section{padding-top:48px;scroll-margin-top:calc(10vh + 24px)}
+  .pv-col h2{font-weight:400;font-size:clamp(26px,1.3rem + .9vw,34px);line-height:1.1;letter-spacing:-.035em;color:var(--dark);margin-bottom:14px}
+  .pv-col p+p,.pv-col p+ul,.pv-col ul+p{margin-top:14px}
+  .pv-col ul{list-style:none;display:grid;gap:10px}
+  .pv-col li{position:relative;padding-left:20px}
+  .pv-col li::before{content:"";position:absolute;left:2px;top:.68em;width:6px;height:6px;border-radius:50%;background:rgba(13,13,13,.3)}
+  .pv-col a,.pv-inline{color:var(--dark);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(13,13,13,.3);
+    transition:text-decoration-color .3s cubic-bezier(.215,.61,.355,1)}
+  .pv-col a:hover,.pv-inline:hover{text-decoration-color:currentColor}
+  .pv-inline{font:inherit;padding:0;background:none;border:0;cursor:pointer}
+  .pv-todo{background:#f6efe2;border-radius:6px;padding:0 4px;color:var(--dark)}
+  /* reveals (only with JS and motion allowed) */
+  .js .pv-title .ch{display:inline-block;animation:pv-slide .55s cubic-bezier(.16,1,.3,1) backwards;animation-delay:calc(.15s + var(--i) * 30ms)}
+  .js .pv-title{animation:pv-blur .35s linear backwards .15s}
+  .js .pv-title .wm{display:inline-block;overflow:hidden;vertical-align:top;margin:-.14em -.06em;padding:.14em .06em}
+  @keyframes pv-slide{from{transform:translateY(130%)}}
+  @keyframes pv-blur{from{filter:blur(.08em)}}
+  .js .pv-up{opacity:0;transform:translateY(40px);filter:blur(.5rem);transition:opacity 1.2s cubic-bezier(.215,.61,.355,1),transform 1.2s cubic-bezier(.215,.61,.355,1),filter 1.2s cubic-bezier(.215,.61,.355,1)}
+  .js .pv-up.is-inview{opacity:1;transform:none;filter:none}
+  @media (max-width:991px){ .pv-grid{grid-template-columns:1fr} .pv-toc{display:none} }
+  @media (max-width:767px){
+    .nav{padding:16px var(--m) 0}
+    .pill-logo,.pill-menu{height:2.75rem;border-radius:1.3125rem}
+    .pill-logo{width:2.75rem}
+    .nav .pill-solid{height:2rem;border-radius:1rem}
+    .pv-hero{padding-top:calc(84px + 64px)}
+    .pv-col{font-size:16px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .js .pv-title,.js .pv-title .ch{animation:none}
+    .js .pv-up{opacity:1;transform:none;filter:none;transition:none}
+  }
+</style>
+<link rel="preload" href="js/vendor.js?v=2214d90312" as="script"><link rel="modulepreload" href="js/privacy.js?v=c64e31177b">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="nav solid"><a class="nav-name" href="/"><span class="nav-dot" aria-hidden="true"></span>Soumil Garg</a><div class="nav-r" style="margin-left:auto"><a class="btn red sm" href="/#check">Free top 3 fixes</a></div></header>
-<main id="main" class="plain">
-  <h1>Privacy</h1>
-  <p>This site uses no cookies, no analytics and no tracking.</p>
-  <p>If you use the free top 3 fixes form, I get the website and email you type in. I use them only to send you your fixes and, if you ask for the full report, a payment link. I don't sell or share them, and I'll delete them if you ask.</p>
-  <p>The form is passed to my inbox by a form service. The site is hosted on GitHub Pages, which may log visitors' IP addresses for security under its own privacy statement.</p>
-  <p>Questions? Message me on <a href="https://www.linkedin.com/in/soumil-garg/" target="_blank" rel="noopener">LinkedIn</a>.</p>
-  <a class="btn ghost" href="/">Back to the home page</a>
+<header class="nav" id="nav">
+  <div class="nav-blur" aria-hidden="true"></div>
+  <div class="nav-l">
+    <a class="pill pill-logo" href="index.html" aria-label="Soumil Garg, home">sg</a>
+    <button class="pill pill-menu" type="button" aria-label="Menu"><i class="menu-icon" aria-hidden="true"></i><span>Menu</span></button>
+  </div>
+  <div class="nav-r">
+    <a class="pill pill-solid" href="https://calendly.com/soumilgarg0888/new-meeting" target="_blank" rel="noopener">Book a call</a>
+  </div>
+</header>
+<nav class="wf-menu" id="navMenu" aria-label="Site menu" data-lenis-prevent inert>
+  <ul class="wf-menu-pri">
+    <li class="wf-menu-item" style="--ii:0"><a class="wf-menu-link" href="index.html" data-tr-menu>Home</a></li>
+    <li class="wf-menu-item" style="--ii:1"><a class="wf-menu-link" href="index.html#system" data-tr-menu>The Nerve System</a></li>
+    <li class="wf-menu-item" style="--ii:2"><a class="wf-menu-link" href="index.html#store-fixes" data-tr-menu>Store fixes</a></li>
+    <li class="wf-menu-item" style="--ii:3"><a class="wf-menu-link" href="index.html#winning-ads" data-tr-menu>Ads I learn from</a></li>
+    <li class="wf-menu-item" style="--ii:4"><a class="wf-menu-link" href="index.html#results" data-tr-menu>Results</a></li>
+    <li class="wf-menu-item" style="--ii:5"><a class="wf-menu-link" href="index.html#faq" data-tr-menu>FAQ</a></li>
+    <li class="wf-menu-item" style="--ii:6"><a class="wf-menu-link" href="https://calendly.com/soumilgarg0888/new-meeting" target="_blank" rel="noopener" data-tr-menu>Book a call</a></li>
+  </ul>
+  <ul class="wf-menu-sec">
+    <li class="wf-menu-sitem"><a href="https://www.linkedin.com/in/soumil-garg" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li class="wf-menu-sitem"><a href="mailto:soumilgarg1111@gmail.com">Email</a></li>
+  </ul>
+</nav>
+  <svg class="wf-defs" aria-hidden="true" focusable="false" width="0" height="0">
+    <symbol id="wf-i-arrow" viewBox="0 0 12 12"><path d="M2.25 6h7.5M6.6 2.85 9.75 6 6.6 9.15" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="wf-i-note" viewBox="0 0 12 12"><path d="M6 2v8M2.54 4 9.46 8M2.54 8 9.46 4" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></symbol>
+    <symbol id="wf-i-play" viewBox="0 0 16 16"><path d="M5.2 3.6v8.8a.5.5 0 0 0 .76.43l7.04-4.4a.5.5 0 0 0 0-.86L5.96 3.17a.5.5 0 0 0-.76.43Z" fill="currentColor"/></symbol>
+    <symbol id="wf-i-pause" viewBox="0 0 16 16"><path d="M5 3.5v9M11 3.5v9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="wf-i-sound" viewBox="0 0 16 16"><path d="M2.5 6.2h2.2L8 3.4v9.2L4.7 9.8H2.5Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M10.6 5.6a3.3 3.3 0 0 1 0 4.8M12.4 4a5.6 5.6 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></symbol>
+    <symbol id="wf-i-muted" viewBox="0 0 16 16"><path d="M2.5 6.2h2.2L8 3.4v9.2L4.7 9.8H2.5Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="m10.5 6 3.6 4M14.1 6l-3.6 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></symbol>
+    <symbol id="wf-i-chev" viewBox="0 0 16 16"><path d="M9.8 3.8 5.6 8l4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+<main id="main" tabindex="-1">
+  <section class="pv-hero" data-theme="dark">
+    <span class="pv-updated">Last updated 22 November 2026</span>
+    <h1 class="pv-title" id="pvTitle">Privacy</h1>
+  </section>
+  <article class="pv-body" data-theme="light">
+    <div class="pv-grid">
+      <nav class="pv-toc" aria-label="Sections">
+        <a href="#collect">What I collect</a>
+        <a href="#booking">Booking a call</a>
+        <a href="#emails">Emails</a>
+        <a href="#hosting">Hosting</a>
+        <a href="#who">Who else sees the data</a>
+        <a href="#change">Changing your mind</a>
+        <a href="#rights">Your rights</a>
+        <a href="#changes">Changes</a>
+      </nav>
+      <div class="pv-col">
+        <p class="lead pv-up">This page explains what soumilgarg.com collects when you visit, why, and what you can do about it. I'm Soumil Garg, based in India.</p>
+        <section id="collect" class="pv-up">
+          <h2>What I collect</h2>
+          <p>No tracking unless you say yes. There is no sign-up form or account to create. Your cookie choice is saved in your browser. Booking, email and hosting are covered below.</p>
+          <p>When you first arrive, a banner asks whether you accept cookies. If you click Reject or ignore it, no tracking tools load.</p>
+          <p>If you click Accept, three tools load:</p>
+          <ul>
+            <li>Microsoft Clarity records how people scroll and click, with typed text hidden, so I can fix parts of the page that confuse people. It also records which buttons you use, the link or campaign that brought you here, and any errors on the page.</li>
+          </ul>
+          <p>Clarity uses cookies and similar technology. It collects things like your device, browser, rough location from your IP address, and the pages you view. It does not give me your name or email. If you click through to book, Calendly is told which link or campaign you came from.</p>
+        </section>
+        <section id="booking" class="pv-up">
+          <h2>Booking a call</h2>
+          <p>Calls are booked through Calendly. When you book, Calendly collects the details you type in, such as your name and email, and shares them with me so I can run the call. Calendly's own privacy policy covers how it handles them.</p>
+        </section>
+        <section id="emails" class="pv-up">
+          <h2>Emails</h2>
+          <p>If you email me, I keep your email and my reply so I can answer you and follow up. I don't sell it or add you to a mailing list.</p>
+        </section>
+        <section id="hosting" class="pv-up">
+          <h2>Hosting</h2>
+          <p>The site is hosted on GitHub Pages. Like any web host, GitHub may log your IP address when the page loads, under its own privacy policy.</p>
+        </section>
+        <section id="who" class="pv-up">
+          <h2>Who else sees the data</h2>
+          <p>Only the companies named on this page: Google, Meta, Microsoft, Calendly and GitHub. Each one handles data under its own policy:</p>
+          <ul>
+            <li>Google: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></li>
+            <li>Meta: <a href="https://www.facebook.com/privacy/policy" target="_blank" rel="noopener">facebook.com/privacy/policy</a></li>
+            <li>Microsoft: <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">privacy.microsoft.com/privacystatement</a></li>
+            <li>Calendly: <a href="https://calendly.com/privacy" target="_blank" rel="noopener">calendly.com/privacy</a></li>
+            <li>GitHub: <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">docs.github.com/site-policy/privacy-policies/github-general-privacy-statement</a></li>
+          </ul>
+        </section>
+        <section id="change" class="pv-up">
+          <h2>Changing your mind</h2>
+          <p>You can turn the cookies off at any time with the <button type="button" class="pv-inline" data-cookie-settings>Cookie settings</button> link in the footer, or by clearing this site's cookies and site data in your browser. Turning them off stops new data from being collected.</p>
+        </section>
+        <section id="rights" class="pv-up">
+          <h2>Your rights</h2>
+          <p>You can ask me what I hold about you, ask me to correct it, or ask me to delete it. Email <a href="mailto:soumilgarg1111@gmail.com">soumilgarg1111@gmail.com</a> and I'll reply within 30 days. If you are in the EU or UK, you can also complain to your local data protection authority.</p>
+        </section>
+        <section id="changes" class="pv-up">
+          <h2>Changes</h2>
+          <p>If this page changes, the date at the top changes too.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+  <footer class="footer wf-foot" id="footer" data-theme="dark">
+    <div class="wf-foot-scene" aria-hidden="true" data-gl-scene="footer">
+      <canvas class="wf-scene-gl"></canvas>
+      <div class="wf-scene-shade"></div>
+    </div>
+    <div class="wf-foot-phones" aria-hidden="true">
+      <div class="wf-ph-track">
+        <div class="wf-ph"><div class="wf-ph-scr"><i class="wf-ph-bg" style="background-image:url(assets/ads/picks/sleepy_owl_coffee_926592760393383_bg.jpg)"></i><img src="assets/ads/picks/sleepy_owl_coffee_926592760393383_sm.webp" alt="" width="432" height="540" loading="lazy" decoding="async"><span class="wf-ph-ui"></span></div></div>
+        <div class="wf-ph"><div class="wf-ph-scr"><i class="wf-ph-bg" style="background-image:url(assets/ads/picks/giva_1317925740231727_bg.jpg)"></i><img src="assets/ads/picks/giva_1317925740231727_sm.webp" alt="" width="432" height="540" loading="lazy" decoding="async"><span class="wf-ph-ui"></span></div></div>
+        <div class="wf-ph"><div class="wf-ph-scr"><i class="wf-ph-bg" style="background-image:url(assets/ads/picks/the_souled_store_1420998273216879_bg.jpg)"></i><img src="assets/ads/picks/the_souled_store_1420998273216879_sm.webp" alt="" width="432" height="540" loading="lazy" decoding="async"><span class="wf-ph-ui"></span></div></div>
+        <div class="wf-ph"><div class="wf-ph-scr"><i class="wf-ph-bg" style="background-image:url(assets/ads/picks/neemans_1809156937117006_bg.jpg)"></i><img src="assets/ads/picks/neemans_1809156937117006_sm.webp" alt="" width="432" height="540" loading="lazy" decoding="async"><span class="wf-ph-ui"></span></div></div>
+        <div class="wf-ph"><div class="wf-ph-scr"><i class="wf-ph-bg" style="background-image:url(assets/ads/picks/wakefit_1255301093350351_bg.jpg)"></i><img src="assets/ads/picks/wakefit_1255301093350351_sm.webp" alt="" width="432" height="540" loading="lazy" decoding="async"><span class="wf-ph-ui"></span></div></div>
+      </div>
+    </div>
+    <div class="wf-foot-lock">
+      <h2 class="wf-h3 wf-foot-title" data-reveal="chars" data-scroll>One call.<br> I'll find your buyers' nerve.</h2>
+      <a class="btn btn--l btn--ghost on-dark" href="https://calendly.com/soumilgarg0888/new-meeting" target="_blank" rel="noopener"><span class="btn-icon is-hover" aria-hidden="true"><svg><use href="index.html#wf-i-arrow"/></svg></span><span class="btn-text" data-roll="chars">Book on Calendly</span><span class="btn-icon is-default" aria-hidden="true"><svg><use href="index.html#wf-i-arrow"/></svg></span></a>
+    </div>
+    <div class="wf-foot-base">
+      <nav class="wf-foot-cols" aria-label="Footer">
+        <div class="wf-foot-col"><p class="wf-foot-h">The system</p><a class="wf-foot-link" href="index.html#moves">Six moves</a><a class="wf-foot-link" href="index.html#store-fixes">Store fixes</a><a class="wf-foot-link" href="index.html#winning-ads">Ads I learn from</a><a class="wf-foot-link" href="index.html#results">Results</a></div>
+        <div class="wf-foot-col"><p class="wf-foot-h">Talk</p><a class="wf-foot-link" href="https://calendly.com/soumilgarg0888/new-meeting" target="_blank" rel="noopener">Book a call</a><a class="wf-foot-link" href="https://www.linkedin.com/in/soumil-garg" target="_blank" rel="noopener">LinkedIn</a><a class="wf-foot-link" href="mailto:soumilgarg1111@gmail.com">Email</a></div>
+        <div class="wf-foot-col wf-foot-more"><p class="wf-foot-h">More</p><a class="wf-foot-link" href="index.html#faq">FAQ</a><a class="wf-foot-link" href="privacy.html" aria-current="page">Privacy</a><a class="wf-foot-link" href="#cookie-settings" data-cookie-settings>Cookie settings</a></div>
+      </nav>
+      <div class="wf-foot-legal">
+        <p>© 2026 Soumil Garg. Charts and screens are illustrative. Dollar figures from Indian brands use purchasing power parity, not the exchange rate (<a href="https://data.worldbank.org/indicator/PA.NUS.PRVT.PP?locations=IN" target="_blank" rel="noopener">World Bank</a>, 2025: Rs 19.84 = $1).</p>
+        <p>Microsoft Clarity loads only after you accept.</p>
+        <p>Ads from Aqualens, Bewakoof, Giva, Neemans, Sereko, Sleepy Owl, The Souled Store and Wakefit are shown for study: not my work, and not my clients. All trademarks belong to their owners.</p>
+      </div>
+      <a class="wf-foot-mark" href="index.html" aria-label="Soumil Garg, back to top"><span class="wf-foot-sg" aria-hidden="true">sg</span><span>Soumil Garg</span></a>
+    </div>
+  </footer>
 </main>
+<script src="js/vendor.js?v=2214d90312"></script><script type="module" src="js/privacy.js?v=c64e31177b"></script>
 </body>
 </html>

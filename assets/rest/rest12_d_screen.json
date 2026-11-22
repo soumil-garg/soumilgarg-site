@@ -1,0 +1,33 @@
+{
+ "about": "Phone screen track for the rest 1/2 plate (approved frame D09). Corners of the chroma-green screen, detected offline by refs/flow/build_rests.py (green mask, a line fitted per side, sharp corners extrapolated past the rounded ones), plate pixels, order TL, TR, BR, BL in the screen frame. The real video replaces this with one entry per frame (t in seconds of the scroll video).",
+ "plate": "rest12_d_plate.jpg",
+ "size": [
+  1536,
+  864
+ ],
+ "fps": null,
+ "cornerRadius": 25.3,
+ "frames": [
+  {
+   "t": 0,
+   "corners": [
+    [
+     1034.4,
+     150.8
+    ],
+    [
+     1219.9,
+     188.9
+    ],
+    [
+     1081.3,
+     635.0
+    ],
+    [
+     893.6,
+     581.3
+    ]
+   ]
+  }
+ ]
+}
